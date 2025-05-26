@@ -1,0 +1,43 @@
+<header class="header">
+  <div class="container">
+    <nav class="navbar">
+      <div class="navbar-brand">
+        <div class="logo">
+          <!-- Gravity Logo -->
+          <div class="gravity-logo">
+            <div class="planet"></div>
+            <div class="orbit">
+              <div class="satellite">
+                <img src="/public/assets/icons/satellite_animate1.gif" alt="satellite" class="satellite-icon">
+              </div>
+            </div>
+          </div>
+        </div>
+        <h1 class="company-name">Prosenjit</h1>
+      </div>
+
+      <div class="navbar-menu">
+        <ul class="menu-items">
+          <li class="menu-item " [ngClass]="{ 'active': activeSectionId() === 'home' }">
+            <a href="#" (click)="sendDataLinkId('home')">Home</a>
+          </li>
+          <li class="menu-item" [ngClass]="{ 'active': activeSectionId() === 'about' }">
+            <a href="#" (click)="sendDataLinkId('about')">About</a>
+          </li>
+          <li class="menu-item" [ngClass]="{ 'active': activeSectionId() === 'project' }">
+            <a href="#" (click)="sendDataLinkId('projects')">Projects</a>
+          </li>
+          <li class="menu-item" [ngClass]="{ 'active': activeSectionId() === 'contact' }">
+            <a href="#" (click)="sendDataLinkId('contact')">Contact</a>
+          </li>
+        </ul>
+      </div>
+
+      <button class="mobile-toggle" aria-label="Toggle menu" (click)="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </nav>
+  </div>
+</header>

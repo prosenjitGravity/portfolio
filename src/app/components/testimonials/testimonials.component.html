@@ -1,0 +1,34 @@
+<section id="testimonials" class="testimonials">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Testimonials</span>
+        <h2 class="section-title">What Clients Say</h2>
+        <p class="section-subtitle">
+          Feedback from amazing people I've worked with
+        </p>
+      </div>
+      <div class="testimonials-slider">
+        <div class="testimonial-card">
+          <div class="testimonial-content">
+            <div class="quote-icon">
+              <i class="fas fa-quote-left"></i>
+            </div>
+            <p class="testimonial-text">{{ testimonial.text }}</p>
+            <div class="client-info">
+              <div class="client-avatar">
+                <img [src]="testimonial.client.avatar" [alt]="testimonial.client.name">
+              </div>
+              <div class="client-details">
+                <h4 class="client-name">{{ testimonial.client.name }}</h4>
+                <p class="client-position">{{ testimonial.client.position }}</p>
+                <div class="rating">
+                  <i class="fas fa-star" *ngFor="let star of ratingStars"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  

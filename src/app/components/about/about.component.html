@@ -1,0 +1,62 @@
+<section id="about" class="about">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">About Me</span>
+        <h2 class="section-title">Passionate Developer & Designer</h2>
+        <p class="section-subtitle">
+          Creating digital experiences that make a difference
+        </p>
+      </div>
+      <div class="about-content">
+        <div class="about-image">
+          <div class="image-wrapper">
+            <img src="https://scontent.fccu4-2.fna.fbcdn.net/v/t39.30808-6/472281353_4180649495499280_1970081961605465644_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=BmneQtNvWhMQ7kNvwEF6chj&_nc_oc=Adng_EkT2LFNQlUX7lYQ7F6SLEk8FW982cvlHJn3lvvtv06ozhp3sD72bt_5sNCia8ZPBuZqd9ZRRFfofoKeWWMa&_nc_zt=23&_nc_ht=scontent.fccu4-2.fna&_nc_gid=eITTto4k3H3zyhDLW8H51w&oh=00_AfK2I9uB0jaJh1igglAA-ReYQCdjkyeck_4gkj3aEPdKNw&oe=683A6534" alt="About Prosenjit">
+            <div class="experience-badge">
+              <div class="badge-content">
+                <span class="badge-number">5+</span>
+                <span class="badge-text">Years of Excellence</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="about-text">
+          <h3 class="about-title">Turning Vision Into Reality</h3>
+          <p class="about-description">
+            I'm a passionate full-stack developer and UI/UX designer with over 5 years of experience 
+            creating digital solutions that combine beautiful design with powerful functionality. 
+            My journey began with a simple curiosity about how websites work, and it has evolved 
+            into a deep passion for crafting exceptional user experiences.
+          </p>
+          <p class="about-description">
+            I specialize in modern web technologies and have a keen eye for design details. 
+            Every project I work on is an opportunity to push boundaries and create something 
+            truly remarkable that exceeds expectations.
+          </p>
+          <div class="about-details">
+            <div class="detail-group" *ngFor="let detail of personalDetails">
+              <div class="detail-item">
+                <span class="detail-label">{{ detail.label }}:</span>
+                <span class="detail-value">{{ detail.value }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="about-actions">
+            <a href="#" class="btn btn-primary">
+              <span>Download CV</span>
+              <i class="fas fa-download"></i>
+            </a>
+            <div class="social-links">
+              <a 
+                *ngFor="let social of socialLinks" 
+                [href]="social.url" 
+                class="social-link"
+              >
+                <i [class]="social.icon"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  

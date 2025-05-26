@@ -1,0 +1,45 @@
+<section id="portfolio" class="portfolio">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Portfolio</span>
+        <h2 class="section-title">Featured Projects</h2>
+        <p class="section-subtitle">
+          A showcase of my recent work and achievements
+        </p>
+      </div>
+      <div class="portfolio-filter">
+        <button 
+          *ngFor="let filter of filterButtons"
+          class="filter-btn" 
+          [class.active]="activeFilter === filter.id"
+          (click)="setFilter(filter.id)"
+        >
+          {{ filter.label }}
+        </button>
+      </div>
+      <div class="portfolio-grid">
+        <div class="portfolio-item" *ngFor="let project of filteredProjects">
+          <div class="project-card">
+            <div class="project-image">
+              <img [src]="project.image" [alt]="project.title">
+              <div class="project-overlay">
+                <div class="project-actions">
+                  <a href="#" class="action-btn"><i class="fas fa-eye"></i></a>
+                  <a href="#" class="action-btn"><i class="fas fa-external-link-alt"></i></a>
+                </div>
+              </div>
+            </div>
+            <div class="project-content">
+              <div class="project-category">{{ project.categoryLabel }}</div>
+              <h3 class="project-title">{{ project.title }}</h3>
+              <p class="project-description">{{ project.description }}</p>
+              <div class="project-tech">
+                <span class="tech-tag" *ngFor="let tech of project.technologies">{{ tech }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  

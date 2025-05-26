@@ -1,0 +1,251 @@
+// Variables
+$primary-color: #2563eb;
+$secondary-color: #7c3aed;
+$text-color: #1e293b;
+$light-text: #64748b;
+$hover-color: #3b82f6;
+$white: #ffffff;
+$light-gray: #f8fafc;
+$border-color: #e2e8f0;
+$shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+$transition: all 0.3s ease;
+
+
+// Container
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+// Header
+.header {
+  background-color: $white;
+  box-shadow: $shadow;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+// Navbar
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  height: 70px;
+}
+
+// Brand section (logo + company name)
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  
+  .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .company-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: $text-color;
+  }
+}
+
+// Gravity Logo
+.gravity-logo {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  .planet {
+    width: 20px;
+    height: 20px;
+    background: linear-gradient(135deg, $primary-color, $secondary-color);
+    border-radius: 50%;
+    position: relative;
+    box-shadow: 0 0 5px rgba($primary-color, 0.5);
+    z-index: 2;
+  }
+  
+  .orbit {
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    border: 1px solid rgba($primary-color, 0.3);
+    border-radius: 50%;
+    animation: rotate 8s linear infinite;
+    
+    // .satellite {
+    //   position: absolute;
+    //   top: -3px;
+    //   left: 50%;
+    //   width: 6px;
+    //   height: 6px;
+    //   background-color: $secondary-color;
+    //   border-radius: 50%;
+    //   box-shadow: 0 0 5px rgba($secondary-color, 0.7);
+    // }
+    .satellite-icon{
+        position: absolute;
+        top: -5px;
+        left: 50%;
+        width: 12px;
+        height: 12px;
+        // background-color: $secondary-color;
+        border-radius: 50%;
+        // box-shadow: 0 0 5px rgba($secondary-color, 0.7);
+        
+    }
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+// Menu items
+.navbar-menu {
+  .menu-items {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+    
+    .menu-item {
+      position: relative;
+      
+      a {
+        text-decoration: none;
+        color: $light-text;
+        font-weight: 500;
+        font-size: 0.95rem;
+        transition: $transition;
+        padding: 0.5rem 0;
+        
+        &:hover {
+          color: $primary-color;
+        }
+      }
+      
+      &.active a {
+        color: $primary-color;
+        font-weight: 600;
+        
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: -5px;
+          left: 0;
+          width: 100%;
+          height: 2px;
+          background-color: $primary-color;
+          border-radius: 2px;
+        }
+      }
+    }
+  }
+}
+
+// Mobile toggle button
+.mobile-toggle {
+  display: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  width: 30px;
+  height: 24px;
+  position: relative;
+  z-index: 10;
+  
+  span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: $text-color;
+    margin: 5px 0;
+    transition: $transition;
+    border-radius: 2px;
+  }
+  
+  &.active {
+    span {
+      &:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 6px);
+      }
+      
+      &:nth-child(2) {
+        opacity: 0;
+      }
+      
+      &:nth-child(3) {
+        transform: rotate(-45deg) translate(5px, -6px);
+      }
+    }
+  }
+}
+
+// Media queries for responsiveness
+@media (max-width: 768px) {
+  .mobile-toggle {
+    display: block;
+  }
+  
+  .navbar-menu {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 70%;
+    height: 100vh;
+    background-color: $white;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+    transition: $transition;
+    padding: 5rem 2rem 2rem;
+    
+    &.active {
+      right: 0;
+    }
+    
+    .menu-items {
+      flex-direction: column;
+      gap: 1.5rem;
+      
+      .menu-item {
+        width: 100%;
+        
+        a {
+          display: block;
+          padding: 0.5rem 0;
+          font-size: 1.1rem;
+        }
+        
+        &.active a::after {
+          width: 30px;
+        }
+      }
+    }
+  }
+}
+
+// For smaller screens
+@media (max-width: 480px) {
+  .navbar-brand .company-name {
+    font-size: 1.1rem;
+  }
+  
+  .navbar-menu {
+    width: 85%;
+  }
+}
+

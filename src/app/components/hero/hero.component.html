@@ -1,0 +1,79 @@
+<section id="home" class="hero">
+    <div class="hero-background">
+      <div class="floating-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        <div class="shape shape-4"></div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-text">
+          <div class="hero-greeting">
+            <span class="greeting-text">Hello, I'm</span>
+          </div>
+          <h1 class="hero-title">
+            <span class="name-highlight">Prosenjit Paul</span>
+          </h1>
+          <div class="hero-subtitle">
+            <span class="subtitle-text">I Build Better</span>
+            <div class="rotating-words">
+              <span class="word">{{ currentWord }}</span>
+            </div>
+          </div>
+          <p class="hero-description">
+            Crafting exceptional digital experiences through innovative design and cutting-edge technology. 
+            I transform ideas into powerful, user-centric solutions that drive business growth.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" (click)="scrollToSection('portfolio')">
+              <span>View My Work</span>
+              <i class="fas fa-arrow-right"></i>
+            </a>
+            <a class="btn btn-secondary" (click)="scrollToSection('contact')">
+              <span>Let's Talk</span>
+              <i class="fas fa-comments"></i>
+            </a>
+          </div>
+          <div class="hero-stats">
+            <div class="stat-item" *ngFor="let stat of stats">
+              <span class="stat-number">{{ stat.number }}</span>
+              <span class="stat-label">{{ stat.label }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="profile-card">
+            <div class="card-glow"></div>
+            <div class="profile-image">
+              <img src="https://scontent.fccu4-2.fna.fbcdn.net/v/t39.30808-6/472281353_4180649495499280_1970081961605465644_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=BmneQtNvWhMQ7kNvwEF6chj&_nc_oc=Adng_EkT2LFNQlUX7lYQ7F6SLEk8FW982cvlHJn3lvvtv06ozhp3sD72bt_5sNCia8ZPBuZqd9ZRRFfofoKeWWMa&_nc_zt=23&_nc_ht=scontent.fccu4-2.fna&_nc_gid=eITTto4k3H3zyhDLW8H51w&oh=00_AfK2I9uB0jaJh1igglAA-ReYQCdjkyeck_4gkj3aEPdKNw&oe=683A6534" alt="Prosenjit Paul">
+              <div class="image-overlay"></div>
+            </div>
+            <div class="floating-icons">
+              <div 
+                class="icon-item" 
+                *ngFor="let icon of techIcons; let i = index"
+                [ngClass]="'icon-' + (i + 1)"
+                [ngStyle]="{
+                  'top': icon.position.top,
+                  'right': icon.position.right,
+                  'bottom': icon.position.bottom,
+                  'left': icon.position.left,
+                  'color': icon.color,
+                  'animation-delay': icon.delay
+                }"
+              >
+                <i [class]="icon.icon"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-indicator">
+      <div class="scroll-line"></div>
+      <span class="scroll-text">Scroll Down</span>
+    </div>
+  </section>
+  
