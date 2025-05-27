@@ -32,7 +32,7 @@ export class ContactComponent implements OnInit {
   ]
 
   socialLinks = [
-    { icon: "fab fa-linkedin-in", url: "www.linkedin.com/in/prosenjit-paul-0a82b6239" },
+    { icon: "fab fa-linkedin-in", url: "https://www.linkedin.com/in/prosenjit-paul-0a82b6239" },
     { icon: "fab fa-github", url: "https://github.com/prosenjitGravity?tab=repositories" },
     { icon: "fab fa-twitter", url: "#" },
     { icon: "fab fa-dribbble", url: "#" },
