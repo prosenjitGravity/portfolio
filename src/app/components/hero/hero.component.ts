@@ -26,7 +26,7 @@ export class HeroComponent implements OnInit {
     { icon: "fab fa-js-square", color: "#f7df1e", position: { top: "50%", left: "-10%" }, delay: "1s" },
     { icon: "fab fa-angular", color: "#f24e1e", position: { bottom: "30%", right: "-5%" }, delay: "2s" },
     { icon: "fab fa-node-js", color: "#339933", position: { bottom: "10%", left: "-5%" }, delay: "3s" },
-    { icon: "fab fa-java", color: "#5382a1", position: { bottom: "10%", left: "-5%" }, delay: "3s" },
+    { icon: "fab fa-java", color: "linear-gradient(45deg, #f89820, #5382a1)", position: { bottom: "10%", left: "-5%" }, delay: "3s" },
   ]
 
   ngOnInit() {
