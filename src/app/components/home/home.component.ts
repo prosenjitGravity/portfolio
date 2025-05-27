@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit,AfterViewInit {
 
   //variables
   activeSectionId: string = 'home';
-  sections: string[] = ['home', 'about', 'skills', 'projects', 'contact'];
+  sections: string[] = ['home', 'about','services', 'skills', 'projects', 'contact'];
   scrollPosition: number = 0;
 
 

@@ -17,23 +17,23 @@ export class ContactComponent implements OnInit {
     {
       icon: "fas fa-envelope",
       label: "Email",
-      value: "prosenjit@example.com",
+      value: "paul.prosenjitbit@gmail.com",
     },
     {
       icon: "fas fa-phone",
       label: "Phone",
-      value: "+1 (555) 123-4567",
+      value: "+91 9933764053",
     },
     {
       icon: "fas fa-map-marker-alt",
       label: "Location",
-      value: "New York, USA",
+      value: "Kolkata, India",
     },
   ]
 
   socialLinks = [
-    { icon: "fab fa-linkedin-in", url: "#" },
-    { icon: "fab fa-github", url: "#" },
+    { icon: "fab fa-linkedin-in", url: "www.linkedin.com/in/prosenjit-paul-0a82b6239" },
+    { icon: "fab fa-github", url: "https://github.com/prosenjitGravity?tab=repositories" },
     { icon: "fab fa-twitter", url: "#" },
     { icon: "fab fa-dribbble", url: "#" },
   ]
