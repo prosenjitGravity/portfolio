@@ -10,23 +10,28 @@ import { FormsModule } from '@angular/forms';
 })
 export class HeroComponent implements OnInit {
 
-  rotatingWords = ["Digital Experiences", "User Interfaces", "Web Solutions", "Brand Identities"]
+rotatingWords = [
+  "Enterprise Web Applications",
+  "Interactive User Interfaces",
+  "Full-Stack Development",
+  "Secure Digital Platforms"
+];
 
   currentWordIndex = 0
   currentWord = this.rotatingWords[0]
 
   stats = [
-    { number: "50+", label: "Projects Completed" },
-    { number: "5+", label: "Years Experience" },
-    { number: "30+", label: "Happy Clients" },
+    { number: "8", label: "Projects Completed" },
+    { number: "2+", label: "Years Experience" },
+    // { number: "30+", label: "Happy Clients" },
   ]
 
   techIcons = [
-    { icon: "fab fa-react", color: "#61dafb", position: { top: "20%", right: "-10%" }, delay: "0s" },
+    { icon: "fab fa-java", color: "#5382a1", position: { top: "20%", right: "-10%" }, delay: "0s" },
     { icon: "fab fa-js-square", color: "#f7df1e", position: { top: "50%", left: "-10%" }, delay: "1s" },
     { icon: "fab fa-angular", color: "#f24e1e", position: { bottom: "30%", right: "-5%" }, delay: "2s" },
-    { icon: "fab fa-node-js", color: "#339933", position: { bottom: "10%", left: "-5%" }, delay: "3s" },
-    { icon: "fab fa-java", color: "linear-gradient(45deg, #f89820, #5382a1)", position: { bottom: "10%", left: "-5%" }, delay: "3s" },
+    { icon: "fab fa-node", color: "#339933", position: { bottom: "10%", left: "-5%" }, delay: "3s" },
+    // { icon: "fab fa-rect", color: "#61dafb", position: { bottom: "0%", left: "-5%" }, delay: "s" },
   ]
 
   ngOnInit() {
