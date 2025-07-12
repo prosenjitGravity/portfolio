@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
@@ -9,6 +10,8 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
   styleUrl: './contact.component.scss'
 })
 export class ContactComponent implements OnInit {
+
+  private http = inject(HttpClient);
   contactForm: FormGroup
   isSubmitting = false
   isSubmitted = false
@@ -40,11 +43,16 @@ export class ContactComponent implements OnInit {
 
   constructor(private fb: FormBuilder) {
     this.contactForm = this.fb.group({
-      name: ["", [Validators.required, Validators.minLength(2)]],
-      email: ["", [Validators.required, Validators.email]],
-      subject: ["", [Validators.required, Validators.minLength(5)]],
-      message: ["", [Validators.required, Validators.minLength(10)]],
-    })
+     name: ['',[Validators.required,Validators.minLength(3),Validators.pattern(/^[A-Za-z\s]+$/) ]
+    ],
+    email: ['',
+      [Validators.required,Validators.email,Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]
+    ],
+    subject: ['',
+      [Validators.required,Validators.minLength(5),Validators.pattern(/^[A-Za-z0-9\s.,!?'-]{5,}$/)]
+    ],
+    message: ['',]
+  })
   }
 
   ngOnInit(): void {
@@ -52,44 +60,72 @@ export class ContactComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.contactForm.valid) {
-      this.isSubmitting = true
+  if (this.contactForm.valid) {
+    this.isSubmitting = true;
 
-      // Simulate form submission
-      setTimeout(() => {
-        this.isSubmitting = false
-        this.isSubmitted = true
-        this.contactForm.reset()
+    const { name, email, subject, message } = this.contactForm.value;
 
-        // Reset success message after 3 seconds
-        setTimeout(() => {
-          this.isSubmitted = false
-        }, 3000)
-      }, 2000)
+    // Step 1: Get IP address
+    this.http.get<any>('https://ipapi.co/json').subscribe({
+      next: (ipResponse) => {
 
-      console.log("Form submitted:", this.contactForm.value)
-    } else {
-      // Mark all fields as touched to show validation errors
-      Object.keys(this.contactForm.controls).forEach((key) => {
-        this.contactForm.get(key)?.markAsTouched()
-      })
+        console.log('IP Address:', ipResponse); // Log the IP address for debugging
+        
+        const userIp = ipResponse.ip;
+
+
+        // Step 2: Prepare the email content
+        const templateParams = {
+          from_name: name,
+          from_email: email,
+          subject: subject,
+          message: message,
+          user_ip: userIp, // 🔥 Include this in the template
+        };
+
+        // Step 3: Send email via EmailJS
+        // emailjs
+        //   .send('your_service_id', 'your_template_id', templateParams, 'your_public_key')
+        //   .then(
+        //     () => {
+        //       this.isSubmitting = false;
+        //       this.isSubmitted = true;
+        //       this.contactForm.reset();
+
+        //       setTimeout(() => (this.isSubmitted = false), 3000);
+        //     },
+        //     (error) => {
+        //       console.error('Email sending failed:', error);
+        //       this.isSubmitting = false;
+        //     }
+        //   );
+      },
+      error: () => {
+        this.isSubmitting = false;
+        alert('Could not fetch IP address.');
+      },
+    });
+  } else {
+    Object.keys(this.contactForm.controls).forEach((key) =>
+      this.contactForm.get(key)?.markAsTouched()
+    );
+  }
+}
+
+  getFieldError(field: string): string | null {
+    const control = this.contactForm.get(field);
+    if (control && control.touched && control.errors) {
+      if (control.errors['required']) return `${this.formatFieldName(field)} is required.`;
+      if (control.errors['minlength']) return `${this.formatFieldName(field)} must be at least ${control.errors['minlength'].requiredLength} characters.`;
+      if (control.errors['email']) return `Please enter a valid email address.`;
+      if (control.errors['pattern']) return `Invalid ${this.formatFieldName(field)} format.`;
     }
+    return null;
   }
 
-  getFieldError(fieldName: string): string {
-    const field = this.contactForm.get(fieldName)
-    if (field?.errors && field.touched) {
-      if (field.errors["required"]) {
-        return `${fieldName.charAt(0).toUpperCase() + fieldName.slice(1)} is required`
-      }
-      if (field.errors["email"]) {
-        return "Please enter a valid email address"
-      }
-      if (field.errors["minlength"]) {
-        return `${fieldName.charAt(0).toUpperCase() + fieldName.slice(1)} is too short`
-      }
-    }
-    return ""
+  formatFieldName(field: string): string {
+    return field.charAt(0).toUpperCase() + field.slice(1);
   }
+
 
 }

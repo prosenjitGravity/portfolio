@@ -25,16 +25,17 @@
       
       .experience-badge {
         position: absolute;
-        bottom: -20px;
-        right: -20px;
-        width: 120px;
-        height: 120px;
-        background: var(--white);
+        bottom: 10px;
+        right: 10px;
+        width: 100px;
+        height: 100px;
+        // background: var(--gradient-primary);
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
         box-shadow: var(--shadow-xl);
+        transition: all var(--transition-normal);
         
         .badge-content {
           text-align: center;
@@ -43,13 +44,13 @@
             display: block;
             font-size: 1.5rem;
             font-weight: 800;
-            color: var(--primary-color);
+            color: var(--white);
             line-height: 1;
           }
           
           .badge-text {
             font-size: 0.75rem;
-            color: var(--gray-600);
+            color: var(--white);
             font-weight: 600;
           }
         }

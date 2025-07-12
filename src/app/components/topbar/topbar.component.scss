@@ -49,11 +49,31 @@ $transition: all 0.3s ease;
     justify-content: center;
   }
   
+  // .company-name {
+  //   font-size: 1.25rem;
+  //   font-weight: 700;
+  //   color: $text-color;
+  // }
   .company-name {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: $text-color;
+    font-size: 1.2rem;
+    font-weight: 600;
+    background: linear-gradient(to right,  #4f46e5, #ec4899, #4f46e5,);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientAnimation 3s linear infinite;
   }
+
+  @keyframes gradientAnimation {
+    0% {
+      background-position: 0% 50%;
+    }
+    100% {
+      background-position: 200% 50%;
+    }
+  }
+
 }
 
 // Gravity Logo
@@ -66,14 +86,27 @@ $transition: all 0.3s ease;
   justify-content: center;
   
   .planet {
-    width: 20px;
-    height: 20px;
-    background: linear-gradient(135deg, $primary-color, $secondary-color);
-    border-radius: 50%;
-    position: relative;
-    box-shadow: 0 0 5px rgba($primary-color, 0.5);
-    z-index: 2;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #1e6091, #0f2027);
+  background-image: url('/public/assets/icons/planet-icon.svg');
+  box-shadow: 
+      0 0 25px rgba(30, 96, 145, 0.6),
+      0 0 50px rgba(0, 119, 190, 0.4),
+      0 0 80px rgba(0, 82, 204, 0.3);
+  animation: rotateEarth 365s linear infinite;
+  position: relative;
+}
+
+@keyframes rotateEarth {
+  0% {
+    transform: rotate(0deg);
   }
+  100% {
+    transform: rotate(360deg);
+  }
+}
   
   .orbit {
     position: absolute;
@@ -81,7 +114,7 @@ $transition: all 0.3s ease;
     height: 36px;
     border: 1px solid rgba($primary-color, 0.3);
     border-radius: 50%;
-    animation: rotate 8s linear infinite;
+    animation: rotate 86.4s linear infinite;
     
     // .satellite {
     //   position: absolute;
@@ -99,10 +132,8 @@ $transition: all 0.3s ease;
         left: 50%;
         width: 12px;
         height: 12px;
-        // background-color: $secondary-color;
         border-radius: 50%;
         // box-shadow: 0 0 5px rgba($secondary-color, 0.7);
-        
     }
   }
 }

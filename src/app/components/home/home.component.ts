@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, inject, OnInit, ViewChild, ViewChildren } from '@angular/core';
 import { TopbarComponent } from '../topbar/topbar.component';
 import { CommonModule } from '@angular/common';
 import { HeroComponent } from "../hero/hero.component";
@@ -7,6 +7,7 @@ import { ServicesComponent } from "../services/services.component";
 import { PortfolioComponent } from "../portfolio/portfolio.component";
 import { TestimonialsComponent } from "../testimonials/testimonials.component";
 import { ContactComponent } from "../contact/contact.component";
+import { LoggerService } from '../../services/logger.service';
 
 @Component({
   selector: 'app-home',
@@ -15,12 +16,19 @@ import { ContactComponent } from "../contact/contact.component";
   styleUrl: './home.component.scss'
 })
 export class HomeComponent implements OnInit,AfterViewInit {
+
+  //dependencies
   @ViewChild('contentContainer') contentContainer!: ElementRef;
+
+  //services
+  private logger = inject(LoggerService);
 
   //variables
   activeSectionId: string = 'home';
   sections: string[] = ['home', 'about','services', 'skills', 'projects', 'contact'];
   scrollPosition: number = 0;
+  loggingEnabled = true
+
 
 
   constructor(){
@@ -28,6 +36,9 @@ export class HomeComponent implements OnInit,AfterViewInit {
   }
 
   ngOnInit(): void {
+
+    this.logger.info("UserComponent initialized", undefined, "UserComponent")
+    this.loggingEnabled = this.logger.getConfig().enabled
     
   }
   handleData(data:string){
@@ -60,6 +71,9 @@ export class HomeComponent implements OnInit,AfterViewInit {
   }
 
   scrollToSection(id:string){
+    this.logger.debug("Starting to load Scroll", undefined, "HomeComponent");
+    
+
     const section = document.getElementById(id);
     if(section){
       section.scrollIntoView({ behavior: 'smooth',block: 'start', inline: 'nearest' });

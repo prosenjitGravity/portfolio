@@ -28,5 +28,19 @@ export class AboutComponent implements OnInit {
   ngOnInit(): void {
     
   }
+  downloadCV() {
+    const filePath = '/public/assets/files/Prosenjit_Resume.pdf'; // Path to the asset
+    const fileName = 'Prosenjit_Resume_lts.pdf'; // Desired name for the downloaded file
+
+    // Create a link element
+    const link = document.createElement('a');
+    link.href = filePath;
+    link.download = fileName;
+
+    // Append to the document, click, and remove
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
 
 }
