@@ -1,0 +1,167 @@
+// /* cursor-highlighter.component.css */
+// .cursor-highlight {
+//   position: fixed;
+//   width: 30px;
+//   height: 30px;
+//   pointer-events: none;
+//   border-radius: 50%;
+//   transform: translate(-50%, -50%);
+//   z-index: 9999;
+//   border: 2px solid transparent;
+//   transition: border 0.3s ease;
+// }
+
+// .cursor-highlight.active {
+//   border: 2px solid red;
+//   box-shadow: 0 0 10px red;
+// }
+
+.cursor-highlight {
+  position: fixed;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+
+  background: linear-gradient(135deg,
+    rgba(255, 0, 0, 0.3) 0%,
+    rgba(255, 80, 80, 0.3) 100%);
+
+  border: 2px solid rgba(255, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  box-shadow:
+    0 8px 32px rgba(255, 0, 0, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.cursor-highlight.active {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  animation: cursor-pulse 1.8s infinite ease-in-out;
+}
+
+.cursor-highlight::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  background: #ff0000;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.95;
+}
+
+.cursor-highlight::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 48px;
+  height: 48px;
+  border: 1px solid rgba(255, 0, 0, 0.4);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: cursor-ripple 1.8s infinite ease-out;
+}
+
+@keyframes cursor-pulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+@keyframes cursor-ripple {
+  0% {
+    width: 48px;
+    height: 48px;
+    opacity: 0.8;
+  }
+  70% {
+    width: 64px;
+    height: 64px;
+    opacity: 0.3;
+  }
+  100% {
+    width: 72px;
+    height: 72px;
+    opacity: 0;
+  }
+}
+
+.cursor-highlight.hover {
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg,
+    rgba(255, 69, 58, 0.5) 0%,
+    rgba(255, 0, 0, 0.5) 100%);
+  border-color: rgba(255, 69, 58, 0.8);
+  box-shadow:
+    0 12px 40px rgba(255, 0, 0, 0.35),
+    0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.cursor-highlight.hover::before {
+  background: #ff1a1a;
+  width: 8px;
+  height: 8px;
+}
+
+.cursor-highlight.hover::after {
+  border-color: rgba(255, 0, 0, 0.4);
+}
+
+.cursor-highlight.click {
+  animation: cursor-click 0.3s ease-out;
+}
+
+@keyframes cursor-click {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(0.85);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.cursor-message {
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 0, 0, 0.85);
+  color: #fff;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  font-family: sans-serif;
+  animation: fadeIn 0.5s ease;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
