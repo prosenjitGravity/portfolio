@@ -3,10 +3,11 @@ import { RouterOutlet } from '@angular/router';
 import { HomeComponent } from "./components/home/home.component";
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { CelebrationModalComponent } from "./components/modals/celebration-modal/celebration-modal.component";
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule,RouterOutlet],
+  imports: [CommonModule, RouterOutlet, CelebrationModalComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -28,8 +29,8 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getUserIpAddress()
-    this.languagesList = this.geolocationData.languages.split(',').slice(0, 10);
+    // this.getUserIpAddress()
+    // this.languagesList = this.geolocationData.languages.split(',').slice(0, 10);
 
   }
 
