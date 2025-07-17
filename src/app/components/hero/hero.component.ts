@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { CelebrationModalService } from '../../services/celebration-modal.service';
 
 @Component({
   selector: 'app-hero',
@@ -9,13 +10,19 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './hero.component.scss'
 })
 export class HeroComponent implements OnInit {
+  //services
+  private celebrationService = inject(CelebrationModalService);
 
-rotatingWords = [
-  "Enterprise Web Applications",
-  "Interactive User Interfaces",
-  "Full-Stack Development",
-  "Secure Digital Platforms"
-];
+
+  rotatingWords = [
+    "Enterprise Web Applications",
+    "Interactive User Interfaces",
+    "Full-Stack Development",
+    "Secure Digital Platforms",
+    "Scalable Architecture Design",
+    "API-Driven Development",
+    "Modern UI/UX Solutions"
+  ];
 
   currentWordIndex = 0
   currentWord = this.rotatingWords[0]
@@ -56,6 +63,15 @@ rotatingWords = [
         behavior: "smooth",
       })
     }
+  }
+
+  handleTransaction(amount: number, type: string): void {
+    // Simulate transaction processing
+    console.log(`Processing ${type} of amount: ${amount}`);
+    
+    // setTimeout(() => {
+      this.celebrationService.showCelebration(amount, `${type} completed successfully`)
+    // }, 10)
   }
 
 }
