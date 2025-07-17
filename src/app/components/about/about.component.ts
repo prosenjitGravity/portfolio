@@ -20,7 +20,7 @@ export class AboutComponent implements OnInit {
     { icon: "fab fa-linkedin-in", url: "#" },
     { icon: "fab fa-github", url: "#" },
     { icon: "fab fa-twitter", url: "#" },
-    { icon: "fab fa-dribbble", url: "#" },
+    // { icon: "fab fa-dribbble", url: "#" },
   ];
 
   constructor(){}
