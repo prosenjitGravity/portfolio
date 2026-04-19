@@ -1,0 +1,44 @@
+<div class="notification-stack">
+    <div
+      *ngFor="let notif of notifications; trackBy: trackById"
+      class="notification-card type-{{ notif.type }}"
+      [@slideIn]
+      role="alert"
+      [attr.aria-live]="notif.type === 'error' ? 'assertive' : 'polite'"
+    >
+      <!-- Progress bar -->
+      <div
+        *ngIf="notif.showProgress && notif.duration && notif.duration > 0"
+        class="progress-bar"
+        [style.animation-duration.ms]="notif.duration"
+      ></div>
+  
+      <!-- Glow dot -->
+      <span class="glow-dot"></span>
+  
+      <!-- Icon -->
+      <div class="notif-icon" [innerHTML]="getIcon(notif)"></div>
+  
+      <!-- Content -->
+      <div class="notif-content">
+        <p class="notif-title">{{ notif.title }}</p>
+        <p *ngIf="notif.message" class="notif-message">{{ notif.message }}</p>
+        <button
+          *ngIf="notif.action"
+          class="notif-action-btn"
+          (click)="onAction(notif)"
+        >
+          {{ notif.action.label }}
+        </button>
+      </div>
+  
+      <!-- Dismiss button -->
+      <button class="notif-close" (click)="dismiss(notif.id!)" aria-label="Dismiss">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+             stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+  </div>

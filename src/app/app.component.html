@@ -188,3 +188,15 @@
   </div>
 </div> -->
 <app-celebration-modal></app-celebration-modal>
+
+<div style="display:flex; flex-wrap:wrap; gap:10px; padding:20px;">
+  <button (click)="showSuccess()">✅ Success</button>
+  <button (click)="showInfo()">ℹ️ Info</button>
+  <button (click)="showWarning()">⚠️ Warning</button>
+  <button (click)="showError()">❌ Error</button>
+  <button (click)="showNotFound()">🔍 Not Found</button>
+  <button (click)="showLoading()">⏳ Loading</button>
+  <button (click)="showWithAction()">🎯 With Action</button>
+  <button (click)="showCustomDuration()">⏱ Custom Duration</button>
+  <button (click)="notif.dismissAll()">🗑 Dismiss All</button>
+</div>
