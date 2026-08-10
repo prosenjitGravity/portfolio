@@ -1,42 +1,46 @@
-<header class="header">
+<header class="header" [class.header-scrolled]="isScrolled">
   <div class="container">
     <nav class="navbar">
-      <div class="navbar-brand">
-        <div class="logo">
-          <!-- Gravity Logo -->
-          <div class="gravity-logo">
-            <div class="planet"></div>
-            <div class="orbit">
-              <div class="satellite">
-                <img src="/public/assets/icons/satellite_animate1.gif" alt="satellite" class="satellite-icon" title="GSAT-11">
-              </div>
+      <a href="#home" class="brand" (click)="navigateTo('home', $event)">
+        <div class="brand-mark">
+          <span class="brand-ambient brand-ambient-one"></span>
+          <span class="brand-ambient brand-ambient-two"></span>
+          <div class="orbit-system">
+            <div class="earth-shell">
+              <img src="/public/assets/icons/planet-icon.svg" alt="Earth icon" class="earth-icon">
+              <span class="earth-glow"></span>
+            </div>
+            <div class="orbit orbit-one">
+              <span class="orbit-line"></span>
+              <img src="/public/assets/icons/satellite.svg" alt="Satellite icon" class="satellite-icon satellite-one">
+            </div>
+            <div class="orbit orbit-two">
+              <span class="orbit-line"></span>
+              <span class="signal-dot"></span>
             </div>
           </div>
         </div>
-        <h1 class="company-name">Prosenjit</h1>
-      </div>
+        <div class="brand-copy">
+          <span class="brand-name">Prosenjit Paul</span>
+          <span class="brand-role">Full-Stack Developer</span>
+        </div>
+      </a>
 
-      <div class="navbar-menu">
+      <div class="nav-shell" [class.active]="isMenuOpen">
         <ul class="menu-items">
-          <li class="menu-item " [ngClass]="{ 'active': activeSectionId() === 'home' }">
-            <a href="#" (click)="sendDataLinkId('home')">Home</a>
-          </li>
-          <li class="menu-item" [ngClass]="{ 'active': activeSectionId() === 'about' }">
-            <a href="#" (click)="sendDataLinkId('about')">About</a>
-          </li>
-          <li class="menu-item" [ngClass]="{ 'active': activeSectionId() === 'services' }">
-            <a href="#" (click)="sendDataLinkId('about')">Services</a>
-          </li>
-          <li class="menu-item" [ngClass]="{ 'active': activeSectionId() === 'projects' }">
-            <a href="#" (click)="sendDataLinkId('projects')">Projects</a>
-          </li>
-          <li class="menu-item" [ngClass]="{ 'active': activeSectionId() === 'contact' }">
-            <a href="#" (click)="sendDataLinkId('contact')">Contact</a>
+          <li class="menu-item" *ngFor="let item of navItems" [class.active]="activeSectionId() === item.id">
+            <a [href]="'#' + item.id" (click)="navigateTo(item.id, $event)">{{ item.label }}</a>
           </li>
         </ul>
+        <a href="#contact" class="nav-cta" (click)="navigateTo('contact', $event)">Let's Connect</a>
       </div>
 
-      <button class="mobile-toggle" aria-label="Toggle menu" (click)="toggleMenu()">
+      <button
+        type="button"
+        class="mobile-toggle"
+        [class.active]="isMenuOpen"
+        aria-label="Toggle menu"
+        (click)="toggleMenu()">
         <span></span>
         <span></span>
         <span></span>

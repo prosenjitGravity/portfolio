@@ -1,156 +1,121 @@
-.portfolio {
-    background: var(--gray-50);
-    padding: var(--space-3xl) 0;
-  }
-  
-  .portfolio-filter {
-    display: flex;
-    justify-content: center;
-    gap: var(--space-sm);
-    margin-bottom: var(--space-xl);
-    flex-wrap: wrap;
-    
-    .filter-btn {
-      padding: var(--space-sm) var(--space-md);
-      background: var(--white);
-      color: var(--gray-600);
-      border: 1px solid var(--gray-300);
-      border-radius: var(--radius-full);
-      font-weight: 500;
-      cursor: pointer;
-      transition: all var(--transition-normal);
-      
-      &:hover,
-      &.active {
-        background: var(--primary-color);
-        color: var(--white);
-        border-color: var(--primary-color);
-      }
-    }
-  }
-  
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.project-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 340px;
+  padding: 1.75rem;
+  border-radius: 1.6rem;
+  transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+  background: var(--gradient-panel);
+}
+
+.project-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--primary-strong);
+  box-shadow: 0 24px 54px rgba(9, 18, 31, 0.22);
+}
+
+.project-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.project-top i.folder {
+  font-size: 2.2rem;
+  color: var(--primary);
+}
+
+.project-links a {
+  color: var(--text);
+  font-size: 1.35rem;
+  transition: color var(--transition-fast), transform var(--transition-fast);
+  display: inline-block;
+}
+
+.project-links a:hover {
+  color: var(--primary);
+  transform: translateY(-2px);
+}
+
+.project-content {
+  flex-grow: 1;
+}
+
+.project-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.project-badge {
+  font-size: 0.76rem;
+  font-weight: 600;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(110, 231, 249, 0.08);
+  border: 1px solid rgba(110, 231, 249, 0.22);
+  color: var(--primary);
+}
+
+.project-metric {
+  font-size: 0.76rem;
+  color: var(--secondary);
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 500;
+}
+
+.project-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.75rem;
+  line-height: 1.3;
+}
+
+.project-desc {
+  font-size: 0.92rem;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.pill-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: auto;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  background: #17253a;
+  border: 1px solid rgba(120, 150, 195, 0.16);
+  color: var(--muted-strong);
+  font-size: 0.78rem;
+  transition: background var(--transition-fast), border-color var(--transition-fast);
+}
+
+.project-card:hover .pill {
+  border-color: rgba(110, 231, 249, 0.16);
+}
+
+@media (max-width: 768px) {
   .portfolio-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: var(--space-xl);
+    grid-template-columns: 1fr;
   }
-  
-  .project-card {
-    background: var(--white);
-    border-radius: var(--radius-xl);
-    overflow: hidden;
-    box-shadow: var(--shadow-md);
-    transition: all var(--transition-normal);
-    
-    &:hover {
-      transform: translateY(-5px);
-      box-shadow: var(--shadow-xl);
-      
-      .project-image img {
-        transform: scale(1.05);
-      }
-      
-      .project-overlay {
-        opacity: 1;
-      }
-    }
-    
-    .project-image {
-      position: relative;
-      overflow: hidden;
-      height: 250px;
-      
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform var(--transition-slow);
-      }
-      
-      .project-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(99, 102, 241, 0.9);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        opacity: 0;
-        transition: opacity var(--transition-normal);
-        
-        .project-actions {
-          display: flex;
-          gap: var(--space-sm);
-          
-          .action-btn {
-            width: 50px;
-            height: 50px;
-            background: var(--white);
-            color: var(--primary-color);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            transition: all var(--transition-normal);
-            
-            &:hover {
-              transform: scale(1.1);
-              background: var(--primary-color);
-              color: var(--white);
-            }
-          }
-        }
-      }
-    }
-    
-    .project-content {
-      padding: var(--space-lg);
-      
-      .project-category {
-        color: var(--primary-color);
-        font-size: 0.875rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        margin-bottom: var(--space-xs);
-      }
-      
-      .project-title {
-        font-size: 1.25rem;
-        font-weight: 700;
-        color: var(--gray-900);
-        margin-bottom: var(--space-sm);
-      }
-      
-      .project-description {
-        color: var(--gray-600);
-        line-height: 1.6;
-        margin-bottom: var(--space-md);
-      }
-      
-      .project-tech {
-        display: flex;
-        flex-wrap: wrap;
-        gap: var(--space-xs);
-        
-        .tech-tag {
-          padding: var(--space-xs) var(--space-sm);
-          background: var(--gray-100);
-          color: var(--gray-700);
-          border-radius: var(--radius-md);
-          font-size: 0.75rem;
-          font-weight: 500;
-        }
-      }
-    }
-  }
-  
-  @media (max-width: 768px) {
-    .portfolio-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-  
+}

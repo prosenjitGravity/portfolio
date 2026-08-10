@@ -1,0 +1,92 @@
+.arch-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.arch-card {
+  position: relative;
+  overflow: hidden;
+  padding: 1.5rem;
+  border-radius: 1.6rem;
+  transition: transform var(--transition), border-color var(--transition);
+  background: var(--gradient-panel);
+}
+
+.arch-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--primary-strong);
+}
+
+.arch-card h4 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.1rem;
+  color: var(--primary);
+  margin-bottom: 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.arch-card h4 i {
+  color: var(--primary);
+  font-size: 1.15rem;
+}
+
+.arch-card p {
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.edu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.25rem;
+}
+
+.edu-card {
+  position: relative;
+  overflow: hidden;
+  padding: 1.6rem;
+  border-radius: 1.6rem;
+  transition: transform var(--transition), border-color var(--transition);
+  background: var(--gradient-panel);
+}
+
+.edu-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--primary-strong);
+}
+
+.edu-card h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.15rem;
+  color: var(--text);
+  font-weight: 700;
+}
+
+.edu-card p.institute {
+  color: var(--muted);
+  font-size: 0.88rem;
+  margin-top: 0.35rem;
+  margin-bottom: 0.85rem;
+}
+
+.cgpa-pill {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--primary);
+  background: rgba(110, 231, 249, 0.08);
+  border: 1px solid rgba(110, 231, 249, 0.22);
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+}
+
+@media (max-width: 768px) {
+  .arch-grid, .edu-grid {
+    grid-template-columns: 1fr;
+  }
+}

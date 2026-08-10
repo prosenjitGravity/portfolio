@@ -1,78 +1,98 @@
 <section id="home" class="hero">
-    <div class="hero-background">
-      <div class="floating-shapes">
-        <div class="shape shape-1"></div>
-        <div class="shape shape-2"></div>
-        <div class="shape shape-3"></div>
-        <div class="shape shape-4"></div>
+  <div class="hero-noise"></div>
+  <div class="hero-orb hero-orb-left"></div>
+  <div class="hero-orb hero-orb-right"></div>
+
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <div class="status-badge">
+        <span class="pulse-dot"></span> Available for Full-Stack & Systems Roles
+      </div>
+      <h1 class="hero-title">Prosenjit Paul</h1>
+      <h2 class="hero-subtitle">
+        I build <span class="typewriter-text">{{ typewriterText }}</span>
+      </h2>
+      <p class="hero-description">
+        Full Stack Developer with <strong>~3 years of enterprise experience</strong> architecting financial & high-concurrency applications. Specialized in high-throughput <strong>Node.js microservices</strong>, real-time <strong>Angular frontends</strong>, asynchronous event processing (RabbitMQ/Kafka), and automated cloud pipelines on AWS.
+      </p>
+
+      <div class="hero-actions">
+        <a class="btn btn-primary compact-btn" (click)="scrollToSection('projects')">
+          <i class="fas fa-code"></i> Projects
+        </a>
+        <a href="mailto:paul.prosenjitbit@gmail.com" class="btn btn-secondary compact-btn">
+          <i class="fas fa-paper-plane"></i> Hire Me
+        </a>
+        <a href="https://github.com/prosenjitGravity?tab=repositories" target="_blank" class="btn btn-secondary compact-btn">
+          <i class="fab fa-github"></i> GitHub
+        </a>
+      </div>
+
+      <div class="hero-stats">
+        <article class="stat-card glass-card" *ngFor="let stat of stats">
+          <span class="stat-number">{{ stat.number }}</span>
+          <span class="stat-label">{{ stat.label }}</span>
+        </article>
       </div>
     </div>
-    <div class="container">
-      <div class="hero-content">
-        <div class="hero-text">
-          <div class="hero-greeting">
-            <span class="greeting-text">Hello, I'm</span>
+
+    <div class="hero-visual">
+      <div class="sys-console glass-card">
+        <!-- Terminal Header -->
+        <div class="console-header">
+          <div class="console-buttons">
+            <span class="c-dot red"></span>
+            <span class="c-dot yellow"></span>
+            <span class="c-dot green"></span>
           </div>
-          <h1 class="hero-title">
-            <span class="name-highlight">Prosenjit Paul</span>
-          </h1>
-          <div class="hero-subtitle">
-            <span class="subtitle-text">I Build Better</span>
-            <div class="rotating-words">
-              <span class="word">{{ currentWord }}</span>
+          <span class="console-title">prosenjit&#64;system-monitor:~</span>
+        </div>
+        
+        <!-- Console Grid -->
+        <div class="console-grid-layout">
+          <!-- Column 1: System Specs -->
+          <div class="console-metrics">
+            <div class="metric-item">
+              <span class="m-label">ENGINE:</span>
+              <span class="m-val text-blue">JIT SNA-Sparsh</span>
+            </div>
+            <div class="metric-item">
+              <span class="m-label">LOAD:</span>
+              <span class="m-val text-green">14,200 req/s</span>
+            </div>
+            <div class="metric-item">
+              <span class="m-label">BROKERS:</span>
+              <span class="m-val">RabbitMQ & Kafka</span>
+            </div>
+            <div class="metric-item">
+              <span class="m-label">LATENCY:</span>
+              <span class="m-val text-yellow">8.4ms</span>
+            </div>
+            <div class="metric-item">
+              <span class="m-label">DB:</span>
+              <span class="m-val">PostgreSQL (Indexed)</span>
+            </div>
+            <div class="metric-item">
+              <span class="m-label">AUTH:</span>
+              <span class="m-val">JWT & RBAC Active</span>
             </div>
           </div>
-          <p class="hero-description">
-            I'm a full-stack developer passionate about building clean, user-centric digital experiences. I transform ideas into impactful, intuitive solutions through thoughtful design and scalable development that support real business growth.
-          </p>
-          <div class="hero-actions">
-            <a class="btn btn-primary" (click)="scrollToSection('portfolio')">
-              <span>View My Work</span>
-              <i class="fas fa-arrow-right"></i>
-            </a>
-            <a class="btn btn-secondary" (click)="scrollToSection('contact')">
-              <span>Let's Talk</span>
-              <i class="fas fa-comments"></i>
-            </a>
-          </div>
-          <div class="hero-stats">
-            <div class="stat-item" *ngFor="let stat of stats">
-              <span class="stat-number">{{ stat.number }}</span>
-              <span class="stat-label">{{ stat.label }}</span>
+          
+          <!-- Column 2: Simulated logs -->
+          <div class="console-logs">
+            <div class="log-line" *ngFor="let log of terminalLogs">
+              <span class="log-time">{{ log.time }}</span>
+              <span class="log-tag" [ngClass]="log.type">{{ log.tag }}</span>
+              <span class="log-message">{{ log.message }}</span>
             </div>
           </div>
         </div>
-        <div class="hero-visual">
-          <div class="profile-card">
-            <div class="card-glow"></div>
-            <div class="profile-image">
-              <img src="public/assets/images/pro.jpg" alt="Prosenjit Paul">
-              <div class="image-overlay"></div>
-            </div>
-            <div class="floating-icons">
-              <div 
-                class="icon-item" 
-                *ngFor="let icon of techIcons; let i = index"
-                [ngClass]="'icon-' + (i + 1)"
-                [ngStyle]="{
-                  'top': icon.position.top,
-                  'right': icon.position.right,
-                  'bottom': icon.position.bottom,
-                  'left': icon.position.left,
-                  'color': icon.color,
-                  'animation-delay': icon.delay
-                }"
-              >
-                <i [class]="icon.icon"></i>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
-    <div class="scroll-indicator" (click)="scrollToSection('about')">
-      <div class="scroll-line"></div>
-      <span class="scroll-text">Scroll Down</span>
-    </div>
-  </section>
-  
+  </div>
+
+  <button type="button" class="scroll-indicator" (click)="scrollToSection('about')">
+    <span class="scroll-line"></span>
+    <span class="scroll-text">Scroll Down</span>
+  </button>
+</section>

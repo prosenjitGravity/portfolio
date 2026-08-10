@@ -1,34 +1,51 @@
 <section id="testimonials" class="testimonials">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag">Testimonials</span>
-        <h2 class="section-title">What Clients Say</h2>
-        <p class="section-subtitle">
-          Feedback from amazing people I've worked with
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Proof</span>
+      <h2 class="section-title">A professional portfolio should also communicate trust.</h2>
+      <p class="section-subtitle">
+        This section adds a stronger credibility layer and keeps the page rhythm balanced between capabilities, work, and confidence signals.
+      </p>
+    </div>
+
+    <div class="testimonial-layout">
+      <article class="testimonial-card glass-card">
+        <div class="quote-mark"><i class="fas fa-quote-left"></i></div>
+        <p class="testimonial-text">{{ testimonial.text }}</p>
+        <div class="rating">
+          <i class="fas fa-star" *ngFor="let star of ratingStars"></i>
+        </div>
+        <div class="client-info">
+          <img [src]="testimonial.client.avatar" [alt]="testimonial.client.name" class="client-avatar">
+          <div>
+            <h3 class="client-name">{{ testimonial.client.name }}</h3>
+            <p class="client-position">{{ testimonial.client.position }}</p>
+          </div>
+        </div>
+      </article>
+
+      <div class="trust-panel glass-card">
+        <span class="trust-tag">Why this matters</span>
+        <h3 class="trust-title">Professional presentation is part of the product.</h3>
+        <p class="trust-description">
+          Recruiters, clients, and hiring teams judge quality quickly. Strong motion, readable layout,
+          and clear project framing help your skills land faster and more confidently.
         </p>
-      </div>
-      <div class="testimonials-slider">
-        <div class="testimonial-card">
-          <div class="testimonial-content">
-            <div class="quote-icon">
-              <i class="fas fa-quote-left"></i>
-            </div>
-            <p class="testimonial-text">{{ testimonial.text }}</p>
-            <div class="client-info">
-              <div class="client-avatar">
-                <img [src]="testimonial.client.avatar" [alt]="testimonial.client.name">
-              </div>
-              <div class="client-details">
-                <h4 class="client-name">{{ testimonial.client.name }}</h4>
-                <p class="client-position">{{ testimonial.client.position }}</p>
-                <div class="rating">
-                  <i class="fas fa-star" *ngFor="let star of ratingStars"></i>
-                </div>
-              </div>
-            </div>
+        <div class="trust-points">
+          <div class="trust-point">
+            <strong>Responsive by default</strong>
+            <span>Clean behavior across desktop, tablet, and mobile.</span>
+          </div>
+          <div class="trust-point">
+            <strong>Visual hierarchy</strong>
+            <span>Sharper sections, better spacing, and more focused calls to action.</span>
+          </div>
+          <div class="trust-point">
+            <strong>Motion with purpose</strong>
+            <span>Animations reinforce the futuristic theme without hurting readability.</span>
           </div>
         </div>
       </div>
     </div>
-  </section>
-  
+  </div>
+</section>

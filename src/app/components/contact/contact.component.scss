@@ -1,153 +1,462 @@
-.contact {
-    background: var(--gray-50);
-    padding: var(--space-3xl) 0;
+.contact-grid {
+  display: grid;
+  grid-template-columns: minmax(300px, 0.9fr) minmax(0, 1.1fr);
+  gap: 1.25rem;
+}
+
+.contact-panel,
+.contact-form {
+  padding: 1.4rem;
+  border-radius: 1.8rem;
+  background: linear-gradient(180deg, #162338, #101b2c);
+}
+
+.contact-kicker {
+  color: var(--secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.82rem;
+}
+
+.contact-title {
+  margin-top: 0.8rem;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.8rem;
+  line-height: 1.12;
+}
+
+.contact-description {
+  margin-top: 0.9rem;
+  color: var(--muted);
+}
+
+.contact-details {
+  display: grid;
+  gap: 0.95rem;
+  margin-top: 1.5rem;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.95rem 1rem;
+  border-radius: 1.1rem;
+  border: 1px solid var(--line);
+  background: #17253a;
+  box-shadow: 0 10px 24px rgba(8, 16, 30, 0.12);
+  transition: transform var(--transition-fast), background var(--transition-fast), border-color var(--transition-fast);
+}
+
+.contact-item:hover {
+  transform: translateY(-3px);
+  background: #21314b;
+}
+
+.contact-icon {
+  width: 2.8rem;
+  height: 2.8rem;
+  display: grid;
+  place-items: center;
+  border-radius: 0.95rem;
+  background: #21314b;
+  color: var(--primary);
+}
+
+.contact-label {
+  display: block;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.contact-value {
+  display: block;
+  margin-top: 0.18rem;
+  font-weight: 700;
+}
+
+.social-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.4rem;
+}
+
+.social-link {
+  width: 3rem;
+  height: 3rem;
+  display: grid;
+  place-items: center;
+  border-radius: 1rem;
+  border: 1px solid var(--line);
+  background: #17253a;
+  color: var(--muted-strong);
+  transition: transform var(--transition-fast), background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
+}
+
+.social-link:hover {
+  transform: translateY(-3px) scale(1.03);
+  background: #21314b;
+  color: var(--primary);
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--muted-strong);
+  font-weight: 600;
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  border: 1px solid rgba(130, 184, 255, 0.16);
+  border-radius: 1rem;
+  background: #17253a;
+  color: var(--text);
+  padding: 0.95rem 1rem;
+  transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: rgba(110, 231, 249, 0.4);
+  background: #21314b;
+  box-shadow: 0 0 0 4px rgba(110, 231, 249, 0.08);
+}
+
+.form-input.error,
+.form-textarea.error {
+  border-color: rgba(255, 126, 126, 0.6);
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 10rem;
+}
+
+.error-message {
+  display: block;
+  margin-top: 0.45rem;
+  color: var(--danger);
+  font-size: 0.85rem;
+}
+
+button[disabled] {
+  opacity: 0.7;
+}
+
+@media (max-width: 960px) {
+  .contact-grid,
+  .field-row {
+    grid-template-columns: 1fr;
   }
-  
-  .contact-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-3xl);
-  }
-  
-  .contact-card {
-    background: var(--white);
-    padding: var(--space-xl);
-    border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-lg);
-    height: fit-content;
-    
-    .contact-title {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--gray-900);
-      margin-bottom: var(--space-md);
-    }
-    
-    .contact-description {
-      color: var(--gray-600);
-      line-height: 1.6;
-      margin-bottom: var(--space-xl);
-    }
-    
-    .contact-details {
-      margin-bottom: var(--space-xl);
-      
-      .contact-item {
-        display: flex;
-        align-items: center;
-        gap: var(--space-md);
-        margin-bottom: var(--space-md);
-        
-        .contact-icon {
-          width: 50px;
-          height: 50px;
-          // background: var(--primary-light);
-          border: 1px solid #6366f1;
-          color: var(--primary-color);
-          border-radius: var(--radius-lg);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 1.25rem;
-        }
-        
-        .contact-text {
-          .contact-label {
-            display: block;
-            font-size: 0.875rem;
-            color: var(--gray-500);
-            font-weight: 500;
-          }
-          
-          .contact-value {
-            color: var(--gray-800);
-            font-weight: 600;
-          }
-        }
-      }
-    }
-  }
-  
-  .contact-form {
-    background: var(--white);
-    padding: var(--space-xl);
-    border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-lg);
-  }
-  
-  .form {
-    .form-group {
-      margin-bottom: var(--space-md);
-      
-      .form-label {
-        display: block;
-        margin-bottom: var(--space-xs);
-        color: var(--gray-700);
-        font-weight: 500;
-      }
-      
-      .form-input,
-      .form-textarea {
-        width: 100%;
-        padding: 0.875rem;
-        border: 1px solid var(--gray-300);
-        border-radius: var(--radius-md);
-        font-size: 1rem;
-        transition: border-color var(--transition-normal);
-        
-        &:focus {
-          outline: none;
-          border-color: var(--primary-color);
-          box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-        }
-        
-        &.error {
-          border-color: #ef4444;
-        }
-      }
-      
-      .form-textarea {
-        resize: vertical;
-        min-height: 120px;
-      }
-      
-      .error-message {
-        display: block;
-        color: #ef4444;
-        font-size: 0.875rem;
-        margin-top: var(--space-xs);
-      }
-    }
-  }
-  
-  .social-links {
+}
+
+// macOS Mail App Specific Styles
+.macos-mail-app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 380px;
+  background: #1e1e1e;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: #e0e0e0;
+
+  .mail-toolbar {
+    height: 48px;
+    background: #2d2d2d;
+    border-bottom: 1px solid #3c3c3c;
     display: flex;
-    gap: var(--space-sm);
-    
-    .social-link {
-      width: 40px;
-      height: 40px;
-      background: var(--gray-100);
-      color: var(--gray-600);
-      border-radius: var(--radius-lg);
+    align-items: center;
+    padding: 0 16px;
+    gap: 12px;
+
+    .toolbar-btn {
+      background: transparent;
+      border: none;
+      color: #dfdfdf;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      text-decoration: none;
-      transition: all var(--transition-normal);
-      
-      &:hover {
-        background: var(--primary-color);
-        color: var(--white);
-        transform: translateY(-2px);
+      font-size: 11px;
+      font-weight: 500;
+      cursor: pointer;
+      padding: 4px 10px;
+      border-radius: 6px;
+      gap: 3px;
+      transition: background 0.15s ease;
+
+      i {
+        font-size: 15px;
+      }
+
+      &:hover:not([disabled]) {
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      &[disabled] {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+
+      &.send-btn i {
+        color: #0a84ff;
+      }
+    }
+
+    .toolbar-spacer {
+      flex: 1;
+    }
+
+    .toolbar-search {
+      display: flex;
+      align-items: center;
+      background: #1a1a1a;
+      border-radius: 6px;
+      border: 1px solid #3c3c3c;
+      padding: 4px 8px;
+      gap: 6px;
+      font-size: 12px;
+      width: 140px;
+
+      i {
+        color: rgba(255, 255, 255, 0.4);
+      }
+
+      input {
+        background: transparent;
+        border: none;
+        outline: none;
+        color: #fff;
+        width: 100%;
+        font-size: 11.5px;
       }
     }
   }
-  
-  @media (max-width: 1024px) {
-    .contact-content {
-      grid-template-columns: 1fr;
-      gap: var(--space-xl);
+
+  .mail-main-layout {
+    display: flex;
+    flex: 1;
+    height: calc(100% - 48px);
+  }
+
+  .mail-sidebar {
+    width: 170px;
+    background: #252526;
+    border-right: 1px solid #3c3c3c;
+    padding: 16px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .sidebar-section {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+
+      .section-title {
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.35);
+        letter-spacing: 0.05em;
+        padding-left: 8px;
+      }
+    }
+
+    .sidebar-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+
+      li {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 6px 8px;
+        border-radius: 6px;
+        font-size: 12.5px;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.75);
+        cursor: default;
+
+        i {
+          font-size: 13px;
+          width: 16px;
+          text-align: center;
+        }
+
+        .badge {
+          margin-left: auto;
+          background: rgba(255, 255, 255, 0.1);
+          color: #fff;
+          font-size: 10px;
+          padding: 1px 6px;
+          border-radius: 10px;
+          font-weight: 700;
+        }
+
+        &.active-item {
+          background: rgba(255, 255, 255, 0.08);
+          color: #fff;
+          font-weight: 600;
+        }
+
+        a {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          color: inherit;
+          text-decoration: none;
+          width: 100%;
+        }
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.05);
+          color: #fff;
+        }
+      }
     }
   }
-  
+
+  .mail-compose-panel {
+    flex: 1;
+    background: #1e1e1e;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+
+    .mail-form {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .compose-header-row {
+      display: flex;
+      align-items: center;
+      padding: 10px 16px;
+      border-bottom: 1px solid #2d2d2d;
+      gap: 12px;
+      font-size: 13px;
+
+      label {
+        color: rgba(255, 255, 255, 0.45);
+        width: 60px;
+        font-weight: 500;
+      }
+
+      .recipient-badge {
+        background: rgba(10, 132, 255, 0.15);
+        color: #0a84ff;
+        border: 1px solid rgba(10, 132, 255, 0.3);
+        border-radius: 12px;
+        padding: 2px 10px;
+        font-size: 12px;
+        font-weight: 500;
+      }
+
+      .sender-input-wrapper {
+        display: flex;
+        align-items: center;
+        flex: 1;
+        gap: 8px;
+      }
+
+      .separator-dash {
+        color: rgba(255, 255, 255, 0.15);
+      }
+
+      .header-input {
+        background: transparent;
+        border: none;
+        outline: none;
+        color: #fff;
+        font-size: 13px;
+        flex: 1;
+
+        &::placeholder {
+          color: rgba(255, 255, 255, 0.25);
+        }
+
+        &.error {
+          color: #ff453a;
+          &::placeholder {
+            color: rgba(255, 69, 58, 0.4);
+          }
+        }
+      }
+      
+      .full-width-input {
+        flex: 1;
+      }
+    }
+
+    .compose-body {
+      flex: 1;
+      padding: 16px;
+      display: flex;
+
+      .compose-textarea {
+        width: 100%;
+        height: 100%;
+        min-height: 160px;
+        background: transparent;
+        border: none;
+        outline: none;
+        resize: none;
+        color: #dfdfdf;
+        font-size: 13.5px;
+        line-height: 1.5;
+
+        &::placeholder {
+          color: rgba(255, 255, 255, 0.25);
+        }
+
+        &.error {
+          border: 1px dashed rgba(255, 69, 58, 0.3);
+          border-radius: 6px;
+          padding: 8px;
+        }
+      }
+    }
+
+    .compose-status-message {
+      padding: 10px 16px;
+      background: #161616;
+      border-top: 1px solid #2d2d2d;
+      font-size: 12px;
+
+      .status-indicator {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: rgba(255, 255, 255, 0.6);
+
+        i {
+          font-size: 13px;
+        }
+      }
+
+      .success-text {
+        color: #30d158;
+      }
+    }
+  }
+}

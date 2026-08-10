@@ -1,113 +1,241 @@
-<section id="contact" class="contact">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag">Contact</span>
-        <h2 class="section-title">Let's Work Together</h2>
-        <p class="section-subtitle">
-          Ready to bring your ideas to life? Let's discuss your project
-        </p>
+<!-- macOS Mail Client Composer View -->
+<div class="macos-mail-app" *ngIf="isMacWindow">
+  
+  <!-- Mail App Toolbar -->
+  <div class="mail-toolbar">
+    <button type="button" class="toolbar-btn send-btn" (click)="onSubmit()" [disabled]="contactForm.invalid || isSubmitting">
+      <i class="fas fa-paper-plane text-blue"></i>
+      <span>Send</span>
+    </button>
+    <button type="button" class="toolbar-btn" (click)="contactForm.reset()">
+      <i class="fas fa-eraser text-grey"></i>
+      <span>Clear</span>
+    </button>
+    <div class="toolbar-spacer"></div>
+    <div class="toolbar-search">
+      <i class="fas fa-search"></i>
+      <input type="text" placeholder="Search Mail" disabled>
+    </div>
+  </div>
+
+  <div class="mail-main-layout">
+    <!-- Mail Left Sidebar -->
+    <aside class="mail-sidebar">
+      <div class="sidebar-section">
+        <span class="section-title">Mailboxes</span>
+        <ul class="sidebar-list">
+          <li class="active-item">
+            <i class="fas fa-inbox text-blue"></i>
+            <span>Inbox</span>
+            <span class="badge">1</span>
+          </li>
+          <li>
+            <i class="fas fa-paper-plane"></i>
+            <span>Sent</span>
+          </li>
+          <li>
+            <i class="fas fa-file-alt"></i>
+            <span>Drafts</span>
+          </li>
+          <li>
+            <i class="fas fa-trash-alt"></i>
+            <span>Trash</span>
+          </li>
+        </ul>
       </div>
-      <div class="contact-content">
-        <div class="contact-info">
-          <div class="contact-card">
-            <h3 class="contact-title">Get In Touch</h3>
-            <p class="contact-description">
-              I'm always eager to take on new challenges and collaborate with driven, talented individuals. Let's work together to create something truly exceptional.
-            </p>
-            <div class="contact-details">
-              <div class="contact-item" *ngFor="let detail of contactDetails">
-                <div class="contact-icon">
-                  <i [class]="detail.icon"></i>
-                </div>
-                <div class="contact-text">
-                  <span class="contact-label">{{ detail.label }}</span>
-                  <span class="contact-value">{{ detail.value }}</span>
-                </div>
-              </div>
+
+      <div class="sidebar-section">
+        <span class="section-title">Direct Channels</span>
+        <ul class="sidebar-list font-medium">
+          <li>
+            <a href="mailto:paul.prosenjitbit&#64;gmail.com">
+              <i class="fas fa-envelope text-red"></i>
+              <span>Email Me</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://www.linkedin.com/in/prosenjit-paul-0a82b6239" target="_blank">
+              <i class="fab fa-linkedin text-blue"></i>
+              <span>LinkedIn</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://github.com/prosenjitGravity" target="_blank">
+              <i class="fab fa-github"></i>
+              <span>GitHub</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Mail Compose Panel (Right) -->
+    <main class="mail-compose-panel">
+      <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="mail-form">
+        
+        <!-- Header fields -->
+        <div class="compose-header-row">
+          <label>To:</label>
+          <div class="recipient-badge">
+            Prosenjit Paul &lt;paul.prosenjitbit&#64;gmail.com&gt;
+          </div>
+        </div>
+
+        <div class="compose-header-row">
+          <label>From:</label>
+          <div class="sender-input-wrapper">
+            <input 
+              type="text" 
+              placeholder="Your Name" 
+              formControlName="name" 
+              class="header-input name-input" 
+              [class.error]="contactForm.get('name')?.invalid && contactForm.get('name')?.touched">
+            <span class="separator-dash">|</span>
+            <input 
+              type="email" 
+              placeholder="Your Email Address" 
+              formControlName="email" 
+              class="header-input email-input" 
+              [class.error]="contactForm.get('email')?.invalid && contactForm.get('email')?.touched">
+          </div>
+        </div>
+
+        <div class="compose-header-row">
+          <label>Subject:</label>
+          <input 
+            type="text" 
+            placeholder="Project Inquiry / Job Opportunity" 
+            formControlName="subject" 
+            class="header-input full-width-input" 
+            [class.error]="contactForm.get('subject')?.invalid && contactForm.get('subject')?.touched">
+        </div>
+
+        <!-- Compose Body Area -->
+        <div class="compose-body">
+          <textarea 
+            placeholder="Write your message here... I will get back to you shortly!" 
+            formControlName="message" 
+            class="compose-textarea" 
+            [class.error]="contactForm.get('message')?.invalid && contactForm.get('message')?.touched"></textarea>
+        </div>
+
+        <!-- Submission Status indicators -->
+        <div class="compose-status-message" *ngIf="isSubmitting || isSubmitted">
+          <span class="status-indicator" *ngIf="isSubmitting">
+            <i class="fas fa-spinner fa-spin text-blue"></i> Sending message...
+          </span>
+          <span class="status-indicator success-text" *ngIf="isSubmitted">
+            <i class="fas fa-check-circle text-green"></i> Message sent successfully! Thank you.
+          </span>
+        </div>
+
+      </form>
+    </main>
+  </div>
+</div>
+
+<!-- Classic Fullscreen Contact Section -->
+<section id="contact" class="contact" *ngIf="!isMacWindow">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Contact</span>
+      <h2 class="section-title">Let’s build something that looks serious and feels smooth.</h2>
+      <p class="section-subtitle">
+        If you need a portfolio refresh, a frontend implementation, or a polished product experience, this is the place to start.
+      </p>
+    </div>
+
+    <div class="contact-grid">
+      <aside class="contact-panel glass-card">
+        <span class="contact-kicker">Open Channel</span>
+        <h3 class="contact-title">Available for impactful builds and UI upgrades.</h3>
+        <p class="contact-description">
+          I enjoy taking existing work and pushing it into a cleaner, more credible, more modern direction.
+          Reach out if you want help with interfaces, application structure, or overall portfolio presentation.
+        </p>
+
+        <div class="contact-details">
+          <div class="contact-item" *ngFor="let detail of contactDetails">
+            <div class="contact-icon">
+              <i [class]="detail.icon"></i>
             </div>
-            <div class="social-links">
-              <a 
-                *ngFor="let social of socialLinks" 
-                [href]="social.url" 
-                class="social-link" target="_blank">
-                <i [class]="social.icon"></i>
-              </a>
+            <div>
+              <span class="contact-label">{{ detail.label }}</span>
+              <span class="contact-value">{{ detail.value }}</span>
             </div>
           </div>
         </div>
-        <div class="contact-form">
-          <form class="form" [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+
+        <div class="social-links">
+          <a
+            *ngFor="let social of socialLinks"
+            [href]="social.url"
+            class="social-link"
+            target="_blank"
+            rel="noreferrer">
+            <i [class]="social.icon"></i>
+          </a>
+        </div>
+      </aside>
+
+      <div class="contact-form glass-card">
+        <form class="form" [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+          <div class="field-row">
             <div class="form-group">
               <label for="name" class="form-label">Full Name</label>
               <input
-                type="text"
                 id="name"
+                type="text"
                 formControlName="name"
                 class="form-input"
-                [class.error]="contactForm.get('name')?.invalid && contactForm.get('name')?.touched"
-              />
-              <span class="error-message" *ngIf="getFieldError('name')">
-                {{ getFieldError('name') }}
-              </span>
+                [class.error]="contactForm.get('name')?.invalid && contactForm.get('name')?.touched">
+              <span class="error-message" *ngIf="getFieldError('name')">{{ getFieldError('name') }}</span>
             </div>
 
             <div class="form-group">
               <label for="email" class="form-label">Email Address</label>
               <input
-                type="email"
                 id="email"
+                type="email"
                 formControlName="email"
                 class="form-input"
-                [class.error]="contactForm.get('email')?.invalid && contactForm.get('email')?.touched"
-              />
-              <span class="error-message" *ngIf="getFieldError('email')">
-                {{ getFieldError('email') }}
-              </span>
+                [class.error]="contactForm.get('email')?.invalid && contactForm.get('email')?.touched">
+              <span class="error-message" *ngIf="getFieldError('email')">{{ getFieldError('email') }}</span>
             </div>
+          </div>
 
-            <div class="form-group">
-              <label for="subject" class="form-label">Subject</label>
-              <input
-                type="text"
-                id="subject"
-                formControlName="subject"
-                class="form-input"
-                [class.error]="contactForm.get('subject')?.invalid && contactForm.get('subject')?.touched"
-              />
-              <span class="error-message" *ngIf="getFieldError('subject')">
-                {{ getFieldError('subject') }}
-              </span>
-            </div>
+          <div class="form-group">
+            <label for="subject" class="form-label">Project Subject</label>
+            <input
+              id="subject"
+              type="text"
+              formControlName="subject"
+              class="form-input"
+              [class.error]="contactForm.get('subject')?.invalid && contactForm.get('subject')?.touched">
+            <span class="error-message" *ngIf="getFieldError('subject')">{{ getFieldError('subject') }}</span>
+          </div>
 
-            <div class="form-group">
-              <label for="message" class="form-label">Message</label>
-              <textarea
-                id="message"
-                formControlName="message"
-                class="form-textarea"
-                rows="5"
-                [class.error]="contactForm.get('message')?.invalid && contactForm.get('message')?.touched"
-              ></textarea>
-              <span class="error-message" *ngIf="getFieldError('message')">
-                {{ getFieldError('message') }}
-              </span>
-            </div>
+          <div class="form-group">
+            <label for="message" class="form-label">Project Message</label>
+            <textarea
+              id="message"
+              rows="6"
+              formControlName="message"
+              class="form-textarea"
+              [class.error]="contactForm.get('message')?.invalid && contactForm.get('message')?.touched"></textarea>
+              <span class="error-message" *ngIf="getFieldError('message')">{{ getFieldError('message') }}</span>
+          </div>
 
-            <button 
-              type="submit" 
-              class="btn btn-primary btn-full"
-              [disabled]="contactForm.invalid"
-            >
-              <span *ngIf="!isSubmitting && !isSubmitted">Send Message</span>
-              <span *ngIf="isSubmitting">Sending...</span>
-              <span *ngIf="isSubmitted">Message Sent!</span>
-              <i class="fas fa-paper-plane" *ngIf="!isSubmitting && !isSubmitted"></i>
-              <i class="fas fa-spinner fa-spin" *ngIf="isSubmitting"></i>
-              <i class="fas fa-check" *ngIf="isSubmitted"></i>
-            </button>
-          </form>
-        </div>
+          <button type="submit" class="btn btn-primary btn-full" [disabled]="isSubmitting">
+            <span *ngIf="!isSubmitting && !isSubmitted">Send Project Signal</span>
+            <span *ngIf="isSubmitting">Sending...</span>
+            <span *ngIf="isSubmitted">Signal Received</span>
+            <i class="fas fa-paper-plane" *ngIf="!isSubmitting && !isSubmitted"></i>
+            <i class="fas fa-spinner fa-spin" *ngIf="isSubmitting"></i>
+            <i class="fas fa-check" *ngIf="isSubmitted"></i>
+          </button>
+        </form>
       </div>
     </div>
-  </section>
-  
+  </div>
+</section>

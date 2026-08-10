@@ -1,0 +1,25 @@
+<section id="experience" class="experience">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Experience</span>
+      <h2 class="section-title">Professional Journey</h2>
+      <p class="section-subtitle">
+        A timeline of my software engineering experience building real-time applications and critical enterprise systems.
+      </p>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item" *ngFor="let job of jobs">
+        <div class="role-header">
+          <div class="role-title">
+            {{ job.role }} <span class="company">&#64; {{ job.company }}</span>
+          </div>
+          <div class="role-period">{{ job.period }}</div>
+        </div>
+        <ul class="role-bullet-list">
+          <li *ngFor="let point of job.points" [innerHTML]="point"></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>

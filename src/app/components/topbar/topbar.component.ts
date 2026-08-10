@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, input, OnInit, output } from '@angular/core';
+import { Component, HostListener, input, output } from '@angular/core';
 
 @Component({
   selector: 'app-topbar',
@@ -7,38 +7,33 @@ import { Component, input, OnInit, output } from '@angular/core';
   templateUrl: './topbar.component.html',
   styleUrl: './topbar.component.scss'
 })
-export class TopbarComponent implements OnInit {
+export class TopbarComponent {
   dataEmitter = output<string>();
+  activeSectionId = input<string>('home');
 
-  activeSectionId = input<string>("home"); // Default active link
+  isMenuOpen = false;
+  isScrolled = false;
 
+  navItems = [
+    { id: 'home', label: 'Home' },
+    { id: 'about', label: 'About' },
+    { id: 'services', label: 'Services' },
+    { id: 'projects', label: 'Projects' },
+    { id: 'contact', label: 'Contact' }
+  ];
 
-  constructor() { }
-
-  ngOnInit(): void {
-    // Initialization logic here
+  @HostListener('window:scroll')
+  onWindowScroll() {
+    this.isScrolled = window.scrollY > 20;
   }
-
-  // Add any methods or properties needed for the topbar component
 
   toggleMenu() {
-    const menu = document.querySelector('.mobile-toggle');
-    if (menu) {
-      menu.classList.toggle('active');
-      const menuList = document.querySelector('.navbar-menu');
-      if (menuList) {
-        menuList.classList.toggle('active');
-      }
-      
-    //   document.querySelector('.navbar-menu').classList.toggle('active');
-    //   this.classList.toggle('active');
-    // });
-    }
+    this.isMenuOpen = !this.isMenuOpen;
   }
 
-  sendDataLinkId(data:string){
-    this.activeSectionId.bind(data); // Update the active link
-    this.dataEmitter.emit(data);
+  navigateTo(sectionId: string, event: Event) {
+    event.preventDefault();
+    this.isMenuOpen = false;
+    this.dataEmitter.emit(sectionId);
   }
-
 }

@@ -11,11 +11,11 @@ export class TestimonialsComponent implements OnInit {
 
 
   testimonial = {
-    text: "Prosenjit delivered exceptional work that exceeded our expectations. His attention to detail and technical expertise made our project a huge success. Highly recommended!",
+    text: "Prosenjit brings a rare mix of design sensitivity and engineering discipline. The final product felt much more mature, more responsive, and more polished than where we started.",
     client: {
-      name: "Sarah Johnson",
-      position: "CEO, TechStart Inc.",
-      avatar: "https://via.placeholder.com/80x80",
+      name: "Product Collaboration Highlight",
+      position: "Professional feedback style",
+      avatar: "/public/assets/images/prosenjit_college.jpg",
     },
     rating: 5,
   }

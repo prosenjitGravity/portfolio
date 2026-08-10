@@ -1,24 +1,29 @@
 <section id="services" class="services">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag">Services</span>
-        <h2 class="section-title">What I Do Best</h2>
-        <p class="section-subtitle">
-          Comprehensive digital solutions tailored to your needs
-        </p>
-      </div>
-      <div class="services-grid">
-        <div class="service-card" *ngFor="let service of services">
-          <div class="service-icon">
-            <i [class]="service.icon"></i>
-          </div>
-          <h3 class="service-title">{{ service.title }}</h3>
-          <p class="service-description">{{ service.description }}</p>
-          <div class="service-tech">
-            <span class="tech-tag" *ngFor="let tech of service.technologies">{{ tech }}</span>
-          </div>
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Skills</span>
+      <h2 class="section-title">Technical Skills & Stack</h2>
+      <p class="section-subtitle">
+        My capabilities across core backend technologies, dynamic frontend systems, deployment pipelines, and database architecture.
+      </p>
+    </div>
+
+    <div class="skills-matrix">
+      <div class="matrix-card glass-card" *ngFor="let group of skillGroups">
+        <h3>
+          <i [class]="group.icon"></i>
+          {{ group.title }}
+        </h3>
+        <div class="tag-container">
+          <span
+            class="pill"
+            *ngFor="let skill of group.skills"
+            [class.highlight]="skill.highlight">
+            {{ skill.name }}
+          </span>
         </div>
       </div>
     </div>
-  </section>
-  
+  </div>
+</section>
+

@@ -1,45 +1,36 @@
 <section id="projects" class="portfolio">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag">Portfolio</span>
-        <h2 class="section-title">Featured Projects</h2>
-        <p class="section-subtitle">
-          A showcase of my recent work and achievements
-        </p>
-      </div>
-      <div class="portfolio-filter">
-        <button 
-          *ngFor="let filter of filterButtons"
-          class="filter-btn" 
-          [class.active]="activeFilter === filter.id"
-          (click)="setFilter(filter.id)"
-        >
-          {{ filter.label }}
-        </button>
-      </div>
-      <div class="portfolio-grid">
-        <div class="portfolio-item" *ngFor="let project of filteredProjects">
-          <div class="project-card">
-            <div class="project-image">
-              <img [src]="project.image" [alt]="project.title">
-              <div class="project-overlay">
-                <div class="project-actions">
-                  <a href="#" class="action-btn"><i class="fas fa-eye"></i></a>
-                  <a href="#" class="action-btn"><i class="fas fa-external-link-alt"></i></a>
-                </div>
-              </div>
-            </div>
-            <div class="project-content">
-              <div class="project-category">{{ project.categoryLabel }}</div>
-              <h3 class="project-title">{{ project.title }}</h3>
-              <p class="project-description">{{ project.description }}</p>
-              <div class="project-tech">
-                <span class="tech-tag" *ngFor="let tech of project.technologies">{{ tech }}</span>
-              </div>
-            </div>
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Projects</span>
+      <h2 class="section-title">Key Featured Projects</h2>
+      <p class="section-subtitle">
+        These projects demonstrate real-world systems, concurrency handling, database optimizations, and interface designs.
+      </p>
+    </div>
+
+    <div class="portfolio-grid">
+      <article class="project-card glass-card" *ngFor="let project of filteredProjects">
+        <div class="project-top">
+          <i class="far fa-folder folder"></i>
+          <div class="project-links">
+            <a [href]="project.github" target="_blank" aria-label="GitHub Repository"><i class="fab fa-github"></i></a>
           </div>
         </div>
-      </div>
+
+        <div class="project-content">
+          <div class="project-meta">
+            <span class="project-badge">{{ project.categoryLabel }}</span>
+            <span class="project-metric">{{ project.metrics }}</span>
+          </div>
+          <h3 class="project-title">{{ project.title }}</h3>
+          <p class="project-desc">{{ project.description }}</p>
+        </div>
+
+        <div class="pill-list">
+          <span class="pill" *ngFor="let tech of project.technologies">{{ tech }}</span>
+        </div>
+      </article>
     </div>
-  </section>
-  
+  </div>
+</section>
+

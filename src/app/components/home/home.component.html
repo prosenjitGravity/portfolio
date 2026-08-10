@@ -1,89 +1,814 @@
-<app-topbar (dataEmitter)="handleData($event)" [activeSectionId]="activeSectionId"></app-topbar>
-<app-hero></app-hero>
-<app-about></app-about>
-<app-services></app-services>
-<app-portfolio></app-portfolio>
-<app-testimonials></app-testimonials>
-<app-contact></app-contact>
-<!-- Hero Section -->
-<!-- <div #contentContainer>
-    <section id="home" class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <h1>Hello, I'm <span class="highlight">Prosenjit Paul</span></h1>
-                    <h2>Web Developer & Designer</h2>
-                    <h2 class="sentence">Built Better
-                        <div class="slidingVertical">
-                            <span>Communication</span>
-                            <span>Relationships</span>
-                            <span>Experience</span>
-                        </div>
-                    </h2>
-                    <p>I create beautiful, functional websites that help businesses grow and succeed online.</p>
-                    <div class="hero-buttons">
-                        <a href="#portfolio" class="btn primary-btn">View My Work</a>
-                        <a href="#contact" class="btn secondary-btn">Contact Me</a>
-                    </div>
-                    <div class="social-icons">
-                        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
-                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-icon"><i class="fab fa-dribbble"></i></a>
-                    </div>
-                </div>
-                <div class="hero-image">
-                    <div class="image-container">
-                        <img src="/public/assets/images/prosenjit_paul.jpg" alt="Prosenjit Paul">
-                    </div>
-                </div>
-            </div>
+<!-- Classic Portfolio Mode (Original Scrolling View) -->
+<div class="home-shell classic-layout" *ngIf="classicMode">
+  <div class="classic-toggle-floating">
+    <button class="btn btn-primary compact-btn" (click)="toggleClassicMode()">
+      <i class="fas fa-desktop"></i> Switch to macOS Mode
+    </button>
+  </div>
+  <app-topbar (dataEmitter)="handleData($event)" [activeSectionId]="activeSectionId"></app-topbar>
+  <app-hero></app-hero>
+  <app-about></app-about>
+  <app-services></app-services>
+  <app-experience></app-experience>
+  <app-portfolio></app-portfolio>
+  <app-architecture></app-architecture>
+  <app-contact></app-contact>
+  <app-footer></app-footer>
+</div>
+
+<!-- macOS Desktop Mode -->
+<div class="mac-desktop-shell" *ngIf="!classicMode">
+  
+  <!-- macOS Top Menu Bar -->
+  <header class="mac-topbar">
+    <div class="topbar-left">
+      <div class="menu-item dropdown">
+        <i class="fas fa-laptop-code brand-icon"></i>
+        <div class="dropdown-content">
+          <a (click)="openWindow('about')"><i class="fas fa-info-circle"></i> About This Portfolio</a>
+          <a (click)="toggleClassicMode()"><i class="fas fa-sync-alt"></i> Switch to Classic Layout</a>
+          <div class="dropdown-divider"></div>
+          <a href="https://github.com/prosenjitGravity" target="_blank"><i class="fab fa-github"></i> Developer Github</a>
         </div>
-        <div class="hero-shape"></div>
-    </section>
-    <section id="about" class="about">
-        <div class="container">
-            <div class="section-header">
-                <h3>About Me</h3>
-                <h2>My Story</h2>
-                <div class="underline"></div>
-            </div>
-            <div class="about-content">
-                <div class="about-image">
-                    <img src="/public/assets/images/prosenjit_paul.jpg" alt="About Me">
-                    <div class="experience-badge">
-                        <span class="number">2+</span>
-                        <span class="text">Years of Experience</span>
-                    </div>
-                </div>
-                <div class="about-text">
-                    <h3>A passionate Web Developer based in New York</h3>
-                    <p>I am a professional web developer with over 2 years of experience creating stunning, functional
-                        websites and applications. My journey in web development began when I discovered my passion for
-                        coding during college.</p>
-                    <p>I specialize in front-end development, creating responsive designs that work across all devices.
-                        I'm also proficient in back-end technologies, allowing me to build full-stack applications.</p>
-                    <div class="about-info">
-                        <div class="info-item">
-                            <span class="info-title">Name:</span>
-                            <span class="info-value">Prosenjit Paul</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-title">Email:</span>
-                            <span class="info-value">paul.prosenjit&#64;gmail.com</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-title">Phone:</span>
-                            <span class="info-value">+91 9933764953</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-title">Location:</span>
-                            <span class="info-value">Malda, India</span>
-                        </div>
-                    </div>
-                    <a href="#" class="btn primary-btn">Download CV</a>
-                </div>
-            </div>
+      </div>
+      <div class="menu-item dropdown active-app-label">Finder
+        <div class="dropdown-content">
+          <a (click)="openWindow('about')">About Finder</a>
+          <div class="dropdown-divider"></div>
+          <a (click)="openWindow('projects')">Show Projects Explorer</a>
+          <a (click)="openWindow('skills')">Show Skills Explorer</a>
         </div>
-    </section>
-</div> -->
+      </div>
+      <div class="menu-item dropdown">File
+        <div class="dropdown-content">
+          <a (click)="openWindow('contact')">New Message to Prosenjit</a>
+          <a (click)="downloadCV()">Download Resume / CV</a>
+        </div>
+      </div>
+      <div class="menu-item dropdown">Edit
+        <div class="dropdown-content">
+          <a>Undo</a>
+          <a>Redo</a>
+        </div>
+      </div>
+      <div class="menu-item dropdown">View
+        <div class="dropdown-content">
+          <a (click)="toggleClassicMode()">Toggle Classic Scrolling View</a>
+          <a (click)="openWindow('terminal')">Toggle Developer Console</a>
+        </div>
+      </div>
+      <div class="menu-item dropdown">Go
+        <div class="dropdown-content">
+          <a (click)="openWindow('projects')">Go to Projects</a>
+          <a (click)="openWindow('skills')">Go to Skills</a>
+          <a (click)="openWindow('education')">Go to Education</a>
+        </div>
+      </div>
+      <div class="menu-item dropdown">Window
+        <div class="dropdown-content">
+          <a (click)="minimizeWindow('about')">Minimize About Me</a>
+          <a (click)="closeWindow('about')">Close About Me</a>
+          <div class="dropdown-divider"></div>
+          <a (click)="openWindow('about')">Bring All to Front</a>
+        </div>
+      </div>
+      <div class="menu-item dropdown">Help
+        <div class="dropdown-content">
+          <a (click)="openWindow('about')">Portfolio Help</a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="topbar-right">
+      <span class="topbar-icon"><i class="fas fa-wifi"></i></span>
+      <span class="topbar-icon"><i class="fas fa-battery-three-quarters"></i></span>
+      <span class="topbar-icon"><i class="fas fa-search"></i></span>
+      <span class="topbar-icon" (click)="toggleClassicMode()"><i class="fas fa-sliders-h"></i></span>
+      <span class="topbar-clock">{{ currentTime }}</span>
+    </div>
+  </header>
+
+  <!-- Desktop Work Area -->
+  <main class="mac-desktop-workspace" [class.has-open-window]="hasAnyOpenWindow()">
+    
+    <!-- Left Background Desktop Widgets -->
+    <div class="desktop-widgets-container">
+      
+      <!-- 1. GitHub Contributions Widget (Replaces System Performance) -->
+      <div class="desktop-widget glass-widget github-widget animate-fade-in">
+        <div class="widget-header">
+          <i class="fab fa-github widget-header-icon text-white"></i>
+          <span>GitHub Contributions</span>
+        </div>
+        <div class="widget-body">
+          <div class="github-heatmap-container">
+            <div class="github-heatmap">
+              <span *ngFor="let level of githubContributions" 
+                    class="heatmap-cell" 
+                    [class]="'level-' + level">
+              </span>
+            </div>
+          </div>
+          <div class="github-widget-footer">
+            <span class="github-username">
+              <a href="https://github.com/prosenjitGravity" target="_blank">&#64;prosenjitGravity</a>
+            </span>
+            <div class="heatmap-legend">
+              <span>Less</span>
+              <span class="legend-cell level-0"></span>
+              <span class="legend-cell level-1"></span>
+              <span class="legend-cell level-2"></span>
+              <span class="legend-cell level-3"></span>
+              <span>More</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Interactive Calendar Widget -->
+      <div class="desktop-widget glass-widget cal-widget animate-fade-in">
+        <div class="widget-header">
+          <i class="far fa-calendar-alt widget-header-icon text-red"></i>
+          <span>{{ currentMonthYear }}</span>
+        </div>
+        <div class="widget-body">
+          <div class="calendar-grid-header">
+            <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+          </div>
+          <div class="calendar-grid-body">
+            <span *ngFor="let day of calendarDays" 
+                  [class.empty-day]="day === 0"
+                  [class.today-circle]="day.toString() === currentDayNum">
+              {{ day !== 0 ? day : '' }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Left Overlay (Hero Title) -->
+    <div class="desktop-hero-overlay">
+      <div class="hero-frame-container glass-card">
+        <h1 class="hero-main-title">Prosenjit Paul</h1>
+        <h2 class="hero-main-subtitle">Full Stack Developer</h2>
+        <p class="hero-main-desc">
+          I build modern, responsive and user-friendly web applications.
+        </p>
+        <div class="hero-overlay-actions">
+          <button class="overlay-btn btn-primary-style" (click)="openWindow('projects')">
+            <i class="fas fa-code"></i> View Projects
+          </button>
+          <button class="overlay-btn btn-secondary-style" (click)="downloadCV()">
+            <i class="fas fa-download"></i> Download CV
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Draggable Desktop Icons -->
+    <div *ngFor="let icon of desktopIcons" 
+         class="desktop-icon-item absolute-icon"
+         [style.left.px]="icon.x"
+         [style.top.px]="icon.y"
+         (mousedown)="onIconMouseDown($event, icon.id)"
+         (touchstart)="onIconTouchStart($event, icon.id)"
+         (click)="onIconClick(icon)">
+      <div class="icon-wrapper" [class]="icon.iconClass">
+        <i [class]="icon.icon"></i>
+      </div>
+      <span class="icon-label">{{ icon.label }}</span>
+    </div>
+
+    <!-- Window Manager Containers -->
+    <div class="window-manager">
+      
+      <!-- 1. ABOUT WINDOW -->
+      <div class="mac-window glass-window" 
+           *ngIf="windows['about'].open && (!windows['about'].minimized || windows['about'].minimizing)"
+           [style.left.px]="windows['about'].x"
+           [style.top.px]="windows['about'].y"
+           [style.z-index]="windows['about'].zIndex"
+           [class.active-window]="isWindowFocused('about')"
+           [class.maximized-window]="windows['about'].maximized"
+           [class.minimizing-window]="windows['about'].minimizing"
+           [class.restoring-window]="windows['about'].restoring"
+           (click)="focusWindow('about')">
+        <!-- Title Bar -->
+        <div class="mac-window-header" (mousedown)="onMouseDown($event, 'about')" (touchstart)="onTouchStart($event, 'about')">
+          <div class="mac-window-controls">
+            <span class="mac-window-btn red-btn" (click)="closeWindow('about', $event)"></span>
+            <span class="mac-window-btn yellow-btn" (click)="minimizeWindow('about', $event)"></span>
+            <span class="mac-window-btn green-btn" (click)="maximizeWindow('about', $event)"></span>
+          </div>
+          <span class="mac-window-title">About Me</span>
+        </div>
+        <!-- Window Body -->
+        <div class="mac-window-body about-body scrollable-body">
+          <div class="about-window-container">
+            
+            <!-- Top Section: Profile Card -->
+            <div class="about-profile-card">
+              <!-- Left Side: Avatar Panel -->
+              <div class="about-avatar-panel">
+                <div class="about-avatar-wrapper">
+                  <img src="public/assets/images/memoji_avatar.png" alt="Memoji" class="about-memoji">
+                  <span class="status-indicator-dot"></span>
+                </div>
+                <div class="about-opportunities-status">
+                  <span class="green-indicator-dot"></span>
+                  <span>Available for opportunities</span>
+                </div>
+              </div>
+
+              <!-- Right Side: Content Panel -->
+              <div class="about-info-panel">
+                <h3 class="about-info-name">Prosenjit Paul</h3>
+                <h4 class="about-info-role">Full Stack Developer</h4>
+                <p class="about-info-desc">
+                  I build modern, responsive and user-friendly web applications with clean architecture and thoughtful user experiences.
+                </p>
+                
+                <!-- CP Badges -->
+                <div class="about-badges-row">
+                  <a href="https://leetcode.com/u/prosenjitGravity" target="_blank" class="about-badge badge-leetcode">
+                    <i class="fas fa-code"></i> LeetCode
+                  </a>
+                  <a href="https://www.geeksforgeeks.org/user/prosenjitgravity/" target="_blank" class="about-badge badge-gfg">
+                    <i class="fas fa-laptop-code"></i> GeeksforGeeks
+                  </a>
+                  <a href="https://www.codechef.com/users/prosenjitgravity" target="_blank" class="about-badge badge-codechef">
+                    <i class="fas fa-terminal"></i> CodeChef
+                  </a>
+                  <a href="https://neetcode.io" target="_blank" class="about-badge badge-neetcode">
+                    <i class="fas fa-graduation-cap"></i> NeetCode
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Separator Line -->
+            <hr class="about-divider">
+
+            <!-- Bottom Section: Detailed Table -->
+            <table class="about-info-table">
+              <tbody>
+                <tr>
+                  <td><i class="fas fa-graduation-cap"></i> Education</td>
+                  <td>MCA (Computer Applications) / B.Tech in CSE</td>
+                </tr>
+                <tr>
+                  <td><i class="fas fa-map-marker-alt"></i> Location</td>
+                  <td>Kolkata, India</td>
+                </tr>
+                <tr>
+                  <td><i class="fas fa-envelope"></i> Email</td>
+                  <td><a href="mailto:paul.prosenjitbit&#64;gmail.com">paul.prosenjitbit&#64;gmail.com</a></td>
+                </tr>
+                <tr>
+                  <td><i class="fab fa-linkedin"></i> LinkedIn</td>
+                  <td><a href="https://www.linkedin.com/in/prosenjit-paul-0a82b6239" target="_blank">linkedin.com/in/prosenjit-paul</a></td>
+                </tr>
+                <tr>
+                  <td><i class="fab fa-github"></i> GitHub</td>
+                  <td><a href="https://github.com/prosenjitGravity" target="_blank">github.com/prosenjitGravity</a></td>
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+      </div>
+
+
+
+      <!-- 2. PROJECTS WINDOW -->
+      <div class="mac-window glass-window" 
+           *ngIf="windows['projects'].open && (!windows['projects'].minimized || windows['projects'].minimizing)"
+           [style.left.px]="windows['projects'].x"
+           [style.top.px]="windows['projects'].y"
+           [style.z-index]="windows['projects'].zIndex"
+           [class.active-window]="isWindowFocused('projects')"
+           [class.maximized-window]="windows['projects'].maximized"
+           [class.minimizing-window]="windows['projects'].minimizing"
+           [class.restoring-window]="windows['projects'].restoring"
+           (click)="focusWindow('projects')">
+        <div class="mac-window-header" (mousedown)="onMouseDown($event, 'projects')" (touchstart)="onTouchStart($event, 'projects')">
+          <div class="mac-window-controls">
+            <span class="mac-window-btn red-btn" (click)="closeWindow('projects', $event)"></span>
+            <span class="mac-window-btn yellow-btn" (click)="minimizeWindow('projects', $event)"></span>
+            <span class="mac-window-btn green-btn" (click)="maximizeWindow('projects', $event)"></span>
+          </div>
+          <span class="mac-window-title">Projects Explorer</span>
+        </div>
+        <div class="mac-window-body scrollable-body">
+          <app-portfolio></app-portfolio>
+        </div>
+      </div>
+
+      <!-- 3. SKILLS WINDOW -->
+      <div class="mac-window glass-window" 
+           *ngIf="windows['skills'].open && (!windows['skills'].minimized || windows['skills'].minimizing)"
+           [style.left.px]="windows['skills'].x"
+           [style.top.px]="windows['skills'].y"
+           [style.z-index]="windows['skills'].zIndex"
+           [class.active-window]="isWindowFocused('skills')"
+           [class.maximized-window]="windows['skills'].maximized"
+           [class.minimizing-window]="windows['skills'].minimizing"
+           [class.restoring-window]="windows['skills'].restoring"
+           (click)="focusWindow('skills')">
+        <div class="mac-window-header" (mousedown)="onMouseDown($event, 'skills')" (touchstart)="onTouchStart($event, 'skills')">
+          <div class="mac-window-controls">
+            <span class="mac-window-btn red-btn" (click)="closeWindow('skills', $event)"></span>
+            <span class="mac-window-btn yellow-btn" (click)="minimizeWindow('skills', $event)"></span>
+            <span class="mac-window-btn green-btn" (click)="maximizeWindow('skills', $event)"></span>
+          </div>
+          <span class="mac-window-title">Skills & Tech Stack</span>
+        </div>
+        <div class="mac-window-body scrollable-body">
+          <app-services></app-services>
+        </div>
+      </div>
+
+      <!-- 4. EDUCATION WINDOW -->
+      <div class="mac-window glass-window" 
+           *ngIf="windows['education'].open && (!windows['education'].minimized || windows['education'].minimizing)"
+           [style.left.px]="windows['education'].x"
+           [style.top.px]="windows['education'].y"
+           [style.z-index]="windows['education'].zIndex"
+           [class.active-window]="isWindowFocused('education')"
+           [class.maximized-window]="windows['education'].maximized"
+           [class.minimizing-window]="windows['education'].minimizing"
+           [class.restoring-window]="windows['education'].restoring"
+           (click)="focusWindow('education')">
+        <div class="mac-window-header" (mousedown)="onMouseDown($event, 'education')" (touchstart)="onTouchStart($event, 'education')">
+          <div class="mac-window-controls">
+            <span class="mac-window-btn red-btn" (click)="closeWindow('education', $event)"></span>
+            <span class="mac-window-btn yellow-btn" (click)="minimizeWindow('education', $event)"></span>
+            <span class="mac-window-btn green-btn" (click)="maximizeWindow('education', $event)"></span>
+          </div>
+          <span class="mac-window-title">Education & Systems Architecture</span>
+        </div>
+        <div class="mac-window-body scrollable-body">
+          <app-architecture></app-architecture>
+        </div>
+      </div>
+
+      <!-- 5. TERMINAL WINDOW -->
+      <div class="mac-window terminal-window" 
+           *ngIf="windows['terminal'].open && (!windows['terminal'].minimized || windows['terminal'].minimizing)"
+           [style.left.px]="windows['terminal'].x"
+           [style.top.px]="windows['terminal'].y"
+           [style.z-index]="windows['terminal'].zIndex"
+           [class.active-window]="isWindowFocused('terminal')"
+           [class.maximized-window]="windows['terminal'].maximized"
+           [class.minimizing-window]="windows['terminal'].minimizing"
+           [class.restoring-window]="windows['terminal'].restoring"
+           (click)="focusWindow('terminal')">
+        <div class="mac-window-header terminal-header" (mousedown)="onMouseDown($event, 'terminal')" (touchstart)="onTouchStart($event, 'terminal')">
+          <div class="mac-window-controls">
+            <span class="mac-window-btn red-btn" (click)="closeWindow('terminal', $event)"></span>
+            <span class="mac-window-btn yellow-btn" (click)="minimizeWindow('terminal', $event)"></span>
+            <span class="mac-window-btn green-btn" (click)="maximizeWindow('terminal', $event)"></span>
+          </div>
+          <span class="mac-window-title">prosenjit&#64;system:~</span>
+        </div>
+        <div class="mac-window-body terminal-body {{ terminalTheme }}" #terminalBody (click)="focusTerminalInput()">
+          <div class="terminal-history">
+            <div class="terminal-history-item" *ngFor="let item of terminalHistory" [ngClass]="item.type">
+              <span class="terminal-prompt-prefix" *ngIf="item.type === 'input'">guest&#64;prosenjit-desktop:~ % </span>
+              <pre class="terminal-text-content">{{ item.text }}</pre>
+            </div>
+          </div>
+          <div class="terminal-input-line">
+            <span class="terminal-prompt-prefix">guest&#64;prosenjit-desktop:~ % </span>
+            <input type="text"
+                   #terminalInputField
+                   [(ngModel)]="terminalCommand"
+                   (keydown.enter)="onTerminalSubmit()"
+                   (keydown.arrowup)="onTerminalPrevCommand($event)"
+                   (keydown.arrowdown)="onTerminalNextCommand($event)"
+                   class="terminal-input-element"
+                   autocomplete="off"
+                   autocorrect="off"
+                   autocapitalize="off"
+                   spellcheck="false">
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. CONTACT WINDOW -->
+      <div class="mac-window glass-window" 
+           *ngIf="windows['contact'].open && (!windows['contact'].minimized || windows['contact'].minimizing)"
+           [style.left.px]="windows['contact'].x"
+           [style.top.px]="windows['contact'].y"
+           [style.z-index]="windows['contact'].zIndex"
+           [class.active-window]="isWindowFocused('contact')"
+           [class.maximized-window]="windows['contact'].maximized"
+           [class.minimizing-window]="windows['contact'].minimizing"
+           [class.restoring-window]="windows['contact'].restoring"
+           (click)="focusWindow('contact')">
+        <div class="mac-window-header" (mousedown)="onMouseDown($event, 'contact')" (touchstart)="onTouchStart($event, 'contact')">
+          <div class="mac-window-controls">
+            <span class="mac-window-btn red-btn" (click)="closeWindow('contact', $event)"></span>
+            <span class="mac-window-btn yellow-btn" (click)="minimizeWindow('contact', $event)"></span>
+            <span class="mac-window-btn green-btn" (click)="maximizeWindow('contact', $event)"></span>
+          </div>
+          <span class="mac-window-title">Contact / Mail</span>
+        </div>
+        <div class="mac-window-body scrollable-body">
+          <app-contact [isMacWindow]="true"></app-contact>
+        </div>
+      </div>
+
+      <!-- 7. EXPERIENCE WINDOW -->
+      <div class="mac-window glass-window" 
+           *ngIf="windows['experience'].open && (!windows['experience'].minimized || windows['experience'].minimizing)"
+           [style.left.px]="windows['experience'].x"
+           [style.top.px]="windows['experience'].y"
+           [style.z-index]="windows['experience'].zIndex"
+           [class.active-window]="isWindowFocused('experience')"
+           [class.maximized-window]="windows['experience'].maximized"
+           [class.minimizing-window]="windows['experience'].minimizing"
+           [class.restoring-window]="windows['experience'].restoring"
+           (click)="focusWindow('experience')">
+        <div class="mac-window-header" (mousedown)="onMouseDown($event, 'experience')" (touchstart)="onTouchStart($event, 'experience')">
+          <div class="mac-window-controls">
+            <span class="mac-window-btn red-btn" (click)="closeWindow('experience', $event)"></span>
+            <span class="mac-window-btn yellow-btn" (click)="minimizeWindow('experience', $event)"></span>
+            <span class="mac-window-btn green-btn" (click)="maximizeWindow('experience', $event)"></span>
+          </div>
+          <span class="mac-window-title">Work Experience</span>
+        </div>
+        <div class="mac-window-body scrollable-body">
+          <app-experience></app-experience>
+        </div>
+      </div>
+
+      <!-- 8. GOOGLE BROWSER WINDOW -->
+      <div class="mac-window glass-window google-window" 
+           *ngIf="windows['google'].open && (!windows['google'].minimized || windows['google'].minimizing)"
+           [style.left.px]="windows['google'].x"
+           [style.top.px]="windows['google'].y"
+           [style.z-index]="windows['google'].zIndex"
+           [class.active-window]="isWindowFocused('google')"
+           [class.maximized-window]="windows['google'].maximized"
+           [class.minimizing-window]="windows['google'].minimizing"
+           [class.restoring-window]="windows['google'].restoring"
+           (mousedown)="focusWindow('google')">
+        
+        <!-- Window Titlebar -->
+        <div class="mac-window-header" (mousedown)="onMouseDown($event, 'google')" (touchstart)="onTouchStart($event, 'google')">
+          <div class="mac-window-controls">
+            <span class="mac-window-btn red-btn" (click)="closeWindow('google', $event)"></span>
+            <span class="mac-window-btn yellow-btn" (click)="minimizeWindow('google', $event)"></span>
+            <span class="mac-window-btn green-btn" (click)="maximizeWindow('google', $event)"></span>
+          </div>
+          <div class="mac-window-title">
+            Google Search
+          </div>
+          <div style="width: 52px;"></div> <!-- Spacer balancing title -->
+        </div>
+
+        <!-- Google Search Body -->
+        <div class="mac-window-body google-body">
+          <div class="google-logo-wrapper">
+            <span class="g-blue">G</span>
+            <span class="g-red">o</span>
+            <span class="g-yellow">o</span>
+            <span class="g-blue">g</span>
+            <span class="g-green">l</span>
+            <span class="g-red">e</span>
+          </div>
+          
+          <div class="google-search-container">
+            <i class="fas fa-search search-lens"></i>
+            <input type="text" 
+                   [(ngModel)]="searchQuery" 
+                   (keydown.enter)="onSearchGoogle(searchQuery)" 
+                   placeholder="Search anything on Google...">
+            <i class="fas fa-microphone mic-icon"></i>
+          </div>
+          
+          <div class="google-buttons-row">
+            <button class="google-btn" (click)="onSearchGoogle(searchQuery)">Google Search</button>
+            <button class="google-btn" (click)="onSearchGoogle(searchQuery)">I'm Feeling Lucky</button>
+          </div>
+
+          <!-- Last search query notification status -->
+          <div class="search-status" *ngIf="lastSearchedQuery">
+            <i class="fas fa-check-circle success-check"></i>
+            Opened results for <strong>"{{ lastSearchedQuery }}"</strong> in a new browser tab.
+          </div>
+          
+          <div class="google-footer-info">
+            Searching opens results directly in a new tab to bypass anti-bot recaptcha locks.
+          </div>
+        </div>
+      </div>
+
+      <!-- 9. TEXTEDIT WINDOW -->
+      <div class="mac-window glass-window textedit-window" 
+           *ngIf="windows['textedit'].open && (!windows['textedit'].minimized || windows['textedit'].minimizing)"
+           [style.left.px]="windows['textedit'].x"
+           [style.top.px]="windows['textedit'].y"
+           [style.z-index]="windows['textedit'].zIndex"
+           [class.active-window]="isWindowFocused('textedit')"
+           [class.maximized-window]="windows['textedit'].maximized"
+           [class.minimizing-window]="windows['textedit'].minimizing"
+           [class.restoring-window]="windows['textedit'].restoring"
+           (click)="focusWindow('textedit')">
+        <div class="mac-window-header" (mousedown)="onMouseDown($event, 'textedit')" (touchstart)="onTouchStart($event, 'textedit')">
+          <div class="mac-window-controls">
+            <span class="mac-window-btn red-btn" (click)="closeWindow('textedit', $event)"></span>
+            <span class="mac-window-btn yellow-btn" (click)="minimizeWindow('textedit', $event)"></span>
+            <span class="mac-window-btn green-btn" (click)="maximizeWindow('textedit', $event)"></span>
+          </div>
+          <span class="mac-window-title">{{ texteditTitle }}</span>
+        </div>
+        <div class="mac-window-body textedit-body scrollable-body">
+          <pre class="textedit-pre-content">{{ texteditContent }}</pre>
+        </div>
+      </div>
+
+      <!-- 10. FINDER WINDOW -->
+      <div class="mac-window glass-window finder-window" 
+           *ngIf="windows['finder'].open && (!windows['finder'].minimized || windows['finder'].minimizing)"
+           [style.left.px]="windows['finder'].x"
+           [style.top.px]="windows['finder'].y"
+           [style.z-index]="windows['finder'].zIndex"
+           [class.active-window]="isWindowFocused('finder')"
+           [class.maximized-window]="windows['finder'].maximized"
+           [class.minimizing-window]="windows['finder'].minimizing"
+           [class.restoring-window]="windows['finder'].restoring"
+           (click)="focusWindow('finder')">
+        
+        <!-- Header -->
+        <div class="mac-window-header finder-header" (mousedown)="onMouseDown($event, 'finder')" (touchstart)="onTouchStart($event, 'finder')">
+          <div class="mac-window-controls">
+            <span class="mac-window-btn red-btn" (click)="closeWindow('finder', $event)"></span>
+            <span class="mac-window-btn yellow-btn" (click)="minimizeWindow('finder', $event)"></span>
+            <span class="mac-window-btn green-btn" (click)="maximizeWindow('finder', $event)"></span>
+          </div>
+          
+          <!-- Finder Navigation Tools -->
+          <div class="finder-nav-toolbar">
+            <button class="finder-nav-btn" (click)="goFinderBack()" [disabled]="finderHistoryIndex <= 0">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="finder-nav-btn" (click)="goFinderForward()" [disabled]="finderHistoryIndex >= finderHistory.length - 1">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+            <span class="finder-path-display">{{ currentPath }}</span>
+          </div>
+          
+          <!-- Finder Search -->
+          <div class="finder-search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" [(ngModel)]="finderSearchQuery" placeholder="Search">
+          </div>
+        </div>
+        
+        <!-- Finder Columns Layout -->
+        <div class="finder-workspace">
+          <!-- Sidebar -->
+          <aside class="finder-sidebar">
+            <div class="sidebar-section">
+              <span class="sidebar-title">Favorites</span>
+              <ul class="sidebar-list">
+                <li [class.active]="currentPath === '/'" (click)="navigateFinder('/')">
+                  <i class="fas fa-hdd sidebar-icon text-grey"></i> Macintosh HD
+                </li>
+                <li [class.active]="currentPath === '/Desktop'" (click)="navigateFinder('/Desktop')">
+                  <i class="fas fa-desktop sidebar-icon text-blue"></i> Desktop
+                </li>
+                <li [class.active]="currentPath === '/Documents'" (click)="navigateFinder('/Documents')">
+                  <i class="fas fa-folder sidebar-icon text-blue"></i> Documents
+                </li>
+                <li [class.active]="currentPath === '/Applications'" (click)="navigateFinder('/Applications')">
+                  <i class="fas fa-th-large sidebar-icon text-blue"></i> Applications
+                </li>
+              </ul>
+            </div>
+          </aside>
+          
+          <!-- Main Content Pane -->
+          <main class="finder-content">
+            <div class="finder-grid">
+              <div *ngFor="let item of getFinderItems()" 
+                   class="finder-grid-item"
+                   (dblclick)="onFinderItemDblClick(item)">
+                <div class="finder-item-icon-wrapper" [class]="item.colorClass">
+                  <i [class]="item.icon"></i>
+                </div>
+                <span class="finder-item-label">{{ item.name }}</span>
+              </div>
+              <div *ngIf="getFinderItems().length === 0" class="finder-empty-state">
+                No items found
+              </div>
+            </div>
+          </main>
+        </div>
+        
+        <!-- Status Bar -->
+        <div class="finder-statusbar">
+          <span>{{ getFinderItems().length }} items</span>
+          <span>Macintosh HD (128 GB free)</span>
+        </div>
+      </div>
+
+      <!-- 11. RESUME VIEWER WINDOW -->
+      <div class="mac-window preview-window" 
+           *ngIf="windows['resumeapp'].open && (!windows['resumeapp'].minimized || windows['resumeapp'].minimizing)"
+           [style.left.px]="windows['resumeapp'].x"
+           [style.top.px]="windows['resumeapp'].y"
+           [style.z-index]="windows['resumeapp'].zIndex"
+           [class.active-window]="isWindowFocused('resumeapp')"
+           [class.maximized-window]="windows['resumeapp'].maximized"
+           [class.minimizing-window]="windows['resumeapp'].minimizing"
+           [class.restoring-window]="windows['resumeapp'].restoring"
+           (click)="focusWindow('resumeapp')">
+        
+        <!-- Header -->
+        <div class="mac-window-header preview-header" (mousedown)="onMouseDown($event, 'resumeapp')" (touchstart)="onTouchStart($event, 'resumeapp')">
+          <div class="mac-window-controls">
+            <span class="mac-window-btn red-btn" (click)="closeWindow('resumeapp', $event)"></span>
+            <span class="mac-window-btn yellow-btn" (click)="minimizeWindow('resumeapp', $event)"></span>
+            <span class="mac-window-btn green-btn" (click)="maximizeWindow('resumeapp', $event)"></span>
+          </div>
+          
+          <span class="mac-window-title">Preview — Prosenjit_Resume.pdf</span>
+          
+          <!-- Actions -->
+          <div class="preview-actions">
+            <button class="preview-action-btn" (click)="downloadCV()" title="Download PDF">
+              <i class="fas fa-download"></i> Download PDF
+            </button>
+          </div>
+        </div>
+        
+        <!-- Document Pane -->
+        <div class="mac-window-body preview-body scrollable-body">
+          <div class="preview-document-container">
+            <div class="preview-page">
+              <!-- Resume Header -->
+              <div class="resume-doc-header">
+                <h1 class="resume-doc-name">PROSENJIT PAUL</h1>
+                <p class="resume-doc-subtitle">Full Stack Developer | Backend Specialist</p>
+                <div class="resume-doc-contacts">
+                  <span><i class="fas fa-envelope"></i> paul.prosenjitbit&#64;gmail.com</span>
+                  <span><i class="fab fa-linkedin"></i> linkedin.com/in/prosenjit-paul</span>
+                  <span><i class="fab fa-github"></i> github.com/prosenjitGravity</span>
+                </div>
+              </div>
+              
+              <!-- Profile Summary -->
+              <div class="resume-doc-section">
+                <h2 class="resume-doc-sec-title">Profile Summary</h2>
+                <div class="resume-doc-sec-line"></div>
+                <p class="resume-doc-text">
+                  Highly motivated and results-driven Software Developer with experience in designing, building, and optimizing scalable web applications. Skilled in backend architecture (Node.js, Express, PostgreSQL, RabbitMQ), frontend development (Angular, TypeScript), and cloud deployment. Passionate about engineering efficient, fault-tolerant software systems and delivering premium user experiences.
+                </p>
+              </div>
+              
+              <!-- Professional Experience -->
+              <div class="resume-doc-section">
+                <h2 class="resume-doc-sec-title">Professional Experience</h2>
+                <div class="resume-doc-sec-line"></div>
+                
+                <div class="resume-doc-job">
+                  <div class="job-header">
+                    <span class="job-role">Software Developer</span>
+                    <span class="job-company">SISL Infotech Pvt Ltd (NIC)</span>
+                    <span class="job-period">Aug 2024 — Present | Kolkata</span>
+                  </div>
+                  <ul class="job-points">
+                    <li>Owned backend architecture and development of the central-state JIT SNA-Sparsh fund management system.</li>
+                    <li>Engineered a resilient transaction workflow engine with automated retry logic, exponential backoff, and fault tolerance.</li>
+                    <li>Integrated RabbitMQ message queues to handle asynchronous workloads, decoupling heavy transaction metrics.</li>
+                    <li>Designed secure REST APIs utilizing RBAC, multi-step authentication, and immutable audit logs.</li>
+                    <li>Dockerized core microservices to streamline local development and production CI/CD environments.</li>
+                  </ul>
+                </div>
+                
+                <div class="resume-doc-job">
+                  <div class="job-header">
+                    <span class="job-role">Junior Software Developer</span>
+                    <span class="job-company">Phloxblog</span>
+                    <span class="job-period">Aug 2023 — Aug 2024 | Kolkata</span>
+                  </div>
+                  <ul class="job-points">
+                    <li>Developed an end-to-end real-time e-auction platform managing user bids, asset cycles, and active live sessions.</li>
+                    <li>Integrated WebSockets into Angular interfaces for instantaneous bid streaming and live data pushes.</li>
+                    <li>Optimized PostgreSQL databases with tuned queries and compound index coverage, preventing latency spikes.</li>
+                    <li>Deployed production web apps on AWS EC2, S3, and configured Elastic Load Balancing (ELB) mechanisms.</li>
+                  </ul>
+                </div>
+              </div>
+              
+              <!-- Technical Skills -->
+              <div class="resume-doc-section">
+                <h2 class="resume-doc-sec-title">Skills & Tech Stack</h2>
+                <div class="resume-doc-sec-line"></div>
+                <table class="resume-doc-skills-table">
+                  <tr>
+                    <td><strong>Languages</strong></td>
+                    <td>JavaScript (ES6+), TypeScript, SQL, HTML5, CSS3, SCSS</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Backend</strong></td>
+                    <td>Node.js, Express, RabbitMQ, WebSockets, RESTful APIs</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Frontend</strong></td>
+                    <td>Angular, RxJS, Responsive Design</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Databases</strong></td>
+                    <td>PostgreSQL, MongoDB, Redis</td>
+                  </tr>
+                  <tr>
+                    <td><strong>DevOps / Cloud</strong></td>
+                    <td>Docker, AWS (EC2, S3, ELB), Git, CI/CD pipelines</td>
+                  </tr>
+                </table>
+              </div>
+              
+              <!-- Education -->
+              <div class="resume-doc-section">
+                <h2 class="resume-doc-sec-title">Education</h2>
+                <div class="resume-doc-sec-line"></div>
+                <div class="education-item">
+                  <span class="edu-degree">Master of Computer Applications (MCA)</span>
+                  <span class="edu-inst">Kolkata, India</span>
+                </div>
+                <div class="education-item">
+                  <span class="edu-degree">B.Tech in Computer Science & Engineering (CSE)</span>
+                  <span class="edu-inst">Kolkata, India</span>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- macOS Bottom Dock -->
+  <footer class="mac-dock-container">
+    <div class="mac-dock">
+      
+      <ng-container *ngFor="let item of dockItems; let idx = index">
+        <div class="dock-item-wrapper" 
+             [attr.draggable]="item.type !== 'calendar' && item.type !== 'settings' ? 'true' : null"
+             (dragstart)="onDockDragStart($event, idx)"
+             (dragover)="onDockDragOver($event, idx)"
+             (drop)="onDockDrop($event, idx)"
+             (click)="onDockItemClick(item)">
+          
+          <div class="dock-tooltip">{{ item.label }}</div>
+          
+          <!-- Special calendar icon -->
+          <div class="dock-icon calendar-icon" *ngIf="item.type === 'calendar'">
+            <span class="cal-month">{{ currentDayName }}</span>
+            <span class="cal-date">{{ currentDayNum }}</span>
+          </div>
+
+          <!-- Normal icon styles -->
+          <div class="dock-icon" 
+               *ngIf="item.type !== 'calendar'"
+               [class.finder-icon]="item.id === 'finder'"
+               [class.google-dock-icon]="item.id === 'google'"
+               [class.mail-icon]="item.id === 'contact'"
+               [class.folder-icon-dock]="item.id === 'projects' || item.id === 'skills' || item.id === 'education' || item.type === 'folder'"
+               [class.skill-dock]="item.id === 'skills'"
+               [class.cert-dock]="item.id === 'education'"
+               [class.experience-dock-icon]="item.id === 'experience'"
+               [class.terminal-icon]="item.id === 'terminal'"
+               [class.textedit-dock-icon]="item.id === 'textedit' || item.type === 'file'"
+               [class.settings-icon]="item.id === 'settings'">
+            <i [class]="item.icon"></i>
+          </div>
+
+          <!-- Active dot indicator -->
+          <div class="dock-active-dot" *ngIf="item.windowId && windows[item.windowId] && windows[item.windowId].open && !windows[item.windowId].minimized"></div>
+        </div>
+      </ng-container>
+
+      <div class="dock-divider"></div>
+
+      <!-- Resume PDF -->
+      <div class="dock-item-wrapper" (click)="downloadCV()">
+        <div class="dock-tooltip">Download Resume</div>
+        <div class="dock-icon resume-icon">
+          <i class="fas fa-file-pdf"></i>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+</div>

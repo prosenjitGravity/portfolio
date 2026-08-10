@@ -1,0 +1,29 @@
+<section id="architecture" class="architecture">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">System & Education</span>
+      <h2 class="section-title">System Design & Education</h2>
+      <p class="section-subtitle">
+        Architectural focus areas combined with an academic foundation in computer applications.
+      </p>
+    </div>
+
+    <div class="arch-grid">
+      <div class="arch-card glass-card" *ngFor="let item of architectures">
+        <h4>
+          <i [class]="item.icon"></i>
+          {{ item.title }}
+        </h4>
+        <p>{{ item.description }}</p>
+      </div>
+    </div>
+
+    <div class="edu-grid">
+      <div class="edu-card glass-card" *ngFor="let edu of educations">
+        <h3>{{ edu.degree }}</h3>
+        <p class="institute">{{ edu.institute }}</p>
+        <span class="cgpa-pill">{{ edu.cgpa }}</span>
+      </div>
+    </div>
+  </div>
+</section>

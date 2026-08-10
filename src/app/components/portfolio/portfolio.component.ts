@@ -13,38 +13,39 @@ export class PortfolioComponent implements OnInit {
   filterButtons = [
     { id: "all", label: "All Projects" },
     { id: "web", label: "Web Apps" },
-    { id: "mobile", label: "Mobile Apps" },
-    { id: "design", label: "UI/UX Design" },
   ]
 
   projects = [
     {
       id: 1,
       category: "web",
-      title: "Alumni Network Community",
-      description: "A modern e-commerce solution with advanced features and seamless user experience.",
-      image: "/public/assets/images/alumni_network.png",
-      technologies: ["MongoDB","Express","Angular", "Node.js" ],
-      categoryLabel: "Web Application",
+      title: "E-Commerce Inventory Management System (IMS)",
+      description: "Mission-critical inventory and order management system capable of real-time stock tracking, warehouse allocation, purchase order processing, and transactional audit trails.",
+      technologies: ["Node.js", "TypeScript", "PostgreSQL", "Kafka", "Docker", "Angular"],
+      categoryLabel: "Web Application / System",
+      metrics: "Real-time stock & transactions",
+      github: "https://github.com/prosenjitGravity?tab=repositories"
     },
     {
       id: 2,
       category: "web",
-      title: "Web Messaging",
-      description: "A comprehensive fitness tracking app with personalized workout plans and progress monitoring.",
-      image: "/public/assets/images/web_messaging.png",
-      technologies: ["Spring Boot","Java", "Angular", "H2 Database"],
+      title: "Alumni Community Platform",
+      description: "LinkedIn-inspired networking platform featuring real-time messaging, directory indexing, job posting feeds, content sharing, and JWT role-based security.",
+      technologies: ["MongoDB", "Express.js", "Angular", "Node.js", "Socket.IO"],
       categoryLabel: "Web Application",
+      metrics: "Real-time communication & RBAC",
+      github: "https://github.com/prosenjitGravity?tab=repositories"
     },
     {
       id: 3,
       category: "web",
-      title: "Quiz Application",
-      description: "A clean and intuitive dashboard design for financial management and analytics.",
-      image: "/public/assets/images/quiz_app.png",
-      technologies: ["Figma", "Prototyping", "User Research"],
+      title: "Cliky CRM Platform",
+      description: "Enterprise Customer Relationship Management platform for sales pipelines, task management, role-based controls, follow-ups, and interactive analytics dashboards.",
+      technologies: ["Node.js", "Express.js", "MySQL", "AWS S3"],
       categoryLabel: "Web Application",
-    },
+      metrics: "Sales pipe & interactive metrics",
+      github: "https://github.com/prosenjitGravity?tab=repositories"
+    }
   ]
 
   constructor(){};
