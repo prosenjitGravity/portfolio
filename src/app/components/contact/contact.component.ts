@@ -21,11 +21,6 @@ export class ContactComponent implements OnInit {
       value: 'paul.prosenjitbit@gmail.com'
     },
     {
-      icon: 'fas fa-phone',
-      label: 'Phone',
-      value: '+91-9933764953'
-    },
-    {
       icon: 'fas fa-map-marker-alt',
       label: 'Location',
       value: 'Kolkata, West Bengal, India'

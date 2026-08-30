@@ -9,7 +9,6 @@ export const environment = {
     role: 'Full Stack Developer',
     headline: 'Software Developer @ SISL Infotech Pvt. Ltd. (NIC)',
     email: 'paul.prosenjitbit@gmail.com',
-    phone: '+91-9933764953',
     location: 'Kolkata, West Bengal, India',
     focus: 'Node.js, Angular, .NET Core, Event-Driven Systems',
     experienceYears: '3+ Years',

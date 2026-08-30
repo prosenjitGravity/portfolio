@@ -15,7 +15,6 @@ export class AboutComponent implements OnInit {
   personalDetails = [
     { label: "Name", value: "Prosenjit Paul" },
     { label: "Email", value: "paul.prosenjitbit@gmail.com" },
-    { label: "Phone", value: "+91-9933764953" },
     { label: "Location", value: "Kolkata, West Bengal, India" },
     { label: "Focus", value: "Node.js, Angular, Event-Driven Systems" },
   ]

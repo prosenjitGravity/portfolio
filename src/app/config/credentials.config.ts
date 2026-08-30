@@ -14,7 +14,6 @@ export interface AppCredentialsConfig {
   developer: {
     name: string;
     email: string;
-    phone: string;
     location: string;
     githubUsername: string;
     githubRepoUrl: string;
@@ -35,7 +34,6 @@ export const APP_CREDENTIALS: AppCredentialsConfig = {
   developer: {
     name: 'Prosenjit Paul',
     email: 'paul.prosenjitbit@gmail.com',
-    phone: '+91-9933764953',
     location: 'Kolkata, West Bengal, India',
     githubUsername: 'prosenjitGravity',
     githubRepoUrl: 'https://github.com/prosenjitGravity',
