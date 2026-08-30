@@ -201,6 +201,21 @@
             </div>
           </div>
           
+          <!-- Live Screen Time Monitor -->
+          <div class="cc-card cc-screentime-card">
+            <div class="cc-screentime-header">
+              <div class="cc-st-title">
+                <i class="fas fa-hourglass-half"></i>
+                <span>Active Screen Time</span>
+              </div>
+              <span class="cc-st-time">{{ screenTimeString }}</span>
+            </div>
+            <div class="cc-st-bar">
+              <div class="cc-st-fill" [style.width.%]="screenTimePercentage"></div>
+            </div>
+            <div class="cc-st-desc">{{ screenTimeNote }}</div>
+          </div>
+          
           <!-- Classic Layout Switcher -->
           <div class="cc-footer">
             <button class="cc-classic-toggle-btn" (click)="toggleClassicMode(); showControlCenter = false;">
@@ -225,10 +240,13 @@
             
             <!-- Notification list -->
             <div class="nc-list" *ngIf="notifications.length > 0">
-              <div class="nc-card animate-fade-in" *ngFor="let note of notifications">
+              <div class="nc-card animate-fade-in" 
+                   *ngFor="let note of notifications" 
+                   (click)="handleNotificationClick(note)"
+                   [title]="note.actionWindow ? 'Click to open ' + note.appName : ''">
                 <div class="nc-card-header">
                   <div class="nc-app-info">
-                    <i [class]="note.icon" class="nc-app-icon"></i>
+                    <i [class]="note.icon" class="nc-app-icon" [style.color]="note.iconColor || '#38bdf8'"></i>
                     <span class="nc-app-name">{{ note.appName }}</span>
                   </div>
                   <span class="nc-time">{{ note.time }}</span>
@@ -240,7 +258,8 @@
               </div>
             </div>
             <div class="nc-empty" *ngIf="notifications.length === 0">
-              No new notifications
+              <i class="fas fa-bell-slash"></i>
+              <span>No new notifications</span>
             </div>
           </div>
           
@@ -250,39 +269,65 @@
           <div class="nc-section">
             <span class="nc-title">Widgets</span>
             <div class="nc-widgets-grid">
-              <!-- Weather Widget -->
-              <div class="nc-widget-card weather-widget">
-                <div class="widget-city">Kolkata</div>
-                <div class="widget-temp">29°</div>
-                <div class="widget-condition">Thunderstorm</div>
-                <div class="widget-temp-range">H: 31°  L: 26°</div>
-              </div>
-              
-              <!-- Screen Time Widget -->
-              <div class="nc-widget-card screentime-widget">
-                <div class="widget-label"><i class="fas fa-hourglass-half"></i> Screen Time</div>
-                <div class="widget-time-value">2h 15m</div>
-                <div class="widget-bar-container">
-                  <div class="widget-bar-fill" style="width: 75%"></div>
+              <!-- 1. Live User Location & Regional Address Widget (Apple Maps Inspired) -->
+              <div class="nc-widget-card location-widget" (click)="openWindow('about'); showNotificationPanel = false;" title="Click to view About Me">
+                <div class="location-top-bar">
+                  <div class="location-header-tag">
+                    <span class="radar-ping">
+                      <span class="ping-wave"></span>
+                      <span class="ping-center"></span>
+                    </span>
+                    <span class="location-label">CURRENT LOCATION</span>
+                  </div>
+                  <span class="location-country-badge">{{ clientCountryCode }}</span>
                 </div>
-                <div class="widget-note">75% Coding (VS Code)</div>
+                <div class="location-main-content">
+                  <div class="location-city-title">{{ clientCity }}</div>
+                  <div class="location-sub-address">{{ clientRegion }}, {{ clientCountry }}</div>
+                </div>
+                <div class="location-footer-meta">
+                  <div class="meta-item coordinates">
+                    <i class="fas fa-crosshairs"></i>
+                    <span>{{ clientLat }}°N, {{ clientLon }}°E</span>
+                  </div>
+                  <div class="meta-item network-tag">
+                    <i class="fas fa-satellite"></i>
+                    <span>Live GPS</span>
+                  </div>
+                </div>
               </div>
               
-              <!-- Calendar Widget -->
-              <div class="nc-widget-card calendar-widget">
+              <!-- 2. Live Screen Time Widget -->
+              <div class="nc-widget-card screentime-widget" (click)="openWindow('terminal'); showNotificationPanel = false;" title="Click to view Developer Shell">
+                <div class="widget-label"><i class="fas fa-hourglass-half"></i> Screen Time</div>
+                <div class="widget-time-value">{{ screenTimeString }}</div>
+                <div class="widget-bar-container">
+                  <div class="widget-bar-fill" [style.width.%]="screenTimePercentage"></div>
+                </div>
+                <div class="widget-note">{{ screenTimePercentage }}% • {{ screenTimeNote }}</div>
+              </div>
+              
+              <!-- 3. Calendar & Date Widget -->
+              <div class="nc-widget-card calendar-widget" (click)="openWindow('about'); showNotificationPanel = false;" title="Click to view Timeline">
                 <div class="widget-month">{{ currentDayName }}</div>
                 <div class="widget-date">{{ currentDayNum }}</div>
                 <div class="widget-next-event">
-                  <div class="event-title">Portfolio Review</div>
-                  <div class="event-time">2:30 PM</div>
+                  <div class="event-title">Portfolio Session</div>
+                  <div class="event-time">Active Now</div>
                 </div>
               </div>
               
-              <!-- System Performance Widget -->
-              <div class="nc-widget-card system-widget">
-                <div class="widget-label"><i class="fas fa-microchip"></i> CPU Load</div>
-                <div class="widget-cpu-value">12%</div>
-                <div class="widget-cpu-detail">Memory: 4.8 / 8 GB</div>
+              <!-- 4. Live CPU & System Performance Widget -->
+              <div class="nc-widget-card system-widget" (click)="openWindow('terminal'); showNotificationPanel = false;" title="Click to view Developer Shell">
+                <div class="widget-label"><i class="fas fa-microchip"></i> CPU & Memory</div>
+                <div class="widget-cpu-row">
+                  <span class="widget-cpu-value">{{ cpuLoadPercent }}%</span>
+                  <span class="widget-cpu-cores">{{ cpuCores }} Cores</span>
+                </div>
+                <div class="widget-bar-container">
+                  <div class="widget-bar-fill cpu-fill" [style.width.%]="cpuLoadPercent"></div>
+                </div>
+                <div class="widget-cpu-detail">RAM: {{ memoryUsedGb }} / {{ memoryTotalGb }} GB ({{ memoryPercent }}%)</div>
               </div>
             </div>
           </div>

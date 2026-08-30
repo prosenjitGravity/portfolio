@@ -115,32 +115,16 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // Notification States
   showNotificationPanel = false;
-  notifications = [
-    {
-      id: 1,
-      appName: "GitHub",
-      icon: "fab fa-github",
-      time: "5m ago",
-      title: "New Star Received!",
-      desc: "User GeminiCoder starred your repository 'portfolio'."
-    },
-    {
-      id: 2,
-      appName: "System",
-      icon: "fas fa-laptop-code",
-      time: "20m ago",
-      title: "Layout Switched",
-      desc: "Welcome to the macOS Desktop layout. Explore drag-and-drop windows and the interactive terminal."
-    },
-    {
-      id: 3,
-      appName: "Calendar",
-      icon: "far fa-calendar-alt",
-      time: "1h ago",
-      title: "Portfolio Review",
-      desc: "Scheduled check-in at 2:30 PM."
-    }
-  ];
+  notifications: Array<{
+    id: number;
+    appName: string;
+    icon: string;
+    iconColor: string;
+    time: string;
+    title: string;
+    desc: string;
+    actionWindow?: string;
+  }> = [];
 
   // Window list configuration
   windows: { [key: string]: WindowState } = {
@@ -423,15 +407,52 @@ Thanks for visiting my portfolio!`
   calendarDays: number[] = [];
   currentMonthYear: string = '';
 
-  // Client IP & Device Telemetry
+  // Client IP & Geolocation Network Telemetry
   clientIp: string = '127.0.0.1 (en0)';
+  clientCity: string = 'Kolkata';
+  clientRegion: string = 'West Bengal';
+  clientCountry: string = 'India';
+  clientCountryCode: string = 'IN';
+  clientIsp: string = 'Broadband Network';
+  clientLat: string = '22.57';
+  clientLon: string = '88.36';
+
+  // Live Screen Time Tracking
+  sessionStartTime: number = Date.now();
+  screenTimeSeconds: number = 0;
+  screenTimeString: string = '0s';
+  screenTimeDetailString: string = '00:00:00';
+  screenTimePercentage: number = 6;
+  screenTimeNote: string = 'Exploring Portfolio';
+  screenTimeTimer: any;
+
+  // Live CPU & System Performance Telemetry
+  cpuLoadPercent: number = 12;
+  cpuCores: number = 8;
+  memoryUsedGb: string = '4.2';
+  memoryTotalGb: string = '8.0';
+  memoryPercent: number = 52;
+  systemPerformanceTimer: any;
 
   ngOnInit(): void {
     this.logger.info("UserComponent initialized", undefined, "UserComponent");
     this.loggingEnabled = this.logger.getConfig().enabled;
 
-    // Fetch Client IP for Photo Booth Telemetry
+    // Fetch Full Client IP & Geolocation Telemetry
     this.fetchClientIp();
+
+    // Start Live Screen Time Tracker
+    this.sessionStartTime = Date.now();
+    this.updateScreenTime();
+    this.screenTimeTimer = setInterval(() => {
+      this.updateScreenTime();
+    }, 1000);
+
+    // Start Live CPU & System Performance Calculation
+    this.updateSystemPerformance();
+    this.systemPerformanceTimer = setInterval(() => {
+      this.updateSystemPerformance();
+    }, 2000);
 
     // Initialize date time and set interval updates
     this.updateDateTime();
@@ -446,12 +467,166 @@ Thanks for visiting my portfolio!`
     // Start terminal logs simulation
     this.initTerminal();
 
+    // Initialize dynamic visitor notifications
+    this.initNotifications();
+
     // Start widgets simulation
     this.initCalendarGrid();
     this.initGithubContributions();
   }
 
+  updateSystemPerformance() {
+    this.cpuCores = typeof navigator !== 'undefined' && navigator.hardwareConcurrency ? navigator.hardwareConcurrency : 8;
+
+    // Calculate dynamic load based on active workload
+    let baseLoad = 8;
+    const openCount = Object.keys(this.windows).filter(k => this.windows[k].open && !this.windows[k].minimized).length;
+    baseLoad += openCount * 2.5;
+
+    if (this.photoBoothStream) {
+      baseLoad += 10;
+    }
+    if (this.isDragging) {
+      baseLoad += 6;
+    }
+
+    // Natural micro-fluctuation (+/- 2.5%)
+    const fluctuation = (Math.random() * 5) - 2.5;
+    this.cpuLoadPercent = Math.max(5, Math.min(96, Math.round(baseLoad + fluctuation)));
+
+    // Calculate memory telemetry
+    const perf = typeof window !== 'undefined' ? (window.performance as any) : null;
+    if (perf && perf.memory && perf.memory.usedJSHeapSize) {
+      const usedMb = perf.memory.usedJSHeapSize / (1024 * 1024);
+      const sysUsed = (3.4 + (usedMb / 350)).toFixed(1);
+      this.memoryUsedGb = sysUsed;
+      this.memoryPercent = Math.min(90, Math.round((parseFloat(sysUsed) / 8.0) * 100));
+    } else {
+      const simulatedMem = (3.8 + (openCount * 0.2) + (Math.random() * 0.2)).toFixed(1);
+      this.memoryUsedGb = simulatedMem;
+      this.memoryPercent = Math.min(90, Math.round((parseFloat(simulatedMem) / 8.0) * 100));
+    }
+  }
+
+  updateScreenTime() {
+    this.screenTimeSeconds = Math.floor((Date.now() - this.sessionStartTime) / 1000);
+
+    const hrs = Math.floor(this.screenTimeSeconds / 3600);
+    const mins = Math.floor((this.screenTimeSeconds % 3600) / 60);
+    const secs = this.screenTimeSeconds % 60;
+
+    // Formats: "45s", "3m 12s", "1h 05m"
+    if (hrs > 0) {
+      this.screenTimeString = `${hrs}h ${mins}m`;
+    } else if (mins > 0) {
+      this.screenTimeString = `${mins}m ${secs}s`;
+    } else {
+      this.screenTimeString = `${secs}s`;
+    }
+
+    const pad = (n: number) => n.toString().padStart(2, '0');
+    this.screenTimeDetailString = `${pad(hrs)}:${pad(mins)}:${pad(secs)}`;
+
+    // Scale progress smoothly up to 100% (target 15m active session)
+    this.screenTimePercentage = Math.min(100, Math.max(6, Math.round((this.screenTimeSeconds / 900) * 100)));
+
+    // Dynamic Context-Aware Activity Note
+    if (this.isWindowFocused('terminal')) {
+      this.screenTimeNote = 'Developer Shell Active';
+    } else if (this.isWindowFocused('photobooth')) {
+      this.screenTimeNote = 'Photo Booth / Camera';
+    } else if (this.isWindowFocused('projects') || this.isWindowFocused('experience')) {
+      this.screenTimeNote = 'Reviewing Work & Projects';
+    } else if (this.isWindowFocused('about')) {
+      this.screenTimeNote = 'Reading About Me';
+    } else if (this.isWindowFocused('contact')) {
+      this.screenTimeNote = 'Composing Message';
+    } else if (this.hasAnyOpenWindow()) {
+      this.screenTimeNote = 'Multitasking in macOS';
+    } else {
+      this.screenTimeNote = 'Exploring Desktop Workspace';
+    }
+  }
+
+  initNotifications() {
+    const locationStr = this.clientCity && this.clientCountry ? `${this.clientCity}, ${this.clientCountry}` : 'your region';
+    this.notifications = [
+      {
+        id: 1,
+        appName: "System Workspace",
+        icon: "fas fa-laptop-code",
+        iconColor: "#0a84ff",
+        time: "Just now",
+        title: "Welcome to Prosenjit's Portfolio",
+        desc: `Interactive macOS session initiated from ${locationStr}. Feel free to open apps, review projects, or try the developer console.`,
+        actionWindow: "about"
+      },
+      // {
+      //   id: 2,
+      //   appName: "Career Profile",
+      //   icon: "fas fa-briefcase",
+      //   iconColor: "#30d158",
+      //   time: "5m ago",
+      //   title: "Full-Stack Developer Profile",
+      //   desc: "2+ years building government financial scheme engines (.NET Core / Angular / RabbitMQ) @ SISL Infotech (NIC). Open for new opportunities.",
+      //   actionWindow: "experience"
+      // },
+      // {
+      //   id: 3,
+      //   appName: "Resume Manager",
+      //   icon: "fas fa-file-pdf",
+      //   iconColor: "#ff9f0a",
+      //   time: "12m ago",
+      //   title: "Curriculum Vitae Ready",
+      //   desc: "Latest resume with full stack architecture history and AWS/PostgreSQL credentials.",
+      //   actionWindow: "resumeapp"
+      // },
+      {
+        id: 4,
+        appName: "Developer Terminal",
+        icon: "fas fa-terminal",
+        iconColor: "#bf5af2",
+        time: "15m ago",
+        title: "Interactive Shell Active",
+        desc: "Try running 'help', 'neofetch', 'screentime', or 'skills' in the zsh terminal console.",
+        actionWindow: "terminal"
+      }
+    ];
+  }
+
+  handleNotificationClick(note: { actionWindow?: string }) {
+    if (note.actionWindow) {
+      this.openWindow(note.actionWindow);
+      this.showNotificationPanel = false;
+    }
+  }
+
   fetchClientIp() {
+    // 1. Primary: fetch full IP & Geolocation telemetry from ipwho.is (CORS friendly)
+    fetch('https://ipwho.is/')
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.success !== false && data.ip) {
+          this.clientIp = data.ip;
+          this.clientCity = data.city || 'Kolkata';
+          this.clientRegion = data.region || 'West Bengal';
+          this.clientCountry = data.country || 'India';
+          this.clientCountryCode = data.country_code || 'IN';
+          this.clientIsp = data.connection?.isp || data.connection?.org || 'Broadband Network';
+          this.clientLat = data.latitude ? data.latitude.toFixed(2) : '22.57';
+          this.clientLon = data.longitude ? data.longitude.toFixed(2) : '88.36';
+          // Refresh welcome notification with resolved user city/country
+          this.initNotifications();
+        } else {
+          this.fallbackIpFetch();
+        }
+      })
+      .catch(() => {
+        this.fallbackIpFetch();
+      });
+  }
+
+  fallbackIpFetch() {
     const ipEndpoint = environment.api?.ipGeoApiUrl || 'https://api.ipify.org?format=json';
     fetch(ipEndpoint)
       .then(res => res.json())
@@ -459,9 +634,11 @@ Thanks for visiting my portfolio!`
         if (data && data.ip) {
           this.clientIp = data.ip;
         }
+        this.initNotifications();
       })
       .catch(() => {
         this.clientIp = '192.168.1.108';
+        this.initNotifications();
       });
   }
 
@@ -632,6 +809,14 @@ Thanks for visiting my portfolio!`
           type: 'error'
         });
         break;
+      case 'screentime':
+      case 'uptime':
+      case 'time':
+        this.terminalHistory.push({
+          text: `⏱️ Active Session Screen Time: ${this.screenTimeString} (Elapsed: ${this.screenTimeDetailString})\n📊 Current Focus: ${this.screenTimeNote}`,
+          type: 'success'
+        });
+        break;
       case 'download-resume':
         this.downloadCV();
         this.terminalHistory.push({
@@ -658,6 +843,7 @@ Thanks for visiting my portfolio!`
   private printHelp() {
     const helpText = `Available Commands:
   help / ?            - Show this list of commands
+  screentime / uptime - Display live session screen time
   about               - Display professional profile
   skills              - List technical skills & tech stack
   experience          - Show work history details
@@ -805,7 +991,7 @@ GitHub:   github.com/prosenjitGravity`;
               .88888888.88888.         -----------------------
              .8888888888888888.        OS: macOS Sequoia 15.0 (Virtual)
             .888888888888888888        Kernel: Antigravity-v3.5.0
-            88888888888888888888       Uptime: 2 hours, 14 mins
+            88888888888888888888       Uptime: ${this.screenTimeString} (Active Session)
            :88888888888888888888.      Shell: zsh (interactive)
            .88888888888888888888.      Resolution: 1920x1080
            .88888888888888888888       DE: Aqua (Glassmorphic)
@@ -1127,6 +1313,12 @@ GitHub:   github.com/prosenjitGravity`;
   }
 
   ngOnDestroy(): void {
+    if (this.screenTimeTimer) {
+      clearInterval(this.screenTimeTimer);
+    }
+    if (this.systemPerformanceTimer) {
+      clearInterval(this.systemPerformanceTimer);
+    }
     if (this.photoBoothStream) {
       this.stopPhotoBoothCamera();
     }
