@@ -1,79 +1,9 @@
 <section id="about" class="about">
   <div class="container">
-    <div class="section-header">
-      <span class="section-tag">About</span>
-      <h2 class="section-title">Professional execution with a product-first mindset.</h2>
-      <p class="section-subtitle">
-        I care about how a product feels in the hands of users, how well it scales for teams, and how clearly it communicates value.
-      </p>
-    </div>
-
+    <div class="section-header"><span class="section-tag">About</span><h2 class="section-title">A practical engineering partner from discovery through delivery.</h2><p class="section-subtitle">I work best on products where reliability, clarity, and a good user experience all matter—not just a quick feature release.</p></div>
     <div class="about-grid">
-      <div class="about-visual glass-card">
-        <div class="portrait-panel">
-          <img src="public/assets/images/prosenjit_paul.jpg" alt="Prosenjit Paul profile" class="about-image">
-          <div class="experience-badge">
-            <span class="experience-years">{{ experienceBadge }}</span>
-            <span class="experience-copy">{{ experienceSummary }} crafting production-ready apps</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="about-content">
-        <div class="eyebrow">Signal Overview</div>
-        <h3 class="about-title">Executive Summary</h3>
-        <p class="about-description">
-          Strong expertise in building mission-critical financial applications, automated workflow engines, and transactional platforms. Demonstrated track record in designing state government fund allocation engines (JIT SNA-Sparsh) and real-time e-auction platforms with optimized database concurrency.
-        </p>
-        <p class="about-description">
-          Core focus areas include <strong>Event-Driven Microservices</strong>, <strong>REST API Security (RBAC/JWT)</strong>, <strong>Query Optimization & Database Schema Indexing</strong>, and <strong>Reliable Retry Workflows</strong>.
-        </p>
-
-        <div class="detail-grid">
-          <article class="detail-card glass-card" *ngFor="let detail of personalDetails">
-            <span class="detail-label">{{ detail.label }}</span>
-            <span class="detail-value">{{ detail.value }}</span>
-          </article>
-        </div>
-
-        <!-- Competitive Programming Profiles -->
-        <div class="cp-profiles-header eyebrow" style="margin-top: 1.8rem; margin-bottom: 0.6rem;">Competitive Programming</div>
-        <div class="cp-profiles-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.75rem; margin-bottom: 1.8rem;">
-          <a href="https://leetcode.com/u/prosenjitGravity" target="_blank" class="cp-profile-card glass-card" style="display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-radius: 12px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.06); text-decoration: none; color: inherit; transition: background 0.2s;">
-            <i class="fas fa-code text-orange" style="font-size: 16px;"></i>
-            <span style="font-size: 13px; font-weight: 600;">LeetCode</span>
-          </a>
-          <a href="https://www.geeksforgeeks.org/user/prosenjitgravity/" target="_blank" class="cp-profile-card glass-card" style="display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-radius: 12px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.06); text-decoration: none; color: inherit; transition: background 0.2s;">
-            <i class="fas fa-laptop-code text-green" style="font-size: 16px;"></i>
-            <span style="font-size: 13px; font-weight: 600;">GeeksforGeeks</span>
-          </a>
-          <a href="https://www.codechef.com/users/prosenjitgravity" target="_blank" class="cp-profile-card glass-card" style="display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-radius: 12px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.06); text-decoration: none; color: inherit; transition: background 0.2s;">
-            <i class="fas fa-terminal text-blue" style="font-size: 16px;"></i>
-            <span style="font-size: 13px; font-weight: 600;">CodeChef</span>
-          </a>
-          <a href="https://neetcode.io" target="_blank" class="cp-profile-card glass-card" style="display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-radius: 12px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.06); text-decoration: none; color: inherit; transition: background 0.2s;">
-            <i class="fas fa-graduation-cap text-yellow" style="font-size: 16px;"></i>
-            <span style="font-size: 13px; font-weight: 600;">NeetCode</span>
-          </a>
-        </div>
-
-        <div class="about-actions">
-          <a href="/public/assets/files/Prosenjit_Resume.pdf" class="btn btn-primary" download (click)="downloadCV()">
-            Download Resume
-            <i class="fas fa-download"></i>
-          </a>
-          <div class="social-links">
-            <a
-              *ngFor="let social of socialLinks"
-              [href]="social.url"
-              class="social-link"
-              target="_blank"
-              rel="noreferrer">
-              <i [class]="social.icon"></i>
-            </a>
-          </div>
-        </div>
-      </div>
+      <div class="about-intro"><p class="eyebrow">Professional profile</p><h3>Full-stack developer with a systems mindset.</h3><p>I build mission-critical financial applications, workflow engines, and transactional platforms. My approach is to understand the business process first, then create software that is secure, observable, and easier for the next team member to maintain.</p><p>My core focus is event-driven microservices, secure REST APIs with RBAC and JWT, database indexing, and reliable retry workflows.</p><a href="/public/assets/files/Prosenjit_Resume.pdf" class="btn btn-primary" download><i class="fas fa-download"></i> Download résumé</a></div>
+      <div class="details-panel glass-card"><div class="experience-callout"><strong>{{ experienceBadge }}</strong><span>of professional software experience</span></div><div class="detail-grid"><article class="detail-card" *ngFor="let detail of personalDetails"><span class="detail-label">{{ detail.label }}</span><span class="detail-value">{{ detail.value }}</span></article></div><div class="profile-links"><span>Find me online</span><div class="social-links"><a *ngFor="let social of socialLinks" [href]="social.url" class="social-link" target="_blank" rel="noreferrer" aria-label="External profile"><i [class]="social.icon"></i></a></div></div></div>
     </div>
   </div>
 </section>

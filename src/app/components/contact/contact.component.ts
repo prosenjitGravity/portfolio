@@ -51,17 +51,11 @@ export class ContactComponent implements OnInit {
 
   onSubmit() {
     if (this.contactForm.valid) {
-      this.isSubmitting = true;
-
-      setTimeout(() => {
-        this.isSubmitting = false;
-        this.isSubmitted = true;
-        this.contactForm.reset();
-
-        setTimeout(() => {
-          this.isSubmitted = false;
-        }, 3000);
-      }, 1200);
+      const { name, email, subject, message } = this.contactForm.value;
+      const body = `Name: ${name}\nEmail: ${email}\n\n${message}`;
+      window.location.href = `mailto:paul.prosenjitbit@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      this.isSubmitted = true;
+      setTimeout(() => this.isSubmitted = false, 4000);
 
       return;
     }
@@ -69,6 +63,11 @@ export class ContactComponent implements OnInit {
     Object.keys(this.contactForm.controls).forEach((key) =>
       this.contactForm.get(key)?.markAsTouched()
     );
+  }
+
+  startInquiry(subject: string) {
+    this.contactForm.patchValue({ subject });
+    document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
   getFieldError(field: string): string | null {

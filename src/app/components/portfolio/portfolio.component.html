@@ -2,9 +2,9 @@
   <div class="container">
     <div class="section-header">
       <span class="section-tag">Projects</span>
-      <h2 class="section-title">Key Featured Projects</h2>
+      <h2 class="section-title">Selected work, built around real operational needs.</h2>
       <p class="section-subtitle">
-        These projects demonstrate real-world systems, concurrency handling, database optimizations, and interface designs.
+        A focused selection of projects that demonstrate backend design, real-time workflows, and user-facing delivery.
       </p>
     </div>
 
@@ -13,7 +13,7 @@
         <div class="project-top">
           <i class="far fa-folder folder"></i>
           <div class="project-links">
-            <a [href]="project.github" target="_blank" aria-label="GitHub Repository"><i class="fab fa-github"></i></a>
+            <a [href]="project.github" target="_blank" rel="noreferrer" [attr.aria-label]="'Open ' + project.title + ' repository'"><i class="fab fa-github"></i></a>
           </div>
         </div>
 
@@ -27,10 +27,18 @@
         </div>
 
         <div class="pill-list">
-          <span class="pill" *ngFor="let tech of project.technologies">{{ tech }}</span>
+          <span class="pill" *ngFor="let tech of project.technologies">
+            <i [class]="getTechIcon(tech)" [class.tech-icon]="true" [ngClass]="getTechColorClass(tech)"></i>
+            {{ tech }}
+          </span>
+        </div>
+
+        <div class="project-action-footer" *ngIf="project.id === 1">
+          <button class="launch-desktop-action-btn" (click)="onProjectAction(project)">
+            <i class="fas fa-desktop"></i> Launch macOS Layout
+          </button>
         </div>
       </article>
     </div>
   </div>
 </section>
-

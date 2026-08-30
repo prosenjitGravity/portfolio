@@ -11,6 +11,8 @@ import { ContactComponent } from "../contact/contact.component";
 import { FooterComponent } from "../footer/footer.component";
 import { LoggerService } from '../../services/logger.service';
 import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { LinkedinActivity, LinkedinEducation, LinkedinExperience, LinkedinProfile, LinkedinProfileService } from '../../services/linkedin-profile.service';
 
 interface WindowState {
   id: string;
@@ -60,6 +62,23 @@ export class HomeComponent implements OnInit, AfterViewInit {
   @ViewChild('contentContainer') contentContainer!: ElementRef;
 
   private logger = inject(LoggerService);
+  private http = inject(HttpClient);
+  private linkedinService = inject(LinkedinProfileService);
+
+  // GitHub live data states
+  githubProfile: any = null;
+  githubRepos: any[] = [];
+  githubLoading = false;
+  githubError = false;
+  githubUsingFallback = false;
+
+  // LinkedIn dashboard states
+  linkedinProfile: LinkedinProfile | null = null;
+  linkedinExperience: LinkedinExperience[] = [];
+  linkedinEducation: LinkedinEducation[] = [];
+  linkedinActivities: LinkedinActivity[] = [];
+  linkedinLoading = false;
+  linkedinError = false;
 
   // Original Layout States
   activeSectionId: string = 'home';
@@ -68,11 +87,59 @@ export class HomeComponent implements OnInit, AfterViewInit {
   loggingEnabled = true;
 
   // macOS Layout States
+  // Start with the interactive macOS portfolio; visitors can switch to the classic layout.
   classicMode: boolean = false;
   currentTime: string = '';
   currentDayName: string = '';
   currentDayNum: string = '';
   maxZIndex: number = 100;
+
+  // Control Center States
+  showControlCenter = false;
+  wifiActive = true;
+  bluetoothActive = true;
+  airdropActive = false;
+  dndActive = false;
+  stageManagerActive = false;
+  brightness = 100;
+  volume = 50;
+  isPlayingMusic = false;
+
+  // Photo Booth States
+  photoBoothStream: MediaStream | null = null;
+  photoBoothFilter = 'none';
+  photoBoothCountdown: number | null = null;
+  photoBoothPhotos: string[] = [];
+  photoBoothFlash = false;
+
+  // Notification States
+  showNotificationPanel = false;
+  notifications = [
+    {
+      id: 1,
+      appName: "GitHub",
+      icon: "fab fa-github",
+      time: "5m ago",
+      title: "New Star Received!",
+      desc: "User GeminiCoder starred your repository 'portfolio'."
+    },
+    {
+      id: 2,
+      appName: "System",
+      icon: "fas fa-laptop-code",
+      time: "20m ago",
+      title: "Layout Switched",
+      desc: "Welcome to the macOS Desktop layout. Explore drag-and-drop windows and the interactive terminal."
+    },
+    {
+      id: 3,
+      appName: "Calendar",
+      icon: "far fa-calendar-alt",
+      time: "1h ago",
+      title: "Portfolio Review",
+      desc: "Scheduled check-in at 2:30 PM."
+    }
+  ];
 
   // Window list configuration
   windows: { [key: string]: WindowState } = {
@@ -86,7 +153,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
     google: { id: 'google', title: 'Google Chrome', open: false, minimized: false, maximized: false, x: 140, y: 70, zIndex: 1 },
     textedit: { id: 'textedit', title: 'TextEdit', open: false, minimized: false, maximized: false, x: 300, y: 150, zIndex: 1 },
     finder: { id: 'finder', title: 'Finder', open: false, minimized: false, maximized: false, x: 100, y: 120, zIndex: 1 },
-    resumeapp: { id: 'resumeapp', title: 'Preview — Resume', open: false, minimized: false, maximized: false, x: 180, y: 80, zIndex: 1 }
+    resumeapp: { id: 'resumeapp', title: 'Preview — Resume', open: false, minimized: false, maximized: false, x: 180, y: 80, zIndex: 1 },
+    github: { id: 'github', title: 'Safari — GitHub', open: false, minimized: false, maximized: false, x: 160, y: 90, zIndex: 1 },
+    linkedin: { id: 'linkedin', title: 'Safari — LinkedIn', open: false, minimized: false, maximized: false, x: 210, y: 110, zIndex: 1 },
+    photobooth: { id: 'photobooth', title: 'Photo Booth', open: false, minimized: false, maximized: false, x: 250, y: 120, zIndex: 1 },
+    welcome: { id: 'welcome', title: 'Welcome', open: true, minimized: false, maximized: false, x: 80, y: 120, zIndex: 2 }
   };
 
   // Draggable Desktop Icons Configuration
@@ -97,17 +168,18 @@ export class HomeComponent implements OnInit, AfterViewInit {
     { id: 'experience', label: 'Experience', iconClass: 'folder-icon experience-icon', icon: 'fas fa-folder', windowId: 'experience', x: 0, y: 0, fileKey: '' },
     { id: 'education', label: 'Certificates', iconClass: 'folder-icon', icon: 'fas fa-folder', windowId: 'education', x: 0, y: 0, fileKey: '' },
     { id: 'resume', label: 'Resume.pdf', iconClass: 'pdf-icon', icon: 'fas fa-file-pdf', windowId: 'resumeapp', x: 0, y: 0, fileKey: '' },
-    // { id: 'welcome', label: 'Welcome.txt', iconClass: 'txt-icon-item', icon: 'far fa-file-alt', windowId: 'textedit', x: 0, y: 0, fileKey: 'welcome' },
-    // { id: 'resume_txt', label: 'Resume.md', iconClass: 'txt-icon-item', icon: 'fab fa-markdown', windowId: 'textedit', x: 0, y: 0, fileKey: 'resume' },
-    // { id: 'secret', label: 'Secret.txt', iconClass: 'txt-icon-item', icon: 'far fa-file-alt', windowId: 'textedit', x: 0, y: 0, fileKey: 'secret' },
+    { id: 'github', label: 'GitHub Repos', iconClass: 'github-icon-item', icon: 'fab fa-github', windowId: 'github', x: 0, y: 0, fileKey: '' },
+    { id: 'linkedin', label: 'LinkedIn', iconClass: 'linkedin-icon-item', icon: 'fab fa-linkedin', windowId: 'linkedin', x: 0, y: 0, fileKey: '' },
     { id: 'contact', label: 'Contact.mail', iconClass: 'contact-icon-item', icon: 'fas fa-envelope', windowId: 'contact', x: 0, y: 0, fileKey: '' },
-    // { id: 'google', label: 'Google Search', iconClass: 'google-icon-item', icon: 'fab fa-google', windowId: 'google', x: 0, y: 0, fileKey: '' }
+    { id: 'photobooth', label: 'Photo Booth', iconClass: 'photobooth-icon-item', icon: 'fas fa-camera', windowId: 'photobooth', x: 0, y: 0, fileKey: '' }
   ];
 
   // macOS Dock configuration
   dockItems = [
     { id: 'finder', label: 'Finder', icon: 'fas fa-smile', type: 'app', windowId: 'finder', fileKey: '' },
     { id: 'google', label: 'Google Search', icon: 'fab fa-google', type: 'app', windowId: 'google', fileKey: '' },
+    { id: 'github', label: 'GitHub', icon: 'fab fa-github', type: 'app', windowId: 'github', fileKey: '' },
+    { id: 'linkedin', label: 'LinkedIn', icon: 'fab fa-linkedin', type: 'app', windowId: 'linkedin', fileKey: '' },
     { id: 'contact', label: 'Mail / Contact', icon: 'fas fa-envelope', type: 'app', windowId: 'contact', fileKey: '' },
     { id: 'calendar', label: 'Calendar', icon: '', type: 'calendar', windowId: '', fileKey: '' },
     { id: 'projects', label: 'Projects', icon: 'fas fa-folder', type: 'app', windowId: 'projects', fileKey: '' },
@@ -117,6 +189,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     { id: 'terminal', label: 'Developer Log', icon: 'fas fa-terminal', type: 'app', windowId: 'terminal', fileKey: '' },
     { id: 'textedit', label: 'TextEdit', icon: 'far fa-file-alt', type: 'app', windowId: 'textedit', fileKey: '' },
     { id: 'resumeapp', label: 'Resume Viewer', icon: 'fas fa-file-pdf', type: 'app', windowId: 'resumeapp', fileKey: '' },
+    { id: 'photobooth', label: 'Photo Booth', icon: 'fas fa-camera', type: 'app', windowId: 'photobooth', fileKey: '' },
     { id: 'settings', label: 'Settings', icon: 'fas fa-cog', type: 'settings', windowId: '', fileKey: '' }
   ];
 
@@ -231,12 +304,12 @@ Highly motivated and results-driven Software Developer with experience in design
 ---
 
 ### SKILLS & TECH STACK
-- **Languages:** JavaScript, TypeScript, HTML/CSS, SQL
-- **Backend:** Node.js, Express, RabbitMQ, WebSockets, REST APIs
-- **Frontend:** Angular, HTML5, CSS3, SCSS, Vanilla JS
-- **Databases:** PostgreSQL, MongoDB, Redis
-- **DevOps & Cloud:** Docker, AWS (EC2, S3, ELB), CI/CD
-- **Other:** Git, Data Structures & Algorithms, System Design`
+  - **Languages:** Java, JavaScript, TypeScript, HTML/CSS, SQL
+  - **Backend:** Node.js, Express, Spring Boot, RabbitMQ, Kafka, WebSockets, REST APIs
+  - **Frontend:** Angular, HTML5, CSS3, SCSS, Vanilla JS
+  - **Databases:** PostgreSQL, MongoDB, Redis
+  - **DevOps & Cloud:** Docker, AWS (EC2, S3, ELB), CI/CD
+  - **Other:** Git, Data Structures & Algorithms, System Design`
     },
     secret: {
       title: 'Secret.txt',
@@ -279,8 +352,8 @@ Thanks for visiting my portfolio!`
 🛠️ TECHNICAL SKILLS & STACK
 ==================================================
 
-- LANGUAGES: JavaScript (ES6+), TypeScript, SQL, HTML5, CSS3, SCSS
-- BACKEND: Node.js, Express, RabbitMQ, WebSockets, RESTful APIs
+- LANGUAGES: Java, JavaScript (ES6+), TypeScript, SQL, HTML5, CSS3, SCSS
+- BACKEND: Node.js, Express, Spring Boot, RabbitMQ, Kafka, WebSockets, RESTful APIs
 - FRONTEND: Angular, RxJS, Template Driven & Reactive Forms
 - DATABASES: PostgreSQL, MongoDB, Redis
 - INFRASTRUCTURE: Docker, AWS (EC2, S3, ELB, CloudWatch), Linux, Git`
@@ -581,8 +654,8 @@ Use 'open about' to open the GUI window.`;
   }
 
   private printSkills() {
-    const text = `Languages:   JavaScript, TypeScript, HTML/CSS, SQL
-Backend:     Node.js, Express, RabbitMQ, WebSockets, REST APIs
+    const text = `Languages:   Java, JavaScript, TypeScript, HTML/CSS, SQL
+Backend:     Node.js, Express, Spring Boot, RabbitMQ, Kafka, WebSockets, REST APIs
 Frontend:    Angular, HTML5, CSS3, SCSS
 Databases:   PostgreSQL, MongoDB, Redis
 DevOps:      Docker, AWS (EC2, S3, ELB), CI/CD`;
@@ -668,6 +741,12 @@ GitHub:   github.com/prosenjitGravity`;
     } else if (name === 'google' || name === 'browser') {
       this.openWindow('google');
       this.terminalHistory.push({ text: `Opening Google Search Chrome Window...`, type: 'success' });
+    } else if (name === 'github') {
+      this.openWindow('github');
+      this.terminalHistory.push({ text: `Opening GitHub Repositories...`, type: 'success' });
+    } else if (name === 'linkedin') {
+      this.openWindow('linkedin');
+      this.terminalHistory.push({ text: `Opening LinkedIn Profile...`, type: 'success' });
     } else if (name === 'welcome' || name === 'welcome.txt') {
       this.openFile('welcome');
       this.terminalHistory.push({ text: `Opening welcome.txt in TextEdit...`, type: 'success' });
@@ -774,12 +853,18 @@ GitHub:   github.com/prosenjitGravity`;
         icon.y = startY + (row * 75);
       });
     } else {
-      // On desktop/tablet, align in a column on the right
+      // On desktop, arrange in columns starting from the right side, wrapping to the left
       let startX = width - 110;
       let startY = 40;
+      const columnGap = 95;
+      const rowGap = 90;
+      const maxRows = Math.max(1, Math.floor((height - 130) / rowGap));
+
       this.desktopIcons.forEach((icon, index) => {
-        icon.x = startX;
-        icon.y = startY + (index * 90);
+        const col = Math.floor(index / maxRows);
+        const row = index % maxRows;
+        icon.x = startX - (col * columnGap);
+        icon.y = startY + (row * rowGap);
       });
     }
   }
@@ -790,9 +875,85 @@ GitHub:   github.com/prosenjitGravity`;
     this.initIconPositions();
   }
 
+  toggleControlCenter(event?: Event) {
+    if (event) {
+      event.stopPropagation();
+    }
+    this.showControlCenter = !this.showControlCenter;
+    if (this.showControlCenter) {
+      this.showNotificationPanel = false;
+    }
+  }
+
+  toggleNotificationPanel(event?: Event) {
+    if (event) {
+      event.stopPropagation();
+    }
+    this.showNotificationPanel = !this.showNotificationPanel;
+    if (this.showNotificationPanel) {
+      this.showControlCenter = false;
+    }
+  }
+
+  clearNotifications() {
+    this.notifications = [];
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.control-center-panel') && !target.closest('.control-center-trigger')) {
+      this.showControlCenter = false;
+    }
+    if (!target.closest('.notification-panel') && !target.closest('.notification-trigger')) {
+      this.showNotificationPanel = false;
+    }
+  }
+
+  private audioContext: AudioContext | null = null;
+  playVolumeBeep() {
+    try {
+      if (!this.audioContext) {
+        this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      }
+      if (this.audioContext.state === 'suspended') {
+        this.audioContext.resume();
+      }
+      const osc = this.audioContext.createOscillator();
+      const gainNode = this.audioContext.createGain();
+
+      osc.connect(gainNode);
+      gainNode.connect(this.audioContext.destination);
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(800, this.audioContext.currentTime);
+
+      const volumeLevel = (this.volume / 100) * 0.15;
+      gainNode.gain.setValueAtTime(volumeLevel, this.audioContext.currentTime);
+
+      osc.start();
+      osc.stop(this.audioContext.currentTime + 0.1);
+    } catch (e) {
+      console.warn('AudioContext not allowed or supported yet', e);
+    }
+  }
+
+  toggleMusicPlay() {
+    this.isPlayingMusic = !this.isPlayingMusic;
+  }
+
   // Windows Control Methods
   openWindow(id: string) {
     if (this.windows[id]) {
+      if (id === 'github') {
+        this.fetchGithubData();
+      }
+      if (id === 'linkedin') {
+        this.fetchLinkedinData();
+      }
+      if (id === 'photobooth') {
+        this.startPhotoBoothCamera();
+      }
       if (this.windows[id].minimized) {
         this.windows[id].minimized = false;
         this.windows[id].open = true;
@@ -816,6 +977,9 @@ GitHub:   github.com/prosenjitGravity`;
     }
     if (this.windows[id]) {
       this.windows[id].open = false;
+      if (id === 'photobooth') {
+        this.stopPhotoBoothCamera();
+      }
     }
   }
 
@@ -823,8 +987,14 @@ GitHub:   github.com/prosenjitGravity`;
     if (event) {
       event.stopPropagation();
     }
+    if (window.innerWidth < 768) {
+      return;
+    }
     if (this.windows[id]) {
       this.windows[id].minimizing = true;
+      if (id === 'photobooth') {
+        this.stopPhotoBoothCamera();
+      }
       setTimeout(() => {
         this.windows[id].minimized = true;
         this.windows[id].minimizing = false;
@@ -863,7 +1033,11 @@ GitHub:   github.com/prosenjitGravity`;
   }
 
   hasAnyOpenWindow(): boolean {
-    return Object.keys(this.windows).some(key => this.windows[key].open && !this.windows[key].minimized);
+    return Object.keys(this.windows).some(key => key !== 'welcome' && this.windows[key].open && !this.windows[key].minimized);
+  }
+
+  getMinimizedWindows(): WindowState[] {
+    return Object.values(this.windows).filter(window => window.open && window.minimized);
   }
 
   toggleClassicMode() {
@@ -1274,5 +1448,244 @@ GitHub:   github.com/prosenjitGravity`;
     this.lastSearchedQuery = query.trim();
     this.searchQuery = '';
   }
-}
 
+  fetchGithubData() {
+    // Only fetch if profile or repos are not loaded yet to prevent spamming the API
+    if (this.githubProfile && this.githubRepos.length > 0) {
+      return;
+    }
+
+    this.githubLoading = true;
+    this.githubError = false;
+    this.githubUsingFallback = false;
+
+    // Fetch user profile
+    this.http.get('https://api.github.com/users/prosenjitGravity').subscribe({
+      next: (profile: any) => {
+        this.githubProfile = profile;
+
+        // Fetch repositories sorted by updated date
+        this.http.get('https://api.github.com/users/prosenjitGravity/repos?sort=updated&per_page=30').subscribe({
+          next: (repos: any) => {
+            this.githubRepos = repos;
+            this.githubLoading = false;
+          },
+          error: (err) => {
+            this.logger.error("Failed to load GitHub repos", err, "HomeComponent");
+            this.loadGithubFallback(true);
+          }
+        });
+      },
+      error: (err) => {
+        this.logger.error("Failed to load GitHub profile", err, "HomeComponent");
+        this.loadGithubFallback(false);
+      }
+    });
+  }
+
+  loadGithubFallback(hasProfile: boolean) {
+    this.githubUsingFallback = true;
+    this.githubLoading = false;
+    if (!hasProfile) {
+      this.githubProfile = {
+        avatar_url: "assets/images/prosenjit_paul.jpg",
+        name: "Prosenjit Paul",
+        login: "prosenjitGravity",
+        bio: "Full Stack Developer | Building resilient web applications, workflow engines, and distributed messaging services.",
+        followers: 12,
+        following: 15,
+        public_repos: 8,
+        html_url: "https://github.com/prosenjitGravity"
+      };
+    }
+    this.githubRepos = [
+      {
+        name: "portfolio",
+        description: "A premium macOS desktop-style portfolio built with Angular 19, custom CSS transitions, drag-and-drop window layouts, and live terminal shell simulator.",
+        html_url: "https://github.com/prosenjitGravity/portfolio",
+        language: "TypeScript",
+        stargazers_count: 5,
+        forks_count: 1,
+        updated_at: new Date().toISOString()
+      },
+      {
+        name: "sna-sparsh-engine",
+        description: "Fund management and workflow execution engine with high reliability, queue-based message dispatching, and distributed task workers.",
+        html_url: "https://github.com/prosenjitGravity/sna-sparsh-engine",
+        language: "JavaScript",
+        stargazers_count: 8,
+        forks_count: 2,
+        updated_at: new Date().toISOString()
+      },
+      {
+        name: "realtime-e-auction",
+        description: "End-to-end e-auction bidding platform with WebSocket streaming updates, responsive dashboard panels, and Postgres schema design.",
+        html_url: "https://github.com/prosenjitGravity/realtime-e-auction",
+        language: "TypeScript",
+        stargazers_count: 6,
+        forks_count: 0,
+        updated_at: new Date().toISOString()
+      }
+    ];
+  }
+
+  fetchLinkedinData() {
+    if (this.linkedinLoading || this.linkedinProfile) return;
+
+    this.linkedinLoading = true;
+    this.linkedinError = false;
+    this.linkedinService.getProfile().subscribe({
+      next: ({ profile, experience = [], education = [], activities = [] }) => {
+        this.linkedinProfile = profile;
+        this.linkedinExperience = experience;
+        this.linkedinEducation = education;
+        this.linkedinActivities = activities;
+        this.linkedinLoading = false;
+      },
+      error: (error) => {
+        this.logger.error('Failed to load LinkedIn profile', error, 'HomeComponent');
+        this.linkedinError = true;
+        this.linkedinLoading = false;
+      }
+    });
+  }
+
+  // Photo Booth App Helper Methods
+  startPhotoBoothCamera() {
+    this.photoBoothCountdown = null;
+    this.photoBoothFlash = false;
+    navigator.mediaDevices.getUserMedia({ video: { width: 640, height: 480 } })
+      .then(stream => {
+        this.photoBoothStream = stream;
+        // Bind to video element
+        setTimeout(() => {
+          const videoEl = document.getElementById('photobooth-video') as HTMLVideoElement;
+          if (videoEl) {
+            videoEl.srcObject = stream;
+          }
+        }, 100);
+      })
+      .catch(err => {
+        this.logger.error('Failed to get user camera for Photo Booth', err, 'HomeComponent');
+        alert('Could not access camera. Please check camera permissions in your browser settings.');
+      });
+  }
+
+  stopPhotoBoothCamera() {
+    if (this.photoBoothStream) {
+      this.photoBoothStream.getTracks().forEach(track => track.stop());
+      this.photoBoothStream = null;
+    }
+    this.photoBoothCountdown = null;
+  }
+
+  setPhotoBoothFilter(filterName: string) {
+    this.photoBoothFilter = filterName;
+  }
+
+  takePhotoBoothPicture() {
+    if (this.photoBoothCountdown !== null || !this.photoBoothStream) return;
+
+    this.photoBoothCountdown = 3;
+    const interval = setInterval(() => {
+      if (this.photoBoothCountdown !== null && this.photoBoothCountdown > 1) {
+        this.photoBoothCountdown--;
+        this.playPhotoBoothCountdownBeep();
+      } else {
+        clearInterval(interval);
+        this.photoBoothCountdown = null;
+        this.triggerPhotoBoothShutter();
+      }
+    }, 1000);
+
+    this.playPhotoBoothCountdownBeep();
+  }
+
+  playPhotoBoothCountdownBeep() {
+    try {
+      const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.frequency.value = 1000;
+      gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.08);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.08);
+    } catch (e) {
+      // Audio context autoplay restriction
+    }
+  }
+
+  triggerPhotoBoothShutter() {
+    // 1. Play Shutter Click Sound
+    try {
+      const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.frequency.value = 1600;
+      gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.25);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.25);
+    } catch (e) {
+      // Audio context autoplay restriction
+    }
+
+    // 2. Trigger Flash Overlay
+    this.photoBoothFlash = true;
+    setTimeout(() => {
+      this.photoBoothFlash = false;
+    }, 180);
+
+    // 3. Capture Video Frame on Canvas
+    const videoEl = document.getElementById('photobooth-video') as HTMLVideoElement;
+    if (videoEl) {
+      const canvas = document.createElement('canvas');
+      canvas.width = videoEl.videoWidth || 640;
+      canvas.height = videoEl.videoHeight || 480;
+      const ctx = canvas.getContext('2d');
+      if (ctx) {
+        ctx.translate(canvas.width, 0);
+        ctx.scale(-1, 1);
+
+        ctx.filter = this.getCanvasFilter(this.photoBoothFilter);
+
+        ctx.drawImage(videoEl, 0, 0, canvas.width, canvas.height);
+
+        const dataUrl = canvas.toDataURL('image/jpeg');
+        this.photoBoothPhotos.unshift(dataUrl);
+      }
+    }
+  }
+
+  getCanvasFilter(filterName: string): string {
+    switch (filterName) {
+      case 'sepia': return 'sepia(100%)';
+      case 'grayscale': return 'grayscale(100%)';
+      case 'invert': return 'invert(100%)';
+      case 'blur': return 'blur(3px)';
+      case 'hue-rotate': return 'hue-rotate(90deg)';
+      case 'contrast': return 'contrast(200%)';
+      default: return 'none';
+    }
+  }
+
+  deletePhotoBoothPicture(index: number, event: Event) {
+    event.stopPropagation();
+    this.photoBoothPhotos.splice(index, 1);
+  }
+
+  downloadPhotoBoothPicture(photoUrl: string, event: Event) {
+    event.stopPropagation();
+    const link = document.createElement('a');
+    link.href = photoUrl;
+    link.download = `photobooth_snap_${Date.now()}.jpg`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+}

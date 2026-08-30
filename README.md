@@ -98,6 +98,14 @@ ng build --prod
 # The build artifacts will be stored in the `dist/` directory
 \`\`\`
 
+### LinkedIn profile integration
+
+The LinkedIn browser window fetches live content from `GET /api/linkedin/profile`; it deliberately contains no profile-data fallback. LinkedIn does not expose public profile data in the way GitHub does, so implement this endpoint in a backend/API gateway using an approved LinkedIn OAuth integration. Do not put a LinkedIn access token in Angular environment files.
+
+Return a response with `profile`, `experience`, `education`, and `activities` fields. The `profile` object requires `name` and `profileUrl`; it may also include `headline`, `location`, `avatarUrl`, `bannerUrl`, `about`, `connections`, `followers`, `currentCompany`, `school`, and `openToWork`. Each list is optional and defaults to an empty array.
+
+Set `linkedinProfileApiUrl` in `src/environment/environment.prod.ts` if the API gateway uses another origin. The backend should enforce OAuth, validate the response, keep tokens secret, and emit restrictive CORS headers.
+
 ## 📁 Project Structure
 
 \`\`\`

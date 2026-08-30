@@ -8,14 +8,14 @@
   position: relative;
   overflow: hidden;
   padding: 1.5rem;
-  border-radius: 1.6rem;
+  border-radius: var(--radius-md);
   transition: transform var(--transition), border-color var(--transition);
-  background: var(--gradient-panel);
+  background: var(--surface);
 }
 
 .matrix-card:hover {
   transform: translateY(-4px);
-  border-color: var(--primary-strong);
+  border-color: #a9bdcb;
 }
 
 .matrix-card h3 {
@@ -44,8 +44,8 @@
   align-items: center;
   padding: 0.4rem 0.8rem;
   border-radius: 999px;
-  background: #17253a;
-  border: 1px solid rgba(120, 150, 195, 0.16);
+  background: var(--surface-subtle);
+  border: 1px solid var(--line);
   color: var(--muted);
   font-size: 0.82rem;
   transition: transform var(--transition-fast), background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
@@ -53,20 +53,67 @@
 
 .pill:hover {
   transform: translateY(-2px);
-  background: #1d2d46;
-  border-color: rgba(140, 170, 215, 0.24);
+  background: #e8eef2;
+  border-color: #b8c7d1;
   color: var(--text);
 }
 
 .pill.highlight {
-  border-color: var(--primary);
+  border-color: #a9bdcb;
   color: var(--primary);
-  background: rgba(110, 231, 249, 0.08);
+  background: #edf3f6;
 }
 
 .pill.highlight:hover {
-  background: rgba(110, 231, 249, 0.15);
+  background: #e3edf2;
   border-color: var(--primary-strong);
+}
+
+.skill-icon {
+  margin-right: 0.45rem;
+  font-size: 0.95rem;
+  display: inline-block;
+  vertical-align: middle;
+  transition: transform var(--transition-fast, 0.2s ease);
+
+  // Standard professional brand colors
+  &.icon-node { color: #339933; }
+  &.icon-typescript { color: #3178C6; }
+  &.icon-javascript { color: #d1b000; }
+  &.icon-java { color: #ED8B00; }
+  &.icon-html { color: #E34F26; }
+  &.icon-sass { color: #CC6699; }
+  &.icon-angular { color: #DD0031; }
+  &.icon-rxjs { color: #B30089; }
+  &.icon-tailwind { color: #06B6D4; }
+  &.icon-mui { color: #0081CB; }
+  &.icon-primeng { color: #D32F2F; }
+  &.icon-architecture { color: #805AD5; }
+  &.icon-testing { color: #38A169; }
+  &.icon-express { color: #4A5568; }
+  &.icon-springboot { color: #6DB33F; }
+  &.icon-rabbitmq { color: #FF6600; }
+  &.icon-kafka { color: #231F20; }
+  &.icon-socket { color: #010101; }
+  &.icon-api { color: #3182CE; }
+  &.icon-postgres { color: #336791; }
+  &.icon-mysql { color: #00758F; }
+  &.icon-mongodb { color: #47A248; }
+  &.icon-search { color: #D69E2E; }
+  &.icon-tuning { color: #319795; }
+  &.icon-integrity { color: #2F855A; }
+  &.icon-aws { color: #FF9900; }
+  &.icon-docker { color: #2496ED; }
+  &.icon-github { color: #24292E; }
+  &.icon-gitlab { color: #FCA121; }
+  &.icon-linux { color: #FCC624; }
+  &.icon-jwt { color: #DD6B20; }
+  &.icon-history { color: #4A5568; }
+  &.icon-git { color: #F05032; }
+}
+
+.pill:hover .skill-icon {
+  transform: scale(1.18);
 }
 
 @media (max-width: 768px) {

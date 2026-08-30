@@ -9,6 +9,7 @@ import { Component, HostListener, input, output } from '@angular/core';
 })
 export class TopbarComponent {
   dataEmitter = output<string>();
+  switchToDesktop = output<void>();
   activeSectionId = input<string>('home');
 
   isMenuOpen = false;
@@ -17,7 +18,8 @@ export class TopbarComponent {
   navItems = [
     { id: 'home', label: 'Home' },
     { id: 'about', label: 'About' },
-    { id: 'services', label: 'Services' },
+    { id: 'services', label: 'Skills' },
+    { id: 'experience', label: 'Experience' },
     { id: 'projects', label: 'Projects' },
     { id: 'contact', label: 'Contact' }
   ];
@@ -35,5 +37,11 @@ export class TopbarComponent {
     event.preventDefault();
     this.isMenuOpen = false;
     this.dataEmitter.emit(sectionId);
+  }
+
+  goToDesktop(event: Event) {
+    event.preventDefault();
+    this.isMenuOpen = false;
+    this.switchToDesktop.emit();
   }
 }

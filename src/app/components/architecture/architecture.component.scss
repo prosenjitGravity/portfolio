@@ -9,14 +9,14 @@
   position: relative;
   overflow: hidden;
   padding: 1.5rem;
-  border-radius: 1.6rem;
+  border-radius: var(--radius-md);
   transition: transform var(--transition), border-color var(--transition);
-  background: var(--gradient-panel);
+  background: var(--surface);
 }
 
 .arch-card:hover {
   transform: translateY(-4px);
-  border-color: var(--primary-strong);
+  border-color: #a9bdcb;
 }
 
 .arch-card h4 {
@@ -50,14 +50,14 @@
   position: relative;
   overflow: hidden;
   padding: 1.6rem;
-  border-radius: 1.6rem;
+  border-radius: var(--radius-md);
   transition: transform var(--transition), border-color var(--transition);
-  background: var(--gradient-panel);
+  background: var(--surface);
 }
 
 .edu-card:hover {
   transform: translateY(-4px);
-  border-color: var(--primary-strong);
+  border-color: #a9bdcb;
 }
 
 .edu-card h3 {
@@ -79,8 +79,8 @@
   font-size: 0.78rem;
   font-weight: 600;
   color: var(--primary);
-  background: rgba(110, 231, 249, 0.08);
-  border: 1px solid rgba(110, 231, 249, 0.22);
+  background: #edf3f6;
+  border: 1px solid #c5d5df;
   padding: 0.25rem 0.65rem;
   border-radius: 999px;
 }

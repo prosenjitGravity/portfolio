@@ -1,98 +1,42 @@
 <section id="home" class="hero">
-  <div class="hero-noise"></div>
-  <div class="hero-orb hero-orb-left"></div>
-  <div class="hero-orb hero-orb-right"></div>
-
   <div class="container hero-grid">
     <div class="hero-copy">
-      <div class="status-badge">
-        <span class="pulse-dot"></span> Available for Full-Stack & Systems Roles
-      </div>
-      <h1 class="hero-title">Prosenjit Paul</h1>
-      <h2 class="hero-subtitle">
-        I build <span class="typewriter-text">{{ typewriterText }}</span>
-      </h2>
-      <p class="hero-description">
-        Full Stack Developer with <strong>~3 years of enterprise experience</strong> architecting financial & high-concurrency applications. Specialized in high-throughput <strong>Node.js microservices</strong>, real-time <strong>Angular frontends</strong>, asynchronous event processing (RabbitMQ/Kafka), and automated cloud pipelines on AWS.
-      </p>
-
+      <p class="eyebrow"><span></span> Available for full-stack engineering roles</p>
+      <h1 class="hero-title">Building dependable software for complex, real-world work.</h1>
+      <p class="hero-description">I’m Prosenjit Paul, a full-stack developer focused on Node.js services, Angular applications, and event-driven systems. I turn operational requirements into secure, maintainable products that teams can confidently run and evolve.</p>
       <div class="hero-actions">
-        <a class="btn btn-primary compact-btn" (click)="scrollToSection('projects')">
-          <i class="fas fa-code"></i> Projects
-        </a>
-        <a href="mailto:paul.prosenjitbit@gmail.com" class="btn btn-secondary compact-btn">
-          <i class="fas fa-paper-plane"></i> Hire Me
-        </a>
-        <a href="https://github.com/prosenjitGravity?tab=repositories" target="_blank" class="btn btn-secondary compact-btn">
-          <i class="fab fa-github"></i> GitHub
-        </a>
-      </div>
-
-      <div class="hero-stats">
-        <article class="stat-card glass-card" *ngFor="let stat of stats">
-          <span class="stat-number">{{ stat.number }}</span>
-          <span class="stat-label">{{ stat.label }}</span>
-        </article>
+        <a class="btn btn-primary" (click)="scrollToSection('projects')"><i class="fas fa-arrow-down"></i> View selected work</a>
+        <a href="/public/assets/files/Prosenjit_Resume.pdf" class="btn btn-secondary" download><i class="fas fa-download"></i> Download résumé</a>
       </div>
     </div>
-
-    <div class="hero-visual">
-      <div class="sys-console glass-card">
-        <!-- Terminal Header -->
-        <div class="console-header">
-          <div class="console-buttons">
-            <span class="c-dot red"></span>
-            <span class="c-dot yellow"></span>
-            <span class="c-dot green"></span>
+    <aside class="summary-card glass-card" aria-label="Professional summary">
+      <p class="summary-label">What I bring</p>
+      <ul>
+        <li>
+          <div class="summary-item-header">
+            <i class="fas fa-sitemap summary-item-icon color-blue"></i>
+            <strong>Enterprise systems</strong>
           </div>
-          <span class="console-title">prosenjit&#64;system-monitor:~</span>
-        </div>
-        
-        <!-- Console Grid -->
-        <div class="console-grid-layout">
-          <!-- Column 1: System Specs -->
-          <div class="console-metrics">
-            <div class="metric-item">
-              <span class="m-label">ENGINE:</span>
-              <span class="m-val text-blue">JIT SNA-Sparsh</span>
-            </div>
-            <div class="metric-item">
-              <span class="m-label">LOAD:</span>
-              <span class="m-val text-green">14,200 req/s</span>
-            </div>
-            <div class="metric-item">
-              <span class="m-label">BROKERS:</span>
-              <span class="m-val">RabbitMQ & Kafka</span>
-            </div>
-            <div class="metric-item">
-              <span class="m-label">LATENCY:</span>
-              <span class="m-val text-yellow">8.4ms</span>
-            </div>
-            <div class="metric-item">
-              <span class="m-label">DB:</span>
-              <span class="m-val">PostgreSQL (Indexed)</span>
-            </div>
-            <div class="metric-item">
-              <span class="m-label">AUTH:</span>
-              <span class="m-val">JWT & RBAC Active</span>
-            </div>
+          <span>Experience with financial workflows, fund allocation, and real-time auction platforms.</span>
+        </li>
+        <li>
+          <div class="summary-item-header">
+            <i class="fas fa-server summary-item-icon color-green"></i>
+            <strong>Reliable backends</strong>
           </div>
-          
-          <!-- Column 2: Simulated logs -->
-          <div class="console-logs">
-            <div class="log-line" *ngFor="let log of terminalLogs">
-              <span class="log-time">{{ log.time }}</span>
-              <span class="log-tag" [ngClass]="log.type">{{ log.tag }}</span>
-              <span class="log-message">{{ log.message }}</span>
-            </div>
+          <span>Node.js microservices, secure APIs, queues, and database performance work.</span>
+        </li>
+        <li>
+          <div class="summary-item-header">
+            <i class="fas fa-laptop-code summary-item-icon color-orange"></i>
+            <strong>Thoughtful delivery</strong>
           </div>
-        </div>
-      </div>
-    </div>
+          <span>Clear frontends, practical architecture, and production-minded implementation.</span>
+        </li>
+      </ul>
+    </aside>
   </div>
-
-  <button type="button" class="scroll-indicator" (click)="scrollToSection('about')">
-    <span class="scroll-line"></span>
-    <span class="scroll-text">Scroll Down</span>
-  </button>
+  <div class="container proof-strip" aria-label="Core strengths">
+    <span><strong>3+ years</strong> hands-on experience</span><span><strong>Angular + Node.js</strong> full-stack delivery</span><span><strong>AWS, Docker & CI/CD</strong> deployment-ready work</span>
+  </div>
 </section>

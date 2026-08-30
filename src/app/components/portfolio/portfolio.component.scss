@@ -11,15 +11,15 @@
   justify-content: space-between;
   min-height: 340px;
   padding: 1.75rem;
-  border-radius: 1.6rem;
+  border-radius: var(--radius-md);
   transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
-  background: var(--gradient-panel);
+  background: var(--surface);
 }
 
 .project-card:hover {
   transform: translateY(-5px);
-  border-color: var(--primary-strong);
-  box-shadow: 0 24px 54px rgba(9, 18, 31, 0.22);
+  border-color: #a9bdcb;
+  box-shadow: var(--shadow);
 }
 
 .project-top {
@@ -63,14 +63,14 @@
   font-weight: 600;
   padding: 0.25rem 0.65rem;
   border-radius: 999px;
-  background: rgba(110, 231, 249, 0.08);
-  border: 1px solid rgba(110, 231, 249, 0.22);
+  background: #edf3f6;
+  border: 1px solid #c5d5df;
   color: var(--primary);
 }
 
 .project-metric {
   font-size: 0.76rem;
-  color: var(--secondary);
+  color: var(--muted);
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 500;
 }
@@ -103,15 +103,76 @@
   align-items: center;
   padding: 0.35rem 0.75rem;
   border-radius: 999px;
-  background: #17253a;
-  border: 1px solid rgba(120, 150, 195, 0.16);
+  background: var(--surface-subtle);
+  border: 1px solid var(--line);
   color: var(--muted-strong);
   font-size: 0.78rem;
   transition: background var(--transition-fast), border-color var(--transition-fast);
 }
 
+.tech-icon {
+  margin-right: 0.4rem;
+  font-size: 0.88rem;
+
+  &.icon-node { color: #339933; }
+  &.icon-typescript { color: #3178C6; }
+  &.icon-sass { color: #CC6699; }
+  &.icon-angular { color: #DD0031; }
+  &.icon-express { color: #4A5568; }
+  &.icon-kafka { color: #231F20; }
+  &.icon-docker { color: #2496ED; }
+  &.icon-postgres { color: #336791; }
+  &.icon-ethereum { color: #3c3c3d; }
+  &.icon-react { color: #61DAFB; }
+  &.icon-web3 { color: #F16822; }
+  &.icon-mongodb { color: #47A248; }
+  &.icon-socket { color: #010101; }
+  &.icon-mysql { color: #00758F; }
+  &.icon-java { color: #ED8B00; }
+  &.icon-springboot { color: #6DB33F; }
+}
+
 .project-card:hover .pill {
-  border-color: rgba(110, 231, 249, 0.16);
+  border-color: #c5d5df;
+}
+
+.project-action-footer {
+  margin-top: 1.25rem;
+  width: 100%;
+}
+
+.launch-desktop-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.65rem 1.2rem;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, var(--primary), var(--primary-strong, #0a4f80));
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(24, 114, 187, 0.25);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), filter var(--transition-fast);
+
+  i {
+    font-size: 0.95rem;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(24, 114, 187, 0.35);
+    filter: brightness(1.1);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(24, 114, 187, 0.2);
+  }
 }
 
 @media (max-width: 768px) {

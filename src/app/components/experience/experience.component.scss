@@ -27,7 +27,7 @@
   border-radius: 50%;
   background-color: var(--primary);
   border: 2px solid var(--bg);
-  box-shadow: 0 0 10px var(--primary);
+  box-shadow: none;
   transition: transform var(--transition);
 }
 

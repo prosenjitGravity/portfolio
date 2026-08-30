@@ -2,9 +2,9 @@
   <div class="container">
     <div class="section-header">
       <span class="section-tag">Skills</span>
-      <h2 class="section-title">Technical Skills & Stack</h2>
+      <h2 class="section-title">Technical depth across the product lifecycle.</h2>
       <p class="section-subtitle">
-        My capabilities across core backend technologies, dynamic frontend systems, deployment pipelines, and database architecture.
+        A working toolkit for backend services, user-facing applications, deployment pipelines, and data-intensive systems.
       </p>
     </div>
 
@@ -19,6 +19,7 @@
             class="pill"
             *ngFor="let skill of group.skills"
             [class.highlight]="skill.highlight">
+            <i *ngIf="skill.icon" [class]="skill.icon" class="skill-icon"></i>
             {{ skill.name }}
           </span>
         </div>
@@ -26,4 +27,3 @@
     </div>
   </div>
 </section>
-

@@ -1,23 +1,30 @@
 <!-- Classic Portfolio Mode (Original Scrolling View) -->
 <div class="home-shell classic-layout" *ngIf="classicMode">
-  <div class="classic-toggle-floating">
-    <button class="btn btn-primary compact-btn" (click)="toggleClassicMode()">
-      <i class="fas fa-desktop"></i> Switch to macOS Mode
-    </button>
-  </div>
-  <app-topbar (dataEmitter)="handleData($event)" [activeSectionId]="activeSectionId"></app-topbar>
+  <app-topbar (dataEmitter)="handleData($event)" (switchToDesktop)="toggleClassicMode()" [activeSectionId]="activeSectionId"></app-topbar>
   <app-hero></app-hero>
   <app-about></app-about>
   <app-services></app-services>
   <app-experience></app-experience>
-  <app-portfolio></app-portfolio>
+  <app-portfolio (switchToDesktop)="toggleClassicMode()"></app-portfolio>
   <app-architecture></app-architecture>
   <app-contact></app-contact>
   <app-footer></app-footer>
+
+  <!-- Floating Return to Desktop Toggle Button -->
+  <div class="classic-toggle-floating">
+    <button class="launch-desktop-btn" (click)="toggleClassicMode()">
+      <i class="fas fa-laptop-code"></i> Back to macOS Desktop
+    </button>
+  </div>
 </div>
 
 <!-- macOS Desktop Mode -->
 <div class="mac-desktop-shell" *ngIf="!classicMode">
+  
+  <!-- Brightness Overlay for macOS Mode -->
+  <div class="brightness-overlay" 
+       [style.opacity]="(100 - brightness) * 0.0075"
+       style="pointer-events: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: black; z-index: 99998; transition: opacity 0.05s linear;"></div>
   
   <!-- macOS Top Menu Bar -->
   <header class="mac-topbar">
@@ -83,8 +90,202 @@
       <span class="topbar-icon"><i class="fas fa-wifi"></i></span>
       <span class="topbar-icon"><i class="fas fa-battery-three-quarters"></i></span>
       <span class="topbar-icon"><i class="fas fa-search"></i></span>
-      <span class="topbar-icon" (click)="toggleClassicMode()"><i class="fas fa-sliders-h"></i></span>
-      <span class="topbar-clock">{{ currentTime }}</span>
+      
+      <!-- Control Center Dropdown -->
+      <div class="control-center-trigger-wrapper">
+        <span class="topbar-icon control-center-trigger" (click)="toggleControlCenter($event)" [class.active]="showControlCenter">
+          <i class="fas fa-sliders-h"></i>
+        </span>
+        
+        <!-- Control Center Panel -->
+        <div class="control-center-panel animate-fade-in" *ngIf="showControlCenter" (click)="$event.stopPropagation()">
+          <div class="cc-grid">
+            <!-- Connections Block -->
+            <div class="cc-card cc-connections">
+              <div class="cc-row" (click)="wifiActive = !wifiActive">
+                <div class="cc-icon" [class.active]="wifiActive">
+                  <i class="fas fa-wifi"></i>
+                </div>
+                <div class="cc-text">
+                  <div class="cc-label">Wi-Fi</div>
+                  <div class="cc-desc">{{ wifiActive ? 'Home_5G' : 'Off' }}</div>
+                </div>
+              </div>
+              <div class="cc-row" (click)="bluetoothActive = !bluetoothActive">
+                <div class="cc-icon" [class.active]="bluetoothActive">
+                  <i class="fab fa-bluetooth-b"></i>
+                </div>
+                <div class="cc-text">
+                  <div class="cc-label">Bluetooth</div>
+                  <div class="cc-desc">{{ bluetoothActive ? 'On' : 'Off' }}</div>
+                </div>
+              </div>
+              <div class="cc-row" (click)="airdropActive = !airdropActive">
+                <div class="cc-icon" [class.active]="airdropActive">
+                  <i class="fas fa-rss"></i>
+                </div>
+                <div class="cc-text">
+                  <div class="cc-label">Airdrop</div>
+                  <div class="cc-desc">{{ airdropActive ? 'Contacts Only' : 'Off' }}</div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Focus and Stage Manager Block -->
+            <div class="cc-stack">
+              <div class="cc-card cc-toggle-card" [class.active]="dndActive" (click)="dndActive = !dndActive">
+                <div class="cc-icon" [class.active]="dndActive">
+                  <i class="fas" [class.fa-moon]="dndActive" [class.fa-bell-slash]="!dndActive"></i>
+                </div>
+                <div class="cc-text">
+                  <div class="cc-label">Focus</div>
+                  <div class="cc-desc">{{ dndActive ? 'DND: On' : 'Off' }}</div>
+                </div>
+              </div>
+              <div class="cc-card cc-toggle-card" [class.active]="stageManagerActive" (click)="stageManagerActive = !stageManagerActive">
+                <div class="cc-icon" [class.active]="stageManagerActive">
+                  <i class="fas fa-cubes"></i>
+                </div>
+                <div class="cc-text">
+                  <div class="cc-label">Stage Manager</div>
+                  <div class="cc-desc">{{ stageManagerActive ? 'On' : 'Off' }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Brightness Slider -->
+          <div class="cc-card cc-slider-card">
+            <div class="cc-slider-title-row">
+              <div class="cc-slider-label">Display</div>
+              <div class="cc-slider-value">{{ brightness }}%</div>
+            </div>
+            <div class="cc-slider-control-row">
+              <i class="fas fa-sun cc-slider-icon-left"></i>
+              <input type="range" min="10" max="100" [(ngModel)]="brightness" class="cc-slider-input">
+            </div>
+          </div>
+          
+          <!-- Volume Slider -->
+          <div class="cc-card cc-slider-card">
+            <div class="cc-slider-title-row">
+              <div class="cc-slider-label">Sound</div>
+              <div class="cc-slider-value">{{ volume }}%</div>
+            </div>
+            <div class="cc-slider-control-row">
+              <i class="fas cc-slider-icon-left" 
+                 [class.fa-volume-mute]="volume === 0"
+                 [class.fa-volume-down]="volume > 0 && volume <= 40"
+                 [class.fa-volume-up]="volume > 40"></i>
+              <input type="range" min="0" max="100" [(ngModel)]="volume" (input)="playVolumeBeep()" class="cc-slider-input">
+            </div>
+          </div>
+          
+          <!-- Media Player -->
+          <div class="cc-card cc-media-card">
+            <div class="cc-media-avatar">
+              <i class="fas fa-music"></i>
+            </div>
+            <div class="cc-media-info">
+              <div class="cc-media-title">Lo-Fi Coding Session</div>
+              <div class="cc-media-artist">Antigravity Beats</div>
+            </div>
+            <div class="cc-media-controls">
+              <button class="cc-media-btn"><i class="fas fa-backward"></i></button>
+              <button class="cc-media-btn cc-play-pause" (click)="toggleMusicPlay()">
+                <i class="fas" [class.fa-play]="!isPlayingMusic" [class.fa-pause]="isPlayingMusic"></i>
+              </button>
+              <button class="cc-media-btn"><i class="fas fa-forward"></i></button>
+            </div>
+          </div>
+          
+          <!-- Classic Layout Switcher -->
+          <div class="cc-footer">
+            <button class="cc-classic-toggle-btn" (click)="toggleClassicMode(); showControlCenter = false;">
+              <i class="fas fa-sync-alt"></i> Switch to Classic Layout
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- Notification Trigger -->
+      <div class="notification-trigger-wrapper">
+        <span class="topbar-clock notification-trigger" (click)="toggleNotificationPanel($event)" [class.active]="showNotificationPanel">
+          {{ currentTime }}
+        </span>
+        
+        <!-- Notification Panel -->
+        <div class="notification-panel animate-fade-in" *ngIf="showNotificationPanel" (click)="$event.stopPropagation()">
+          <div class="nc-section">
+            <div class="nc-header">
+              <span class="nc-title">Notifications</span>
+              <button class="nc-clear-btn" (click)="clearNotifications()" *ngIf="notifications.length > 0">Clear All</button>
+            </div>
+            
+            <!-- Notification list -->
+            <div class="nc-list" *ngIf="notifications.length > 0">
+              <div class="nc-card animate-fade-in" *ngFor="let note of notifications">
+                <div class="nc-card-header">
+                  <div class="nc-app-info">
+                    <i [class]="note.icon" class="nc-app-icon"></i>
+                    <span class="nc-app-name">{{ note.appName }}</span>
+                  </div>
+                  <span class="nc-time">{{ note.time }}</span>
+                </div>
+                <div class="nc-card-body">
+                  <div class="nc-card-title">{{ note.title }}</div>
+                  <div class="nc-card-desc">{{ note.desc }}</div>
+                </div>
+              </div>
+            </div>
+            <div class="nc-empty" *ngIf="notifications.length === 0">
+              No new notifications
+            </div>
+          </div>
+          
+          <div class="nc-divider"></div>
+          
+          <!-- Widgets Section -->
+          <div class="nc-section">
+            <span class="nc-title">Widgets</span>
+            <div class="nc-widgets-grid">
+              <!-- Weather Widget -->
+              <div class="nc-widget-card weather-widget">
+                <div class="widget-city">Kolkata</div>
+                <div class="widget-temp">29°</div>
+                <div class="widget-condition">Thunderstorm</div>
+                <div class="widget-temp-range">H: 31°  L: 26°</div>
+              </div>
+              
+              <!-- Screen Time Widget -->
+              <div class="nc-widget-card screentime-widget">
+                <div class="widget-label"><i class="fas fa-hourglass-half"></i> Screen Time</div>
+                <div class="widget-time-value">2h 15m</div>
+                <div class="widget-bar-container">
+                  <div class="widget-bar-fill" style="width: 75%"></div>
+                </div>
+                <div class="widget-note">75% Coding (VS Code)</div>
+              </div>
+              
+              <!-- Calendar Widget -->
+              <div class="nc-widget-card calendar-widget">
+                <div class="widget-month">{{ currentDayName }}</div>
+                <div class="widget-date">{{ currentDayNum }}</div>
+                <div class="widget-next-event">
+                  <div class="event-title">Portfolio Review</div>
+                  <div class="event-time">2:30 PM</div>
+                </div>
+              </div>
+              
+              <!-- System Performance Widget -->
+              <div class="nc-widget-card system-widget">
+                <div class="widget-label"><i class="fas fa-microchip"></i> CPU Load</div>
+                <div class="widget-cpu-value">12%</div>
+                <div class="widget-cpu-detail">Memory: 4.8 / 8 GB</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </header>
 
@@ -147,14 +348,63 @@
 
     </div>
 
-    <!-- Left Overlay (Hero Title) -->
-    <div class="desktop-hero-overlay">
+    <!-- Left Overlay (Hero Title - Draggable / Pure macOS Glass Card) -->
+    <div class="desktop-hero-overlay mac-window"
+         *ngIf="windows['welcome'].open"
+         [style.left.px]="windows['welcome'].x"
+         [style.top.px]="windows['welcome'].y"
+         [style.zIndex]="windows['welcome'].zIndex"
+         (mousedown)="focusWindow('welcome')">
       <div class="hero-frame-container glass-card">
-        <h1 class="hero-main-title">Prosenjit Paul</h1>
-        <h2 class="hero-main-subtitle">Full Stack Developer</h2>
+        
+        <!-- Drag Handle Indicator -->
+        <div class="hero-drag-bar" (mousedown)="onMouseDown($event, 'welcome')">
+          <div class="drag-bar-dots">
+            <span class="dot-close" (click)="closeWindow('welcome'); $event.stopPropagation()"></span>
+            <span class="dot-minimize"></span>
+            <span class="dot-maximize"></span>
+          </div>
+          <span class="hero-drag-title">Welcome</span>
+        </div>
+
+        <div class="hero-profile-header">
+          <img src="public/assets/images/prosenjit_paul.jpg" alt="Prosenjit Paul" class="hero-profile-img">
+          <div class="hero-profile-info">
+            <h1 class="hero-main-title">Prosenjit Paul</h1>
+            <div class="hero-subtitle-container">
+              <h2 class="hero-main-subtitle">Full Stack Developer</h2>
+              <button class="hero-classic-redirect-btn" (click)="toggleClassicMode()">
+                <i class="fas fa-external-link-alt"></i> Full Portfolio
+              </button>
+            </div>
+          </div>
+        </div>
         <p class="hero-main-desc">
           I build modern, responsive and user-friendly web applications.
         </p>
+
+        <!-- Quick Developer Details Grid -->
+        <div class="hero-info-grid">
+          <div class="info-item">
+            <span class="info-label">EXPERIENCE</span>
+            <span class="info-value">3+ Years</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">FOCUS</span>
+            <span class="info-value">APIs & Services</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">CORE TECH</span>
+            <div class="tech-mini-icons">
+              <i class="fab fa-angular" title="Angular"></i>
+              <i class="fab fa-node-js" title="Node.js"></i>
+              <i class="fab fa-java" title="Java"></i>
+              <i class="fas fa-leaf" title="Spring Boot"></i>
+              <i class="fab fa-docker" title="Docker"></i>
+            </div>
+          </div>
+        </div>
+
         <div class="hero-overlay-actions">
           <button class="overlay-btn btn-primary-style" (click)="openWindow('projects')">
             <i class="fas fa-code"></i> View Projects
@@ -212,7 +462,7 @@
               <!-- Left Side: Avatar Panel -->
               <div class="about-avatar-panel">
                 <div class="about-avatar-wrapper">
-                  <img src="public/assets/images/memoji_avatar.png" alt="Memoji" class="about-memoji">
+                  <img src="public/assets/images/prosenjit_paul.jpg" alt="Prosenjit Paul" class="about-memoji">
                   <span class="status-indicator-dot"></span>
                 </div>
                 <div class="about-opportunities-status">
@@ -228,6 +478,14 @@
                 <p class="about-info-desc">
                   I build modern, responsive and user-friendly web applications with clean architecture and thoughtful user experiences.
                 </p>
+
+                <!-- Redirect CTA Button to View Main Portfolio -->
+                <div class="about-portfolio-btn-wrapper">
+                  <button class="about-main-portfolio-btn" (click)="toggleClassicMode(); closeWindow('about')">
+                    <i class="fas fa-external-link-alt"></i> View Main Portfolio
+                    <span class="btn-shine"></span>
+                  </button>
+                </div>
                 
                 <!-- CP Badges -->
                 <div class="about-badges-row">
@@ -713,11 +971,11 @@
                 <table class="resume-doc-skills-table">
                   <tr>
                     <td><strong>Languages</strong></td>
-                    <td>JavaScript (ES6+), TypeScript, SQL, HTML5, CSS3, SCSS</td>
+                    <td>Java, JavaScript (ES6+), TypeScript, SQL, HTML5, CSS3, SCSS</td>
                   </tr>
                   <tr>
                     <td><strong>Backend</strong></td>
-                    <td>Node.js, Express, RabbitMQ, WebSockets, RESTful APIs</td>
+                    <td>Node.js, Express, Spring Boot, RabbitMQ, Kafka, WebSockets, RESTful APIs</td>
                   </tr>
                   <tr>
                     <td><strong>Frontend</strong></td>
@@ -753,12 +1011,410 @@
         </div>
       </div>
 
+      <!-- 12. GITHUB WINDOW -->
+      <div class="mac-window glass-window browser-window github-window" 
+           *ngIf="windows['github'].open && (!windows['github'].minimized || windows['github'].minimizing)"
+           [style.left.px]="windows['github'].x"
+           [style.top.px]="windows['github'].y"
+           [style.z-index]="windows['github'].zIndex"
+           [class.active-window]="isWindowFocused('github')"
+           [class.maximized-window]="windows['github'].maximized"
+           [class.minimizing-window]="windows['github'].minimizing"
+           [class.restoring-window]="windows['github'].restoring"
+           (mousedown)="focusWindow('github')">
+        
+        <!-- Window Titlebar -->
+        <div class="mac-window-header" (mousedown)="onMouseDown($event, 'github')" (touchstart)="onTouchStart($event, 'github')">
+          <div class="mac-window-controls">
+            <span class="mac-window-btn red-btn" (click)="closeWindow('github', $event)"></span>
+            <span class="mac-window-btn yellow-btn" (click)="minimizeWindow('github', $event)"></span>
+            <span class="mac-window-btn green-btn" (click)="maximizeWindow('github', $event)"></span>
+          </div>
+          <div class="mac-window-title">
+            <i class="fab fa-github"></i> GitHub — prosenjitGravity
+          </div>
+          <div style="width: 52px;"></div> <!-- Spacer balancing title -->
+        </div>
+
+        <!-- GitHub Window Body (Custom Dashboard) -->
+        <div class="mac-window-body github-dashboard-body scrollable-body">
+          
+          <!-- Loading skeleton loader -->
+          <div class="github-loading-state" *ngIf="githubLoading">
+            <div class="skeleton-profile-header">
+              <div class="skeleton-avatar"></div>
+              <div class="skeleton-profile-text">
+                <div class="skeleton-line short"></div>
+                <div class="skeleton-line medium"></div>
+              </div>
+            </div>
+            <div class="skeleton-repos-grid">
+              <div class="skeleton-repo-card" *ngFor="let item of [1,2,3,4]">
+                <div class="skeleton-line short"></div>
+                <div class="skeleton-line long"></div>
+                <div class="skeleton-line medium"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Loaded State -->
+          <ng-container *ngIf="!githubLoading">
+            
+            <!-- Dashboard Sidebar/Profile Header -->
+            <div class="github-profile-panel" *ngIf="githubProfile">
+              <div class="profile-avatar-container">
+                <img [src]="githubProfile.avatar_url" alt="Avatar" class="github-avatar">
+              </div>
+              <div class="profile-main-info">
+                <h2 class="profile-name">{{ githubProfile.name || 'Prosenjit Paul' }}</h2>
+                <div class="profile-login">&#64;{{ githubProfile.login }}</div>
+                <p class="profile-bio">{{ githubProfile.bio }}</p>
+                
+                <div class="profile-stats">
+                  <div class="stat-item">
+                    <span class="stat-count">{{ githubProfile.followers }}</span>
+                    <span class="stat-label">followers</span>
+                  </div>
+                  <div class="stat-item">
+                    <span class="stat-count">{{ githubProfile.following }}</span>
+                    <span class="stat-label">following</span>
+                  </div>
+                  <div class="stat-item">
+                    <span class="stat-count">{{ githubProfile.public_repos }}</span>
+                    <span class="stat-label">repos</span>
+                  </div>
+                </div>
+
+                <div class="profile-actions">
+                  <a [href]="githubProfile.html_url || 'https://github.com/prosenjitGravity'" target="_blank" class="github-btn-link">
+                    <i class="fab fa-github"></i> View Profile
+                  </a>
+                  <span class="fallback-badge" *ngIf="githubUsingFallback">
+                    <i class="fas fa-exclamation-circle"></i> Cache Active
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Repositories Grid Panel -->
+            <div class="github-repos-panel">
+              <div class="panel-header">
+                <h3>Repositories ({{ githubRepos.length }})</h3>
+              </div>
+              
+              <div class="repos-grid">
+                <div class="repo-card" *ngFor="let repo of githubRepos">
+                  <div class="repo-card-header">
+                    <a [href]="repo.html_url" target="_blank" class="repo-name-link">
+                      <i class="fas fa-bookmark repo-icon"></i>
+                      {{ repo.name }}
+                    </a>
+                  </div>
+                  <p class="repo-description">{{ repo.description || 'No description provided.' }}</p>
+                  
+                  <div class="repo-footer">
+                    <div class="repo-meta-left">
+                      <span class="repo-lang" *ngIf="repo.language">
+                        <span class="lang-dot" [class]="repo.language.toLowerCase()"></span>
+                        {{ repo.language }}
+                      </span>
+                      <span class="repo-stat" title="Stars" *ngIf="repo.stargazers_count > 0">
+                        <i class="far fa-star"></i> {{ repo.stargazers_count }}
+                      </span>
+                      <span class="repo-stat" title="Forks" *ngIf="repo.forks_count > 0">
+                        <i class="fas fa-code-branch"></i> {{ repo.forks_count }}
+                      </span>
+                    </div>
+                    <div class="repo-meta-right">
+                      <span class="repo-date">{{ repo.updated_at | date:'MMM d, y' }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+          </ng-container>
+        </div>
+      </div>
+
+      <!-- 13. LINKEDIN WINDOW -->
+      <div class="mac-window glass-window browser-window linkedin-window" 
+           *ngIf="windows['linkedin'].open && (!windows['linkedin'].minimized || windows['linkedin'].minimizing)"
+           [style.left.px]="windows['linkedin'].x"
+           [style.top.px]="windows['linkedin'].y"
+           [style.z-index]="windows['linkedin'].zIndex"
+           [class.active-window]="isWindowFocused('linkedin')"
+           [class.maximized-window]="windows['linkedin'].maximized"
+           [class.minimizing-window]="windows['linkedin'].minimizing"
+           [class.restoring-window]="windows['linkedin'].restoring"
+           (mousedown)="focusWindow('linkedin')">
+        
+        <!-- Window Titlebar -->
+        <div class="mac-window-header" (mousedown)="onMouseDown($event, 'linkedin')" (touchstart)="onTouchStart($event, 'linkedin')">
+          <div class="mac-window-controls">
+            <span class="mac-window-btn red-btn" (click)="closeWindow('linkedin', $event)"></span>
+            <span class="mac-window-btn yellow-btn" (click)="minimizeWindow('linkedin', $event)"></span>
+            <span class="mac-window-btn green-btn" (click)="maximizeWindow('linkedin', $event)"></span>
+          </div>
+          <div class="mac-window-title">
+            <i class="fab fa-linkedin"></i> LinkedIn — Prosenjit Paul
+          </div>
+          <div style="width: 52px;"></div> <!-- Spacer balancing title -->
+        </div>
+
+        <!-- LinkedIn data is loaded through the configured, server-side API. -->
+        <div class="mac-window-body linkedin-dashboard-body scrollable-body">
+          <nav class="linkedin-site-nav" aria-label="LinkedIn navigation">
+            <a class="linkedin-mark" [href]="linkedinProfile?.profileUrl || 'https://www.linkedin.com'" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <div class="linkedin-search"><i class="fas fa-search"></i><span>Search</span></div>
+            <div class="linkedin-nav-links" aria-hidden="true"><span><i class="fas fa-home"></i>Home</span><span><i class="fas fa-user-friends"></i>My Network</span><span><i class="fas fa-briefcase"></i>Jobs</span><span><i class="fas fa-comment-dots"></i>Messaging</span></div>
+          </nav>
+          <div class="linkedin-loading-state" *ngIf="linkedinLoading"><div class="linkedin-skeleton cover"></div><div class="linkedin-skeleton line large"></div><div class="linkedin-skeleton line"></div><div class="linkedin-skeleton card"></div></div>
+          <div class="linkedin-error-state" *ngIf="linkedinError"><i class="fab fa-linkedin"></i><h3>LinkedIn profile is unavailable</h3><p>Connect the server-side LinkedIn API endpoint to display live profile data.</p><button type="button" class="linkedin-btn primary-btn" (click)="fetchLinkedinData()">Try again</button></div>
+          <div class="linkedin-content" *ngIf="linkedinProfile && !linkedinLoading">
+            <main class="linkedin-main-column">
+          
+          <!-- Cover Banner & Profile Card -->
+          <div class="linkedin-card profile-card-top">
+            <div class="linkedin-banner" [style.background-image]="linkedinProfile.bannerUrl ? 'url(' + linkedinProfile.bannerUrl + ')' : ''"></div>
+            
+            <div class="profile-main-section">
+              <div class="linkedin-avatar-wrapper">
+                <img *ngIf="linkedinProfile.avatarUrl" [src]="linkedinProfile.avatarUrl" [alt]="linkedinProfile.name" class="linkedin-avatar">
+                <i *ngIf="!linkedinProfile.avatarUrl" class="fas fa-user linkedin-avatar-placeholder"></i>
+              </div>
+              
+              <div class="profile-details-grid">
+                <div class="profile-info-left">
+                  <h2 class="linkedin-name">{{ linkedinProfile.name }}</h2>
+                  <p class="linkedin-headline">{{ linkedinProfile.headline }}</p>
+                  <p class="linkedin-meta-location">
+                    <span class="loc-text">{{ linkedinProfile.location }}</span>
+                    <span class="separator-dot">·</span>
+                    <a [href]="linkedinProfile.profileUrl" target="_blank" rel="noopener noreferrer" class="contact-info-link">Contact info</a>
+                  </p>
+                  <p class="linkedin-connections-stats">
+                    <span class="conn-count">{{ linkedinProfile.connections }} connections</span>
+                  </p>
+
+                  <div class="badge-status-row" *ngIf="linkedinProfile.openToWork">
+                    <span class="badge-pill open-to-work">Open to work</span>
+                    <span class="badge-subtext">Software Developer roles</span>
+                  </div>
+                  
+                  <div class="profile-action-buttons">
+                    <a [href]="linkedinProfile.profileUrl" target="_blank" rel="noopener noreferrer" class="linkedin-btn primary-btn">
+                      <i class="fab fa-linkedin"></i> View on LinkedIn
+                    </a>
+                    <a href="mailto:paul.prosenjitbit@gmail.com" class="linkedin-btn secondary-btn">
+                      <i class="fas fa-paper-plane"></i> Message
+                    </a>
+                  </div>
+                </div>
+                
+                <div class="profile-info-right" *ngIf="linkedinProfile.currentCompany || linkedinProfile.school">
+                  <div class="right-institution-item" *ngIf="linkedinProfile.currentCompany">
+                    <i class="fas fa-briefcase inst-logo"></i>
+                    <span class="inst-name">{{ linkedinProfile.currentCompany }}</span>
+                  </div>
+                  <div class="right-institution-item" *ngIf="linkedinProfile.school">
+                    <i class="fas fa-graduation-cap inst-logo"></i>
+                    <span class="inst-name">{{ linkedinProfile.school }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- About Card -->
+          <div class="linkedin-card about-card" *ngIf="linkedinProfile.about">
+            <h3 class="card-title">About</h3>
+            <p class="card-text-content">{{ linkedinProfile.about }}</p>
+          </div>
+
+          <!-- Activity Card -->
+          <div class="linkedin-card activity-card" *ngIf="linkedinActivities.length">
+            <div class="card-header-flex">
+              <h3 class="card-title">Activity</h3>
+              <span class="follower-count">{{ linkedinProfile.followers }} followers</span>
+            </div>
+            
+            <div class="activity-feed">
+              <div class="activity-post" *ngFor="let act of linkedinActivities">
+                <div class="post-header">
+                  <img *ngIf="act.avatarUrl" [src]="act.avatarUrl" [alt]="act.author" class="post-author-avatar">
+                  <div *ngIf="!act.avatarUrl" class="post-avatar-placeholder"><i class="fas fa-user"></i></div>
+                  <div class="post-author-details">
+                    <span class="author-name">{{ act.author }}</span>
+                    <span class="author-headline">{{ act.headline }}</span>
+                    <span class="post-time">{{ act.time }}</span>
+                  </div>
+                </div>
+                <p class="post-body-text">{{ act.text }}</p>
+                <div class="post-stats-footer">
+                  <span class="post-stat-item"><i class="thumbs-up fas fa-thumbs-up"></i> {{ act.likes }}</span>
+                  <span class="separator-dot">·</span>
+                  <span class="post-stat-item">{{ act.comments }} comments</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Experience Card -->
+          <div class="linkedin-card experience-card" *ngIf="linkedinExperience.length">
+            <h3 class="card-title">Experience</h3>
+            
+            <div class="experience-list">
+              <div class="experience-node" *ngFor="let exp of linkedinExperience; let isLast = last">
+                <div class="exp-icon-wrapper">
+                  <i class="fas fa-briefcase exp-default-icon"></i>
+                </div>
+                <div class="exp-details">
+                  <h4 class="exp-role">{{ exp.role }}</h4>
+                  <p class="exp-company">{{ exp.company }}</p>
+                  <p class="exp-period">{{ exp.period }}</p>
+                  <p class="exp-location">{{ exp.location }}</p>
+                  <p class="exp-description">{{ exp.description }}</p>
+                </div>
+                <div class="divider-line" *ngIf="!isLast"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Education Card -->
+          <div class="linkedin-card education-card" *ngIf="linkedinEducation.length">
+            <h3 class="card-title">Education</h3>
+            
+            <div class="education-list">
+              <div class="education-node" *ngFor="let edu of linkedinEducation; let isLast = last">
+                <div class="edu-icon-wrapper">
+                  <i class="fas fa-graduation-cap edu-default-icon"></i>
+                </div>
+                <div class="edu-details">
+                  <h4 class="edu-school">{{ edu.school }}</h4>
+                  <p class="edu-degree">{{ edu.degree }}</p>
+                  <p class="edu-period">{{ edu.period }}</p>
+                </div>
+                <div class="divider-line" *ngIf="!isLast"></div>
+              </div>
+            </div>
+          </div>
+
+            </main>
+            <aside class="linkedin-sidebar">
+              <section class="linkedin-side-card"><h3>Profile language</h3><p>English</p><a [href]="linkedinProfile.profileUrl" target="_blank" rel="noopener noreferrer">View profile on LinkedIn</a></section>
+              <section class="linkedin-side-card"><h3>People also viewed</h3><p>Recommendations are available on LinkedIn.</p></section>
+            </aside>
+          </div>
+        </div>
+      </div>
+
+      <!-- 12. PHOTO BOOTH WINDOW -->
+      <div class="mac-window glass-window photobooth-window animate-fade-in" 
+           *ngIf="windows['photobooth'].open && (!windows['photobooth'].minimized || windows['photobooth'].minimizing)"
+           [style.left.px]="windows['photobooth'].x"
+           [style.top.px]="windows['photobooth'].y"
+           [style.z-index]="windows['photobooth'].zIndex"
+           [class.active-window]="isWindowFocused('photobooth')"
+           [class.maximized-window]="windows['photobooth'].maximized"
+           [class.minimizing-window]="windows['photobooth'].minimizing"
+           [class.restoring-window]="windows['photobooth'].restoring"
+           (click)="focusWindow('photobooth')">
+        <!-- Title Bar -->
+        <div class="mac-window-header" (mousedown)="onMouseDown($event, 'photobooth')" (touchstart)="onTouchStart($event, 'photobooth')">
+          <div class="mac-window-controls">
+            <span class="mac-window-btn red-btn" (click)="closeWindow('photobooth', $event)"></span>
+            <span class="mac-window-btn yellow-btn" (click)="minimizeWindow('photobooth', $event)"></span>
+            <span class="mac-window-btn green-btn" (click)="maximizeWindow('photobooth', $event)"></span>
+          </div>
+          <span class="mac-window-title">
+            <i class="fas fa-camera"></i> Photo Booth
+          </span>
+          <div style="width: 52px;"></div>
+        </div>
+
+        <!-- Window Body -->
+        <div class="mac-window-body photobooth-body">
+          <div class="photobooth-screen">
+            <video id="photobooth-video" 
+                   autoplay 
+                   playsinline 
+                   [class]="photoBoothFilter"
+                   *ngIf="photoBoothStream"></video>
+            
+            <div class="photobooth-placeholder" *ngIf="!photoBoothStream">
+              <i class="fas fa-video-slash"></i>
+              <span>Camera Inactive</span>
+              <p>Camera feed will appear when the app is active and permissions are granted.</p>
+            </div>
+
+            <div class="countdown-overlay" *ngIf="photoBoothCountdown !== null">
+              {{ photoBoothCountdown }}
+            </div>
+
+            <div class="flash-overlay" *ngIf="photoBoothFlash"></div>
+          </div>
+
+          <div class="photobooth-controls">
+            <button class="shutter-btn" 
+                    [disabled]="!photoBoothStream || photoBoothCountdown !== null" 
+                    (click)="takePhotoBoothPicture()" 
+                    title="Take Photo">
+              <span class="inner-circle"></span>
+            </button>
+          </div>
+
+          <div class="filter-strip" *ngIf="photoBoothStream">
+            <div class="filter-option" [class.active]="photoBoothFilter === 'none'" (click)="setPhotoBoothFilter('none')">
+              <div class="filter-preview none"></div>
+              <span>Normal</span>
+            </div>
+            <div class="filter-option" [class.active]="photoBoothFilter === 'sepia'" (click)="setPhotoBoothFilter('sepia')">
+              <div class="filter-preview sepia"></div>
+              <span>Sepia</span>
+            </div>
+            <div class="filter-option" [class.active]="photoBoothFilter === 'grayscale'" (click)="setPhotoBoothFilter('grayscale')">
+              <div class="filter-preview grayscale"></div>
+              <span>Mono</span>
+            </div>
+            <div class="filter-option" [class.active]="photoBoothFilter === 'invert'" (click)="setPhotoBoothFilter('invert')">
+              <div class="filter-preview invert"></div>
+              <span>Invert</span>
+            </div>
+            <div class="filter-option" [class.active]="photoBoothFilter === 'blur'" (click)="setPhotoBoothFilter('blur')">
+              <div class="filter-preview blur"></div>
+              <span>Blur</span>
+            </div>
+            <div class="filter-option" [class.active]="photoBoothFilter === 'hue-rotate'" (click)="setPhotoBoothFilter('hue-rotate')">
+              <div class="filter-preview hue-rotate"></div>
+              <span>Pop Art</span>
+            </div>
+            <div class="filter-option" [class.active]="photoBoothFilter === 'contrast'" (click)="setPhotoBoothFilter('contrast')">
+              <div class="filter-preview contrast"></div>
+              <span>Noir</span>
+            </div>
+          </div>
+
+          <div class="photo-gallery" *ngIf="photoBoothPhotos.length > 0">
+            <div class="gallery-title">Your Snaps (Click to Download)</div>
+            <div class="gallery-tray">
+              <div class="gallery-item" *ngFor="let photo of photoBoothPhotos; let idx = index">
+                <img [src]="photo" (click)="downloadPhotoBoothPicture(photo, $event)" title="Download Snap">
+                <button class="delete-photo-btn" (click)="deletePhotoBoothPicture(idx, $event)" title="Delete Photo">
+                  <i class="fas fa-times-circle"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
 
   </main>
 
   <!-- macOS Bottom Dock -->
-  <footer class="mac-dock-container">
+  <footer class="mac-dock-container" [class.app-is-open]="hasAnyOpenWindow()">
     <div class="mac-dock">
       
       <ng-container *ngFor="let item of dockItems; let idx = index">
@@ -782,6 +1438,8 @@
                *ngIf="item.type !== 'calendar'"
                [class.finder-icon]="item.id === 'finder'"
                [class.google-dock-icon]="item.id === 'google'"
+               [class.github-dock-icon]="item.id === 'github'"
+               [class.linkedin-dock-icon]="item.id === 'linkedin'"
                [class.mail-icon]="item.id === 'contact'"
                [class.folder-icon-dock]="item.id === 'projects' || item.id === 'skills' || item.id === 'education' || item.type === 'folder'"
                [class.skill-dock]="item.id === 'skills'"
@@ -794,7 +1452,7 @@
           </div>
 
           <!-- Active dot indicator -->
-          <div class="dock-active-dot" *ngIf="item.windowId && windows[item.windowId] && windows[item.windowId].open && !windows[item.windowId].minimized"></div>
+          <div class="dock-active-dot" *ngIf="item.windowId && windows[item.windowId] && windows[item.windowId].open"></div>
         </div>
       </ng-container>
 

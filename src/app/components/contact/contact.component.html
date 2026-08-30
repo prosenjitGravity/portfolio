@@ -139,19 +139,18 @@
   <div class="container">
     <div class="section-header">
       <span class="section-tag">Contact</span>
-      <h2 class="section-title">Let’s build something that looks serious and feels smooth.</h2>
+      <h2 class="section-title">Let’s discuss the problem you need to solve.</h2>
       <p class="section-subtitle">
-        If you need a portfolio refresh, a frontend implementation, or a polished product experience, this is the place to start.
+        Whether you are hiring for a full-stack role or planning a product build, I would be glad to learn about the work.
       </p>
     </div>
 
     <div class="contact-grid">
       <aside class="contact-panel glass-card">
-        <span class="contact-kicker">Open Channel</span>
-        <h3 class="contact-title">Available for impactful builds and UI upgrades.</h3>
+        <span class="contact-kicker">Get in touch</span>
+        <h3 class="contact-title">Clear communication from the first conversation.</h3>
         <p class="contact-description">
-          I enjoy taking existing work and pushing it into a cleaner, more credible, more modern direction.
-          Reach out if you want help with interfaces, application structure, or overall portfolio presentation.
+          I’m available for full-stack engineering roles, backend and API development, and application modernization. Select a topic or send a direct message.
         </p>
 
         <div class="contact-details">
@@ -166,6 +165,8 @@
           </div>
         </div>
 
+        <div class="inquiry-options" aria-label="Message topic suggestions"><button type="button" (click)="startInquiry('Full-stack engineering opportunity')">Engineering role</button><button type="button" (click)="startInquiry('Project or consulting inquiry')">Project inquiry</button></div>
+
         <div class="social-links">
           <a
             *ngFor="let social of socialLinks"
@@ -178,7 +179,7 @@
         </div>
       </aside>
 
-      <div class="contact-form glass-card">
+      <div class="contact-form glass-card" id="contact-form">
         <form class="form" [formGroup]="contactForm" (ngSubmit)="onSubmit()">
           <div class="field-row">
             <div class="form-group">
@@ -186,6 +187,7 @@
               <input
                 id="name"
                 type="text"
+                placeholder="e.g. John Doe"
                 formControlName="name"
                 class="form-input"
                 [class.error]="contactForm.get('name')?.invalid && contactForm.get('name')?.touched">
@@ -197,6 +199,7 @@
               <input
                 id="email"
                 type="email"
+                placeholder="e.g. john@example.com"
                 formControlName="email"
                 class="form-input"
                 [class.error]="contactForm.get('email')?.invalid && contactForm.get('email')?.touched">
@@ -209,6 +212,7 @@
             <input
               id="subject"
               type="text"
+              placeholder="e.g. Engineering Role Opportunity / Project Collaboration"
               formControlName="subject"
               class="form-input"
               [class.error]="contactForm.get('subject')?.invalid && contactForm.get('subject')?.touched">
@@ -220,6 +224,7 @@
             <textarea
               id="message"
               rows="6"
+              placeholder="Write your message here... I will get back to you shortly!"
               formControlName="message"
               class="form-textarea"
               [class.error]="contactForm.get('message')?.invalid && contactForm.get('message')?.touched"></textarea>
@@ -227,9 +232,9 @@
           </div>
 
           <button type="submit" class="btn btn-primary btn-full" [disabled]="isSubmitting">
-            <span *ngIf="!isSubmitting && !isSubmitted">Send Project Signal</span>
-            <span *ngIf="isSubmitting">Sending...</span>
-            <span *ngIf="isSubmitted">Signal Received</span>
+            <span *ngIf="!isSubmitting && !isSubmitted">Send Message</span>
+            <span *ngIf="isSubmitting">Opening Email...</span>
+            <span *ngIf="isSubmitted">Email Draft Opened!</span>
             <i class="fas fa-paper-plane" *ngIf="!isSubmitting && !isSubmitted"></i>
             <i class="fas fa-spinner fa-spin" *ngIf="isSubmitting"></i>
             <i class="fas fa-check" *ngIf="isSubmitted"></i>
