@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, HostListener, inject, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { TopbarComponent } from '../topbar/topbar.component';
 import { CommonModule } from '@angular/common';
 import { HeroComponent } from "../hero/hero.component";
@@ -13,6 +13,7 @@ import { LoggerService } from '../../services/logger.service';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { LinkedinActivity, LinkedinEducation, LinkedinExperience, LinkedinProfile, LinkedinProfileService } from '../../services/linkedin-profile.service';
+import { environment } from '../../../environment/environment';
 
 interface WindowState {
   id: string;
@@ -57,7 +58,7 @@ interface FileSystemItem {
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
-export class HomeComponent implements OnInit, AfterViewInit {
+export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('contentContainer') contentContainer!: ElementRef;
 
@@ -82,7 +83,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   // Original Layout States
   activeSectionId: string = 'home';
-  sections: string[] = ['home', 'about', 'services', 'projects', 'contact'];
+  sections: string[] = ['home', 'about', 'services', 'experience', 'projects', 'contact'];
   scrollPosition: number = 0;
   loggingEnabled = true;
 
@@ -177,19 +178,19 @@ export class HomeComponent implements OnInit, AfterViewInit {
   // macOS Dock configuration
   dockItems = [
     { id: 'finder', label: 'Finder', icon: 'fas fa-smile', type: 'app', windowId: 'finder', fileKey: '' },
+    { id: 'about', label: 'About Me', icon: 'fas fa-user-circle', type: 'app', windowId: 'about', fileKey: '' },
     { id: 'google', label: 'Google Search', icon: 'fab fa-google', type: 'app', windowId: 'google', fileKey: '' },
     { id: 'github', label: 'GitHub', icon: 'fab fa-github', type: 'app', windowId: 'github', fileKey: '' },
     { id: 'linkedin', label: 'LinkedIn', icon: 'fab fa-linkedin', type: 'app', windowId: 'linkedin', fileKey: '' },
     { id: 'contact', label: 'Mail / Contact', icon: 'fas fa-envelope', type: 'app', windowId: 'contact', fileKey: '' },
-    { id: 'calendar', label: 'Calendar', icon: '', type: 'calendar', windowId: '', fileKey: '' },
     { id: 'projects', label: 'Projects', icon: 'fas fa-folder', type: 'app', windowId: 'projects', fileKey: '' },
     { id: 'skills', label: 'Skills', icon: 'fas fa-brain', type: 'app', windowId: 'skills', fileKey: '' },
     { id: 'experience', label: 'Experience', icon: 'fas fa-briefcase', type: 'app', windowId: 'experience', fileKey: '' },
     { id: 'education', label: 'Certificates', icon: 'fas fa-graduation-cap', type: 'app', windowId: 'education', fileKey: '' },
     { id: 'terminal', label: 'Developer Log', icon: 'fas fa-terminal', type: 'app', windowId: 'terminal', fileKey: '' },
-    { id: 'textedit', label: 'TextEdit', icon: 'far fa-file-alt', type: 'app', windowId: 'textedit', fileKey: '' },
-    { id: 'resumeapp', label: 'Resume Viewer', icon: 'fas fa-file-pdf', type: 'app', windowId: 'resumeapp', fileKey: '' },
-    { id: 'photobooth', label: 'Photo Booth', icon: 'fas fa-camera', type: 'app', windowId: 'photobooth', fileKey: '' },
+    // { id: 'textedit', label: 'TextEdit', icon: 'far fa-file-alt', type: 'app', windowId: 'textedit', fileKey: '' },
+    // { id: 'resumeapp', label: 'Resume Viewer', icon: 'fas fa-file-pdf', type: 'app', windowId: 'resumeapp', fileKey: '' },
+    // { id: 'photobooth', label: 'Photo Booth', icon: 'fas fa-camera', type: 'app', windowId: 'photobooth', fileKey: '' },
     { id: 'settings', label: 'Settings', icon: 'fas fa-cog', type: 'settings', windowId: '', fileKey: '' }
   ];
 
@@ -280,20 +281,25 @@ Highly motivated and results-driven Software Developer with experience in design
 
 ### PROFESSIONAL EXPERIENCE
 
-#### 1. Software Developer | SISL Infotech Pvt Ltd (NIC)
+#### 1. Software Developer | SISL Infotech Pvt. Ltd. (NIC)
 *Aug 2024 — Present | Kolkata, India*
-- **JIT SNA-Sparsh Engine:** Owned backend architecture of a real-time fund management system enabling seamless allocation between Central and State governments.
-- **Workflow & Fault Tolerance:** Engineered a resilient Fund Transfer Order workflow engine featuring automated retry logic, exponential backoff, and partial-success handling under peak transactions.
-- **Asynchronous Pipelines:** Integrated Node.js with RabbitMQ message queues to process asynchronous tasks, improving throughput by decoupling heavy financial computations.
-- **Enterprise Security:** Designed REST APIs with multi-step validation, RBAC, and audit logging.
-- **Containerization:** Containerized microservices using Docker to streamline dev-to-prod setups.
+- Contributing to a **secure government financial management platform**, building high-reliability solutions for critical financial operations and digital governance workflows.
+- Engineered **multi-tier scheme fund transfer mechanisms**, orchestrating automated, validated disbursements from **State level down to District, Block, and Village levels** based on scheme rules.
+- Architected granular **user mapping and administrative hierarchy models**, enforcing strict multi-level RBAC, verification gates, and audit trails.
+- Developed and enhanced high-throughput **RESTful APIs using .NET Core** and responsive **Angular** modules with a focus on scalability and maintainability.
+- Implemented **RabbitMQ-based asynchronous message processing** to decouple heavy financial workflows and ensure automated retry mechanisms.
+- Integrated core applications with **authorized government portals and external APIs** for secure, encrypted data exchange.
+- Strengthened system security through **RBAC, multi-factor authorization, input validation, and tamper-evident audit logs**.
+- **Tech Stack:** .NET Core, Angular, RabbitMQ, PostgreSQL, REST APIs, Microservices
 
 #### 2. Junior Software Developer | Phloxblog
 *Aug 2023 — Aug 2024 | Kolkata, India*
-- **Real-time E-Auction Platform:** Developed an end-to-end e-auction web platform managing asset lifecycles, user bidding, and active live sessions.
-- **Angular & WebSockets:** Built responsive Angular client interfaces with WebSockets integration for instantaneous live bid streaming.
-- **Database Optimization:** Redesigned PostgreSQL schemas, added compound indexes, and tuned queries.
-- **AWS Infrastructure:** Deployed applications to AWS EC2/S3 and configured Elastic Load Balancing (ELB).
+- Engineered core modules for a **real-time e-auction platform**, managing live auction sessions, asset catalogs, and participant bidding lifecycles.
+- Developed dynamic **Angular client interfaces with WebSockets** for low-latency live bid streaming, instant outbid alerts, and seamless UI state updates.
+- Optimized **PostgreSQL database performance** through relational schema redesign, strategic compound indexing, and query optimization, reducing latency spikes.
+- Collaborated on backend REST APIs with **Node.js / Express**, implementing secure JWT authentication, sanitization, and transaction management.
+- Assisted in cloud deployments and microservice monitoring on **AWS (EC2, S3, ELB)** with automated CI/CD workflows.
+- **Tech Stack:** Angular, TypeScript, Node.js, Express, PostgreSQL, WebSockets, AWS (EC2, S3), Git
 
 ---
 
@@ -304,8 +310,8 @@ Highly motivated and results-driven Software Developer with experience in design
 ---
 
 ### SKILLS & TECH STACK
-  - **Languages:** Java, JavaScript, TypeScript, HTML/CSS, SQL
-  - **Backend:** Node.js, Express, Spring Boot, RabbitMQ, Kafka, WebSockets, REST APIs
+  - **Languages:** .NET Core, Java, JavaScript, TypeScript, HTML/CSS, SQL
+  - **Backend:** .NET Core, Node.js, Express, Spring Boot, RabbitMQ, Kafka, WebSockets, REST APIs
   - **Frontend:** Angular, HTML5, CSS3, SCSS, Vanilla JS
   - **Databases:** PostgreSQL, MongoDB, Redis
   - **DevOps & Cloud:** Docker, AWS (EC2, S3, ELB), CI/CD
@@ -333,18 +339,23 @@ Thanks for visiting my portfolio!`
 💼 WORK EXPERIENCE SUMMARY - PROSENJIT PAUL
 ==================================================
 
-1. SOFTWARE DEVELOPER | SISL Infotech Pvt Ltd (NIC)
+1. SOFTWARE DEVELOPER | SISL Infotech Pvt. Ltd. (NIC)
    Aug 2024 — Present | Kolkata, India
-   - Core Project: JIT SNA-Sparsh Engine (Central-State fund engine)
-   - Resilient Transaction workflows, RabbitMQ pipelines
-   - Multi-step validation REST APIs, RBAC, Docker containers
+   - Government financial management platform (critical financial operations & digital workflows)
+   - Multi-tier scheme fund transfer: State -> District -> Block -> Village level execution
+   - Granular administrative user mapping & hierarchy models with strict multi-level RBAC
+   - RESTful APIs (.NET Core), modular Angular interfaces, RabbitMQ async message queues
+   - External government portal integrations, audit mechanisms & cryptographic validation
+   - Tech Stack: .NET Core, Angular, RabbitMQ, PostgreSQL, REST APIs, Microservices
 
 2. JUNIOR SOFTWARE DEVELOPER | Phloxblog
    Aug 2023 — Aug 2024 | Kolkata, India
-   - Real-time E-Auction Platform
-   - Angular WebSockets bid streaming
-   - PostgreSQL scaling & compounds index queries
-   - AWS EC2/S3 deploy & Elastic Load Balancing (ELB)`
+   - Real-time E-Auction Platform managing live auction rooms & bidding lifecycles
+   - Angular client interfaces with WebSockets for sub-second live bid streaming
+   - PostgreSQL schema design, indexing strategies & database query tuning
+   - Node.js / Express REST APIs with JWT authentication & transaction pipelines
+   - AWS (EC2, S3, ELB) cloud deployments & CI/CD release management
+   - Tech Stack: Angular, TypeScript, Node.js, Express, PostgreSQL, WebSockets, AWS`
     },
     skills_summary: {
       title: 'Skills_Inventory.txt',
@@ -352,7 +363,7 @@ Thanks for visiting my portfolio!`
 🛠️ TECHNICAL SKILLS & STACK
 ==================================================
 
-- LANGUAGES: Java, JavaScript (ES6+), TypeScript, SQL, HTML5, CSS3, SCSS
+- LANGUAGES: .NET Core, Java, JavaScript (ES6+), TypeScript, SQL, HTML5, CSS3, SCSS
 - BACKEND: Node.js, Express, Spring Boot, RabbitMQ, Kafka, WebSockets, RESTful APIs
 - FRONTEND: Angular, RxJS, Template Driven & Reactive Forms
 - DATABASES: PostgreSQL, MongoDB, Redis
@@ -412,9 +423,15 @@ Thanks for visiting my portfolio!`
   calendarDays: number[] = [];
   currentMonthYear: string = '';
 
+  // Client IP & Device Telemetry
+  clientIp: string = '127.0.0.1 (en0)';
+
   ngOnInit(): void {
     this.logger.info("UserComponent initialized", undefined, "UserComponent");
     this.loggingEnabled = this.logger.getConfig().enabled;
+
+    // Fetch Client IP for Photo Booth Telemetry
+    this.fetchClientIp();
 
     // Initialize date time and set interval updates
     this.updateDateTime();
@@ -432,6 +449,20 @@ Thanks for visiting my portfolio!`
     // Start widgets simulation
     this.initCalendarGrid();
     this.initGithubContributions();
+  }
+
+  fetchClientIp() {
+    const ipEndpoint = environment.api?.ipGeoApiUrl || 'https://api.ipify.org?format=json';
+    fetch(ipEndpoint)
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.ip) {
+          this.clientIp = data.ip;
+        }
+      })
+      .catch(() => {
+        this.clientIp = '192.168.1.108';
+      });
   }
 
   initGithubContributions() {
@@ -654,8 +685,8 @@ Use 'open about' to open the GUI window.`;
   }
 
   private printSkills() {
-    const text = `Languages:   Java, JavaScript, TypeScript, HTML/CSS, SQL
-Backend:     Node.js, Express, Spring Boot, RabbitMQ, Kafka, WebSockets, REST APIs
+    const text = `Languages:   .NET Core, Java, JavaScript, TypeScript, HTML/CSS, SQL
+Backend:     .NET Core, Node.js, Express, Spring Boot, RabbitMQ, Kafka, WebSockets, REST APIs
 Frontend:    Angular, HTML5, CSS3, SCSS
 Databases:   PostgreSQL, MongoDB, Redis
 DevOps:      Docker, AWS (EC2, S3, ELB), CI/CD`;
@@ -663,12 +694,17 @@ DevOps:      Docker, AWS (EC2, S3, ELB), CI/CD`;
   }
 
   private printExperience() {
-    const text = `1. Software Developer @ SISL Infotech (NIC) [Aug 2024 - Present]
-   - Owned backend architecture for JIT SNA-Sparsh fund management.
-   - Built resilient workflow engines, message queues (RabbitMQ).
+    const text = `1. Software Developer @ SISL Infotech Pvt. Ltd. (NIC) [Aug 2024 - Present]
+   - Government financial management platform & digital governance workflows.
+   - Multi-tier scheme fund transfers (State -> District -> Block -> Village level).
+   - User mapping & hierarchy models, strict RBAC, audit mechanisms.
+   - RESTful APIs (.NET Core), Angular, RabbitMQ async processing queues.
+   - Tech Stack: .NET Core, Angular, RabbitMQ, PostgreSQL, REST APIs
 2. Junior Software Developer @ Phloxblog [Aug 2023 - Aug 2024]
-   - Built end-to-end e-auction platform with live WebSocket bid streaming.
-   - PostgreSQL schema design and database optimization.`;
+   - Real-time E-Auction platform with WebSocket live bid streaming (Angular).
+   - PostgreSQL schema optimization, indexing & high concurrency query tuning.
+   - Node.js backend services, AWS (EC2/S3/ELB) cloud deployments.
+   - Tech Stack: Angular, Node.js, Express, PostgreSQL, WebSockets, AWS`;
     this.terminalHistory.push({ text, type: 'output' });
   }
 
@@ -682,7 +718,7 @@ Use 'open projects' to view the Projects Explorer GUI.`;
   }
 
   private printContact() {
-    const text = `Email:    paul.prosenjitbit@gmail.com
+    const text = `Email:    paul.prosenjitgravity@gmail.com
 LinkedIn: linkedin.com/in/prosenjit-paul-0a82b6239
 GitHub:   github.com/prosenjitGravity`;
     this.terminalHistory.push({ text, type: 'output' });
@@ -938,6 +974,28 @@ GitHub:   github.com/prosenjitGravity`;
     }
   }
 
+  // Photo Lightbox Preview State
+  showPhotoPreview = false;
+
+  openPhotoPreview(event?: Event) {
+    if (event) {
+      event.stopPropagation();
+    }
+    this.showPhotoPreview = true;
+  }
+
+  closePhotoPreview() {
+    this.showPhotoPreview = false;
+  }
+
+  openDirectMessage() {
+    if (this.classicMode) {
+      this.scrollToSection('contact');
+    } else {
+      this.openWindow('contact');
+    }
+  }
+
   toggleMusicPlay() {
     this.isPlayingMusic = !this.isPlayingMusic;
   }
@@ -1017,6 +1075,13 @@ GitHub:   github.com/prosenjitGravity`;
     if (this.windows[id]) {
       this.windows[id].zIndex = this.maxZIndex;
     }
+
+    // Auto camera shutoff when changing window away from Photo Booth
+    if (id !== 'photobooth' && this.photoBoothStream) {
+      this.stopPhotoBoothCamera();
+    } else if (id === 'photobooth' && this.windows['photobooth'].open && !this.windows['photobooth'].minimized && !this.photoBoothStream) {
+      this.startPhotoBoothCamera();
+    }
   }
 
   isWindowFocused(id: string): boolean {
@@ -1042,6 +1107,29 @@ GitHub:   github.com/prosenjitGravity`;
 
   toggleClassicMode() {
     this.classicMode = !this.classicMode;
+    if (this.photoBoothStream) {
+      this.stopPhotoBoothCamera();
+    }
+  }
+
+  @HostListener('document:visibilitychange')
+  onVisibilityChange() {
+    if (document.hidden && this.photoBoothStream) {
+      this.stopPhotoBoothCamera();
+    }
+  }
+
+  @HostListener('window:blur')
+  onWindowBlur() {
+    if (this.photoBoothStream) {
+      this.stopPhotoBoothCamera();
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.photoBoothStream) {
+      this.stopPhotoBoothCamera();
+    }
   }
 
   // Handle Drag Events
@@ -1307,7 +1395,7 @@ GitHub:   github.com/prosenjitGravity`;
   onDockItemClick(item: any) {
     if (item.type === 'settings') {
       this.toggleClassicMode();
-    } else if (item.type === 'calendar') {
+    } else if (item.id === 'about' || item.windowId === 'about' || item.type === 'calendar') {
       this.openWindow('about');
     } else if (item.type === 'file' && item.fileKey) {
       this.openFile(item.fileKey);
@@ -1422,6 +1510,7 @@ GitHub:   github.com/prosenjitGravity`;
   scrollToSection(id: string) {
     this.logger.debug("Starting to load Scroll", undefined, "HomeComponent");
     if (this.classicMode) {
+      this.activeSectionId = id;
       const section = document.getElementById(id);
       if (section) {
         section.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1459,13 +1548,16 @@ GitHub:   github.com/prosenjitGravity`;
     this.githubError = false;
     this.githubUsingFallback = false;
 
-    // Fetch user profile
-    this.http.get('https://api.github.com/users/prosenjitGravity').subscribe({
+    // Fetch user profile from environment endpoint
+    const githubUserUrl = environment.api?.githubUserUrl || 'https://api.github.com/users/prosenjitGravity';
+    const githubReposUrl = environment.api?.githubReposUrl || 'https://api.github.com/users/prosenjitGravity/repos?sort=updated&per_page=30';
+
+    this.http.get(githubUserUrl).subscribe({
       next: (profile: any) => {
         this.githubProfile = profile;
 
         // Fetch repositories sorted by updated date
-        this.http.get('https://api.github.com/users/prosenjitGravity/repos?sort=updated&per_page=30').subscribe({
+        this.http.get(githubReposUrl).subscribe({
           next: (repos: any) => {
             this.githubRepos = repos;
             this.githubLoading = false;
@@ -1641,22 +1733,152 @@ GitHub:   github.com/prosenjitGravity`;
       this.photoBoothFlash = false;
     }, 180);
 
-    // 3. Capture Video Frame on Canvas
+    // 3. Capture Video Frame on Canvas with Professional Watermark
     const videoEl = document.getElementById('photobooth-video') as HTMLVideoElement;
     if (videoEl) {
       const canvas = document.createElement('canvas');
-      canvas.width = videoEl.videoWidth || 640;
-      canvas.height = videoEl.videoHeight || 480;
+      const w = videoEl.videoWidth || 640;
+      const h = videoEl.videoHeight || 480;
+      canvas.width = w;
+      canvas.height = h;
       const ctx = canvas.getContext('2d');
       if (ctx) {
-        ctx.translate(canvas.width, 0);
+        // Draw flipped camera stream with user-selected filter
+        ctx.save();
+        ctx.translate(w, 0);
         ctx.scale(-1, 1);
-
         ctx.filter = this.getCanvasFilter(this.photoBoothFilter);
+        ctx.drawImage(videoEl, 0, 0, w, h);
+        ctx.restore();
 
-        ctx.drawImage(videoEl, 0, 0, canvas.width, canvas.height);
+        // Reset filter for crisp watermark overlay
+        ctx.filter = 'none';
 
-        const dataUrl = canvas.toDataURL('image/jpeg');
+        // --- DRAW COMPREHENSIVE LEICA & MAC PROFESSIONAL METADATA WATERMARK ---
+        const now = new Date();
+        const dateStr = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        const filterName = this.getFilterDisplayName(this.photoBoothFilter);
+        const shotId = `PJ-${Math.random().toString(36).substring(2, 7).toUpperCase()}`;
+
+        // 1. Bottom gradient vignette for text legibility
+        const grad = ctx.createLinearGradient(0, h - 92, 0, h);
+        grad.addColorStop(0, 'rgba(0, 0, 0, 0)');
+        grad.addColorStop(0.25, 'rgba(10, 15, 30, 0.7)');
+        grad.addColorStop(1, 'rgba(3, 7, 18, 0.96)');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, h - 92, w, 92);
+
+        // 2. Bottom-Left: Leica Iconic Red Dot & Optics Info
+        const redDotX = 22;
+        const redDotY = h - 30;
+        const redDotRadius = 11;
+        ctx.save();
+        ctx.fillStyle = '#dc2626'; // Iconic Leica Red
+        ctx.shadowColor = 'rgba(220, 38, 38, 0.6)';
+        ctx.shadowBlur = 8;
+        ctx.beginPath();
+        ctx.arc(redDotX, redDotY, redDotRadius, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+
+        // "Leica" script text inside red dot
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'italic bold 8px -apple-system, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('Leica', redDotX, redDotY);
+
+        // Reset text alignment
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'alphabetic';
+
+        // Camera Model & Optics Text
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 11px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+        ctx.fillText('LEICA M11-P', redDotX + 18, redDotY - 4);
+
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '9px monospace';
+        ctx.fillText(`SUMMILUX-M 35mm f/1.4 ASPH  •  ${filterName.toUpperCase()}`, redDotX + 18, redDotY + 8);
+
+        ctx.fillStyle = '#64748b';
+        ctx.font = '8px monospace';
+        ctx.fillText(`EXIF: 35mm • f/1.4 • 1/250s • ISO 100 • EV ±0.0 • RAW+JPEG`, redDotX + 18, redDotY + 19);
+
+        // 3. Bottom-Right: Author, Client Network IP, Timestamp & Specs
+        const rightX = w - 16;
+        ctx.textAlign = 'right';
+
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 11px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+        ctx.fillText('PROSENJIT PAUL', rightX, redDotY - 4);
+
+        ctx.fillStyle = '#38bdf8';
+        ctx.font = '9px monospace';
+        ctx.fillText(`IP: ${this.clientIp}  •  ${shotId}`, rightX, redDotY + 8);
+
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '8px monospace';
+        ctx.fillText(`macOS Sequoia 15.0  •  ${dateStr} ${timeStr}`, rightX, redDotY + 19);
+
+        // Reset text alignment
+        ctx.textAlign = 'left';
+
+        // 4. Top-Left Live HUD Camera Badge
+        ctx.save();
+        ctx.fillStyle = 'rgba(15, 23, 42, 0.78)';
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+        ctx.lineWidth = 1;
+        const topBadgeW = 205;
+        const topBadgeH = 24;
+        ctx.beginPath();
+        if (typeof ctx.roundRect === 'function') {
+          ctx.roundRect(14, 14, topBadgeW, topBadgeH, 5);
+        } else {
+          ctx.rect(14, 14, topBadgeW, topBadgeH);
+        }
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = '#ef4444';
+        ctx.beginPath();
+        ctx.arc(24, 26, 3.5, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = '#e2e8f0';
+        ctx.font = '600 9px monospace';
+        ctx.fillText(`macOS PHOTO BOOTH • 60 FPS`, 33, 29);
+        ctx.restore();
+
+        // 5. Top-Right Telemetry Badge (Geo Location & Resolution)
+        ctx.save();
+        ctx.fillStyle = 'rgba(15, 23, 42, 0.78)';
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+        ctx.lineWidth = 1;
+        const geoBadgeW = 165;
+        const geoBadgeH = 24;
+        const geoBadgeX = w - geoBadgeW - 14;
+        ctx.beginPath();
+        if (typeof ctx.roundRect === 'function') {
+          ctx.roundRect(geoBadgeX, 14, geoBadgeW, geoBadgeH, 5);
+        } else {
+          ctx.rect(geoBadgeX, 14, geoBadgeW, geoBadgeH);
+        }
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = '#34d399';
+        ctx.beginPath();
+        ctx.arc(geoBadgeX + 11, 26, 3, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = '#cbd5e1';
+        ctx.font = '600 8.5px monospace';
+        ctx.fillText(`22.57°N 88.36°E • ${w}x${h}`, geoBadgeX + 19, 29);
+        ctx.restore();
+
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
         this.photoBoothPhotos.unshift(dataUrl);
       }
     }
@@ -1664,6 +1886,21 @@ GitHub:   github.com/prosenjitGravity`;
 
   getCanvasFilter(filterName: string): string {
     switch (filterName) {
+      case 'leica-look':
+        return 'contrast(122%) saturate(125%) brightness(98%)';
+      case 'leica-mono':
+        return 'grayscale(100%) contrast(148%) brightness(94%)';
+      case 'leica-vivid':
+        return 'saturate(145%) contrast(115%) brightness(102%) sepia(6%)';
+      case 'mac-noir':
+        return 'grayscale(100%) contrast(165%) brightness(88%)';
+      case 'mac-dramatic':
+        return 'sepia(32%) saturate(135%) contrast(118%) hue-rotate(-8deg)';
+      case 'mac-cyber':
+        return 'saturate(128%) contrast(122%) hue-rotate(185deg) brightness(102%)';
+      case 'mac-studio':
+        return 'brightness(110%) contrast(110%) saturate(118%)';
+      // Legacy backwards-compatibility
       case 'sepia': return 'sepia(100%)';
       case 'grayscale': return 'grayscale(100%)';
       case 'invert': return 'invert(100%)';
@@ -1671,6 +1908,21 @@ GitHub:   github.com/prosenjitGravity`;
       case 'hue-rotate': return 'hue-rotate(90deg)';
       case 'contrast': return 'contrast(200%)';
       default: return 'none';
+    }
+  }
+
+  getFilterDisplayName(filterName: string): string {
+    switch (filterName) {
+      case 'leica-look': return 'Leica Look';
+      case 'leica-mono': return 'Leica Mono';
+      case 'leica-vivid': return 'Leica Vivid';
+      case 'mac-noir': return 'Mac Noir';
+      case 'mac-dramatic': return 'Dramatic Warm';
+      case 'mac-cyber': return 'Dramatic Cool';
+      case 'mac-studio': return 'Studio Light';
+      case 'sepia': return 'Sepia';
+      case 'grayscale': return 'Mono';
+      default: return 'Natural';
     }
   }
 

@@ -88,3 +88,27 @@
   color: var(--primary);
   font-size: 1rem;
 }
+
+.role-tech-stack {
+  margin-top: 0.75rem;
+  padding: 0.4rem 0.75rem;
+  background: var(--surface);
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  font-size: 0.84rem;
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+  line-height: 1.4;
+
+  .tech-stack-label {
+    font-weight: 600;
+    color: var(--primary);
+    font-family: 'Space Grotesk', sans-serif;
+  }
+
+  .tech-stack-value {
+    color: var(--text);
+  }
+}

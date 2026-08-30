@@ -14,6 +14,7 @@ export class ServicesComponent  implements OnInit{
       title: "Core Languages",
       icon: "fas fa-code",
       skills: [
+        { name: ".NET Core", highlight: true, icon: "fas fa-cube icon-dotnet" },
         { name: "Node.js", highlight: true, icon: "fab fa-node-js icon-node" },
         { name: "TypeScript", highlight: true, icon: "fas fa-code icon-typescript" },
         { name: "JavaScript (ES6+)", highlight: false, icon: "fab fa-js icon-javascript" },

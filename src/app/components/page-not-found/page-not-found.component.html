@@ -1,41 +1,87 @@
-<div class="page-container" #pageContainer>
-      <div class="cursor-light" #cursorLight></div>
-      
-      <div class="floating-elements" #floatingElements></div>
-      
-      <div class="container">
-        <div class="error-code" #errorCode>404</div>
-        <div class="error-message">Page not found</div>
-        
-        <!-- <div class="search-container">
-          <input 
-            type="text" 
-            class="search-box" 
-            placeholder="Search our site..."
-            (focus)="onSearchFocus()"
-            (blur)="onSearchBlur()"
-            #searchBox>
-        </div> -->
-        
-        <!-- <div class="navigation">
-          <a href="#" class="nav-item" 
-             (mouseenter)="onNavHover($event, true)"
-             (mouseleave)="onNavHover($event, false)">
-            <div class="nav-icon"></div>
-            API Status
+<div class="page-container">
+  <!-- Glowing Cursor Light Trail -->
+  <div class="cursor-light" #cursorLight></div>
+
+  <!-- Background Ambient Glow Spheres -->
+  <div class="bg-glow-sphere sphere-1"></div>
+  <div class="bg-glow-sphere sphere-2"></div>
+
+  <div class="card-wrapper">
+    <div class="glass-window">
+      <!-- Window Header Bar -->
+      <div class="window-header">
+        <div class="window-controls">
+          <span class="control-dot dot-red" (click)="goBack()" title="Go Back"></span>
+          <span class="control-dot dot-yellow" routerLink="/" title="Return Home"></span>
+          <span class="control-dot dot-green" routerLink="/" title="Maximize"></span>
+        </div>
+        <div class="window-title">
+          <i class="fas fa-terminal"></i>
+          <span>system_kernel — error_handler — 404</span>
+        </div>
+        <div class="window-status-badge">
+          <span class="pulse-dot"></span>
+          OFFLINE_ROUTE
+        </div>
+      </div>
+
+      <!-- Window Content Body -->
+      <div class="window-body">
+        <div class="error-badge">
+          <i class="fas fa-exclamation-triangle"></i>
+          <span>HTTP 404 — PAGE NOT FOUND</span>
+        </div>
+
+        <div class="error-display" #errorCode>
+          <span class="digit">4</span>
+          <span class="digit zero-glow">0</span>
+          <span class="digit">4</span>
+        </div>
+
+        <h1 class="error-heading">Lost in Cyberspace?</h1>
+        <p class="error-desc">
+          The path you requested could not be located in this virtual macOS filesystem. 
+          The resource may have been relocated, deleted, or entered incorrectly.
+        </p>
+
+        <!-- Mini Diagnostics Console -->
+        <div class="terminal-diag">
+          <div class="diag-line">
+            <span class="diag-tag">[SYS_DIAG]</span>
+            <span class="diag-msg">Kernel: Antigravity-v3.5.0 / macOS Sequoia Virtual</span>
+          </div>
+          <div class="diag-line">
+            <span class="diag-tag err">[ERR_CODE]</span>
+            <span class="diag-msg">ROUTE_UNREACHABLE &bull; Status: 404 Not Found</span>
+          </div>
+          <div class="diag-line">
+            <span class="diag-tag ok">[RECOVERY]</span>
+            <span class="diag-msg">Safe return suggested &rarr; Root System /</span>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="actions-group">
+          <a routerLink="/" class="btn btn-primary">
+            <i class="fas fa-home"></i>
+            <span>Return to Portfolio</span>
           </a>
-          <a href="#" class="nav-item"
-             (mouseenter)="onNavHover($event, true)"
-             (mouseleave)="onNavHover($event, false)">
-            <div class="nav-icon"></div>
-            Home page
+          <button type="button" (click)="goBack()" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i>
+            <span>Go Back</span>
+          </button>
+          <a routerLink="/" [queryParams]="{contact: true}" class="btn btn-outline">
+            <i class="fas fa-envelope"></i>
+            <span>Get in Touch</span>
           </a>
-          <a href="#" class="nav-item"
-             (mouseenter)="onNavHover($event, true)"
-             (mouseleave)="onNavHover($event, false)">
-            <div class="nav-icon"></div>
-            Support
-          </a>
-        </div> -->
+        </div>
+      </div>
+
+      <!-- Window Footer -->
+      <div class="window-footer">
+        <span>Prosenjit Paul &bull; Full Stack Developer</span>
+        <span>Kolkata, India</span>
       </div>
     </div>
+  </div>
+</div>

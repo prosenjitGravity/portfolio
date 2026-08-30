@@ -10,6 +10,8 @@
 /node_modules
 npm-debug.log
 yarn-error.log
+firebase-debug.log
+*.log
 
 # IDEs and editors
 .idea/
@@ -20,7 +22,7 @@ yarn-error.log
 .settings/
 *.sublime-workspace
 
-# Visual Studio Code
+# Visual Studio Code & IDX
 .vscode/*
 .idx/*
 .angular/*
@@ -38,7 +40,30 @@ yarn-error.log
 /libpeerconnection.log
 testem.log
 /typings
+playwright-report/
+test-results/
 
 # System files
 .DS_Store
 Thumbs.db
+
+# =========================================================
+# SECURITY & CREDENTIALS PROTECTION
+# Prevent any API keys, tokens, or environment secrets from
+# ever being committed when hosting live.
+# =========================================================
+.env
+.env.*
+*.env
+*.local
+credentials/
+secrets/
+src/credentials/
+src/app/config/credentials.local.ts
+src/app/config/credentials.prod.ts
+src/environment/environment.local.ts
+*.pem
+*.key
+*.cert
+*.pfx
+*.keystore

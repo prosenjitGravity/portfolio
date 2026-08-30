@@ -44,6 +44,7 @@
           <div class="dropdown-divider"></div>
           <a (click)="openWindow('projects')">Show Projects Explorer</a>
           <a (click)="openWindow('skills')">Show Skills Explorer</a>
+          <a (click)="openWindow('experience')">Show Work Experience</a>
         </div>
       </div>
       <div class="menu-item dropdown">File
@@ -68,6 +69,7 @@
         <div class="dropdown-content">
           <a (click)="openWindow('projects')">Go to Projects</a>
           <a (click)="openWindow('skills')">Go to Skills</a>
+          <a (click)="openWindow('experience')">Go to Work Experience</a>
           <a (click)="openWindow('education')">Go to Education</a>
         </div>
       </div>
@@ -368,14 +370,22 @@
         </div>
 
         <div class="hero-profile-header">
-          <img src="public/assets/images/prosenjit_paul.jpg" alt="Prosenjit Paul" class="hero-profile-img">
+          <div class="hero-profile-img-wrap" (click)="openPhotoPreview($event)" title="Click to view full photo">
+            <img src="public/assets/images/prosenjit_paul.jpg" alt="Prosenjit Paul" class="hero-profile-img">
+            <span class="photo-zoom-badge"><i class="fas fa-search-plus"></i></span>
+          </div>
           <div class="hero-profile-info">
             <h1 class="hero-main-title">Prosenjit Paul</h1>
             <div class="hero-subtitle-container">
               <h2 class="hero-main-subtitle">Full Stack Developer</h2>
-              <button class="hero-classic-redirect-btn" (click)="toggleClassicMode()">
-                <i class="fas fa-external-link-alt"></i> Full Portfolio
-              </button>
+              <div class="hero-header-actions">
+                <button class="hero-dm-btn" (click)="openDirectMessage()" title="Send Direct Message">
+                  <i class="fas fa-paper-plane"></i> Send DM
+                </button>
+                <button class="hero-classic-redirect-btn" (click)="toggleClassicMode()">
+                  <i class="fas fa-external-link-alt"></i> Full Portfolio
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -461,8 +471,9 @@
             <div class="about-profile-card">
               <!-- Left Side: Avatar Panel -->
               <div class="about-avatar-panel">
-                <div class="about-avatar-wrapper">
+                <div class="about-avatar-wrapper" (click)="openPhotoPreview($event)" title="Click to view photo">
                   <img src="public/assets/images/prosenjit_paul.jpg" alt="Prosenjit Paul" class="about-memoji">
+                  <span class="photo-zoom-badge"><i class="fas fa-search-plus"></i></span>
                   <span class="status-indicator-dot"></span>
                 </div>
                 <div class="about-opportunities-status">
@@ -479,8 +490,11 @@
                   I build modern, responsive and user-friendly web applications with clean architecture and thoughtful user experiences.
                 </p>
 
-                <!-- Redirect CTA Button to View Main Portfolio -->
+                <!-- Action Buttons: DM + Main Portfolio -->
                 <div class="about-portfolio-btn-wrapper">
+                  <button class="about-dm-btn" (click)="openDirectMessage()">
+                    <i class="fas fa-paper-plane"></i> Direct Message / Email
+                  </button>
                   <button class="about-main-portfolio-btn" (click)="toggleClassicMode(); closeWindow('about')">
                     <i class="fas fa-external-link-alt"></i> View Main Portfolio
                     <span class="btn-shine"></span>
@@ -937,30 +951,39 @@
                 <div class="resume-doc-job">
                   <div class="job-header">
                     <span class="job-role">Software Developer</span>
-                    <span class="job-company">SISL Infotech Pvt Ltd (NIC)</span>
-                    <span class="job-period">Aug 2024 — Present | Kolkata</span>
+                    <span class="job-company">SISL Infotech Pvt. Ltd. (NIC)</span>
+                    <span class="job-period">Aug 2024 — Present | Kolkata, India</span>
                   </div>
                   <ul class="job-points">
-                    <li>Owned backend architecture and development of the central-state JIT SNA-Sparsh fund management system.</li>
-                    <li>Engineered a resilient transaction workflow engine with automated retry logic, exponential backoff, and fault tolerance.</li>
-                    <li>Integrated RabbitMQ message queues to handle asynchronous workloads, decoupling heavy transaction metrics.</li>
-                    <li>Designed secure REST APIs utilizing RBAC, multi-step authentication, and immutable audit logs.</li>
-                    <li>Dockerized core microservices to streamline local development and production CI/CD environments.</li>
+                    <li>Contributing to a <strong>secure government financial management platform</strong>, building high-reliability solutions for critical financial operations and digital governance workflows.</li>
+                    <li>Engineered <strong>multi-tier scheme fund transfer mechanisms</strong>, orchestrating automated, validated disbursements from <strong>State level down to District, Block, and Village levels</strong> according to scheme-specific rules.</li>
+                    <li>Architected granular <strong>user mapping and administrative hierarchy models</strong>, enforcing strict multi-level role-based access control (RBAC), verification gates, and audit trails.</li>
+                    <li>Developed and enhanced high-throughput <strong>RESTful APIs using .NET Core</strong> and responsive <strong>Angular</strong> modules focused on scalability and maintainability.</li>
+                    <li>Implemented resilient <strong>RabbitMQ asynchronous message queues</strong> to decouple heavy financial processing tasks and enable automated retries.</li>
+                    <li>Integrated core services with <strong>authorized government portals and external APIs</strong>, ensuring strict data encryption, integrity, and reliable communication.</li>
+                    <li>Strengthened platform security through robust <strong>authorization, input validation, cryptographic checks, and tamper-evident audit logs</strong>.</li>
                   </ul>
+                  <div class="role-tech-stack" style="margin-top: 0.5rem; font-size: 0.84rem; color: var(--muted);">
+                    <strong style="color: var(--primary);">Tech Stack:</strong> C#, .NET Core, Angular, RabbitMQ, PostgreSQL, REST APIs, Microservices
+                  </div>
                 </div>
                 
                 <div class="resume-doc-job">
                   <div class="job-header">
                     <span class="job-role">Junior Software Developer</span>
                     <span class="job-company">Phloxblog</span>
-                    <span class="job-period">Aug 2023 — Aug 2024 | Kolkata</span>
+                    <span class="job-period">Aug 2023 — Aug 2024 | Kolkata, India</span>
                   </div>
                   <ul class="job-points">
-                    <li>Developed an end-to-end real-time e-auction platform managing user bids, asset cycles, and active live sessions.</li>
-                    <li>Integrated WebSockets into Angular interfaces for instantaneous bid streaming and live data pushes.</li>
-                    <li>Optimized PostgreSQL databases with tuned queries and compound index coverage, preventing latency spikes.</li>
-                    <li>Deployed production web apps on AWS EC2, S3, and configured Elastic Load Balancing (ELB) mechanisms.</li>
+                    <li>Engineered core modules for an end-to-end <strong>real-time e-auction platform</strong> managing live auction rooms, asset catalogs, and participant bidding lifecycles.</li>
+                    <li>Developed dynamic <strong>Angular client interfaces with WebSockets</strong> for low-latency live bid streaming, instant price updates, and real-time outbid notifications.</li>
+                    <li>Optimized <strong>PostgreSQL database performance</strong> by redesigning relational schemas, indexing high-query columns, and optimizing complex queries, significantly reducing latency under high concurrency.</li>
+                    <li>Collaborated on <strong>RESTful API development and backend services</strong> using Node.js / Express, implementing secure authentication and transactional integrity.</li>
+                    <li>Assisted in deploying and managing cloud applications across <strong>AWS infrastructure (EC2, S3, ELB)</strong> with automated CI/CD deployment pipelines.</li>
                   </ul>
+                  <div class="role-tech-stack" style="margin-top: 0.5rem; font-size: 0.84rem; color: var(--muted);">
+                    <strong style="color: var(--primary);">Tech Stack:</strong> Angular, TypeScript, Node.js, Express, PostgreSQL, WebSockets, AWS (EC2, S3), Git
+                  </div>
                 </div>
               </div>
               
@@ -1367,31 +1390,35 @@
           <div class="filter-strip" *ngIf="photoBoothStream">
             <div class="filter-option" [class.active]="photoBoothFilter === 'none'" (click)="setPhotoBoothFilter('none')">
               <div class="filter-preview none"></div>
-              <span>Normal</span>
+              <span>Natural</span>
             </div>
-            <div class="filter-option" [class.active]="photoBoothFilter === 'sepia'" (click)="setPhotoBoothFilter('sepia')">
-              <div class="filter-preview sepia"></div>
-              <span>Sepia</span>
+            <div class="filter-option" [class.active]="photoBoothFilter === 'leica-look'" (click)="setPhotoBoothFilter('leica-look')">
+              <div class="filter-preview leica-look"></div>
+              <span>Leica Look</span>
             </div>
-            <div class="filter-option" [class.active]="photoBoothFilter === 'grayscale'" (click)="setPhotoBoothFilter('grayscale')">
-              <div class="filter-preview grayscale"></div>
-              <span>Mono</span>
+            <div class="filter-option" [class.active]="photoBoothFilter === 'leica-mono'" (click)="setPhotoBoothFilter('leica-mono')">
+              <div class="filter-preview leica-mono"></div>
+              <span>Leica Mono</span>
             </div>
-            <div class="filter-option" [class.active]="photoBoothFilter === 'invert'" (click)="setPhotoBoothFilter('invert')">
-              <div class="filter-preview invert"></div>
-              <span>Invert</span>
+            <div class="filter-option" [class.active]="photoBoothFilter === 'leica-vivid'" (click)="setPhotoBoothFilter('leica-vivid')">
+              <div class="filter-preview leica-vivid"></div>
+              <span>Leica Vivid</span>
             </div>
-            <div class="filter-option" [class.active]="photoBoothFilter === 'blur'" (click)="setPhotoBoothFilter('blur')">
-              <div class="filter-preview blur"></div>
-              <span>Blur</span>
+            <div class="filter-option" [class.active]="photoBoothFilter === 'mac-noir'" (click)="setPhotoBoothFilter('mac-noir')">
+              <div class="filter-preview mac-noir"></div>
+              <span>Mac Noir</span>
             </div>
-            <div class="filter-option" [class.active]="photoBoothFilter === 'hue-rotate'" (click)="setPhotoBoothFilter('hue-rotate')">
-              <div class="filter-preview hue-rotate"></div>
-              <span>Pop Art</span>
+            <div class="filter-option" [class.active]="photoBoothFilter === 'mac-dramatic'" (click)="setPhotoBoothFilter('mac-dramatic')">
+              <div class="filter-preview mac-dramatic"></div>
+              <span>Dramatic Warm</span>
             </div>
-            <div class="filter-option" [class.active]="photoBoothFilter === 'contrast'" (click)="setPhotoBoothFilter('contrast')">
-              <div class="filter-preview contrast"></div>
-              <span>Noir</span>
+            <div class="filter-option" [class.active]="photoBoothFilter === 'mac-cyber'" (click)="setPhotoBoothFilter('mac-cyber')">
+              <div class="filter-preview mac-cyber"></div>
+              <span>Dramatic Cool</span>
+            </div>
+            <div class="filter-option" [class.active]="photoBoothFilter === 'mac-studio'" (click)="setPhotoBoothFilter('mac-studio')">
+              <div class="filter-preview mac-studio"></div>
+              <span>Studio Light</span>
             </div>
           </div>
 
@@ -1436,6 +1463,7 @@
           <!-- Normal icon styles -->
           <div class="dock-icon" 
                *ngIf="item.type !== 'calendar'"
+               [class.about-icon]="item.id === 'about'"
                [class.finder-icon]="item.id === 'finder'"
                [class.google-dock-icon]="item.id === 'google'"
                [class.github-dock-icon]="item.id === 'github'"
@@ -1468,5 +1496,39 @@
 
     </div>
   </footer>
+
+  <!-- High-Resolution Profile Photo Lightbox Modal -->
+  <div class="photo-lightbox-backdrop" *ngIf="showPhotoPreview" (click)="closePhotoPreview()">
+    <div class="photo-lightbox-card" (click)="$event.stopPropagation()">
+      <div class="lightbox-header">
+        <div class="mac-window-controls">
+          <span class="mac-window-btn red-btn" (click)="closePhotoPreview()"></span>
+          <span class="mac-window-btn yellow-btn" (click)="closePhotoPreview()"></span>
+          <span class="mac-window-btn green-btn"></span>
+        </div>
+        <span class="lightbox-title">Prosenjit_Paul.jpg — Image Viewer</span>
+        <button class="lightbox-close-btn" (click)="closePhotoPreview()"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="lightbox-body">
+        <div class="lightbox-img-wrapper">
+          <img src="public/assets/images/prosenjit_paul.jpg" alt="Prosenjit Paul - Full Stack Developer" class="lightbox-full-img">
+        </div>
+        <div class="lightbox-info-bar">
+          <div class="lightbox-meta">
+            <h3>Prosenjit Paul</h3>
+            <p><i class="fas fa-map-marker-alt"></i> Kolkata, India &bull; Full Stack Developer</p>
+          </div>
+          <div class="lightbox-actions">
+            <button class="lightbox-action-btn dm-btn" (click)="openDirectMessage(); closePhotoPreview()">
+              <i class="fas fa-paper-plane"></i> Direct Message
+            </button>
+            <a href="https://www.linkedin.com/in/prosenjit-paul-0a82b6239" target="_blank" class="lightbox-action-btn linkedin-btn">
+              <i class="fab fa-linkedin"></i> LinkedIn
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </div>

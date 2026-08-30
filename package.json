@@ -9,7 +9,9 @@
     "test": "ng test",
     "test:headless": "ng test --watch=false --browsers=ChromeHeadlessCI",
     "test:coverage": "ng test --code-coverage --watch=false --browsers=ChromeHeadlessCI",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "portfolio:demo": "playwright test e2e/portfolio.demo.spec.ts --headed",
+    "portfolio:demo:headless": "playwright test e2e/portfolio.demo.spec.ts"
   },
   "private": true,
   "dependencies": {

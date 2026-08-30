@@ -1116,14 +1116,18 @@
         height: 100%;
         object-fit: cover;
         
-        // Mirror effect for video feed + live filters
+        // Mirror effect for video feed + live Leica & Mac filters
         &.none { transform: scaleX(-1); }
+        &.leica-look { transform: scaleX(-1); filter: contrast(1.22) saturate(1.25) brightness(0.98); }
+        &.leica-mono { transform: scaleX(-1); filter: grayscale(100%) contrast(1.48) brightness(0.94); }
+        &.leica-vivid { transform: scaleX(-1); filter: saturate(1.45) contrast(1.15) brightness(1.02) sepia(6%); }
+        &.mac-noir { transform: scaleX(-1); filter: grayscale(100%) contrast(1.65) brightness(0.88); }
+        &.mac-dramatic { transform: scaleX(-1); filter: sepia(32%) saturate(1.35) contrast(1.18) hue-rotate(-8deg); }
+        &.mac-cyber { transform: scaleX(-1); filter: saturate(1.28) contrast(1.22) hue-rotate(185deg) brightness(1.02); }
+        &.mac-studio { transform: scaleX(-1); filter: brightness(1.1) contrast(1.1) saturate(1.18); }
+        // Fallback
         &.sepia { transform: scaleX(-1); filter: sepia(100%); }
         &.grayscale { transform: scaleX(-1); filter: grayscale(100%); }
-        &.invert { transform: scaleX(-1); filter: invert(100%); }
-        &.blur { transform: scaleX(-1); filter: blur(4px); }
-        &.hue-rotate { transform: scaleX(-1); filter: hue-rotate(90deg); }
-        &.contrast { transform: scaleX(-1); filter: contrast(200%); }
       }
 
       .photobooth-placeholder {
@@ -1263,12 +1267,15 @@
             transform: scale(1.04);
           }
 
+          &.leica-look { filter: contrast(1.22) saturate(1.25) brightness(0.98); }
+          &.leica-mono { filter: grayscale(100%) contrast(1.48) brightness(0.94); }
+          &.leica-vivid { filter: saturate(1.45) contrast(1.15) brightness(1.02) sepia(6%); }
+          &.mac-noir { filter: grayscale(100%) contrast(1.65) brightness(0.88); }
+          &.mac-dramatic { filter: sepia(32%) saturate(1.35) contrast(1.18) hue-rotate(-8deg); }
+          &.mac-cyber { filter: saturate(1.28) contrast(1.22) hue-rotate(185deg) brightness(1.02); }
+          &.mac-studio { filter: brightness(1.1) contrast(1.1) saturate(1.18); }
           &.sepia { filter: sepia(100%); }
           &.grayscale { filter: grayscale(100%); }
-          &.invert { filter: invert(100%); }
-          &.blur { filter: blur(2px); }
-          &.hue-rotate { filter: hue-rotate(90deg); }
-          &.contrast { filter: contrast(180%); }
         }
 
         span {
@@ -2961,6 +2968,12 @@
     &.linkedin-dock-icon {
       background: linear-gradient(135deg, #0a66c2 0%, #004182 100%);
       font-size: 20px;
+    }
+
+    &.about-icon {
+      background: linear-gradient(135deg, #ff7675 0%, #d63031 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(214, 48, 49, 0.35);
     }
 
     &.mail-icon {
@@ -5961,3 +5974,292 @@
   .recent-app-chip i { color: #8ee3d2; }
   .recent-app-chip:active { transform: scale(.97); }
 }
+
+// ==========================================
+// PHOTO CLICK TO VIEW & DM BUTTONS STYLES
+// ==========================================
+
+.hero-profile-img-wrap,
+.about-avatar-wrapper {
+  position: relative;
+  cursor: pointer;
+  display: inline-block;
+
+  &:hover {
+    .photo-zoom-badge {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .hero-profile-img,
+    .about-memoji {
+      filter: brightness(1.08);
+      transform: scale(1.03);
+    }
+  }
+
+  .hero-profile-img,
+  .about-memoji {
+    transition: transform 0.25s ease, filter 0.25s ease;
+  }
+}
+
+.photo-zoom-badge {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #38bdf8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  opacity: 0.85;
+  transition: all 0.2s ease;
+  pointer-events: none;
+  backdrop-filter: blur(4px);
+  z-index: 3;
+}
+
+.hero-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  flex-wrap: wrap;
+}
+
+.hero-dm-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  background: rgba(59, 130, 246, 0.2);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+
+  &:hover {
+    background: rgba(59, 130, 246, 0.35);
+    color: #ffffff;
+    border-color: #60a5fa;
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.about-dm-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+  font-family: inherit;
+
+  &:hover {
+    background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+    box-shadow: 0 6px 18px rgba(37, 99, 235, 0.45);
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.about-portfolio-btn-wrapper {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 12px;
+}
+
+// Photo Lightbox Modal
+.photo-lightbox-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.photo-lightbox-card {
+  background: rgba(24, 24, 27, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 14px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 30px rgba(59, 130, 246, 0.2);
+  width: 100%;
+  max-width: 440px;
+  overflow: hidden;
+  animation: scaleUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+
+  .lightbox-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    background: rgba(255, 255, 255, 0.04);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+    .lightbox-title {
+      font-size: 12px;
+      font-family: 'Space Grotesk', sans-serif;
+      color: rgba(255, 255, 255, 0.7);
+      font-weight: 500;
+    }
+
+    .lightbox-close-btn {
+      background: transparent;
+      border: none;
+      color: rgba(255, 255, 255, 0.6);
+      cursor: pointer;
+      font-size: 14px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      transition: all 0.15s ease;
+
+      &:hover {
+        color: #ffffff;
+        background: rgba(255, 255, 255, 0.1);
+      }
+    }
+  }
+
+  .lightbox-body {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .lightbox-img-wrapper {
+    width: 100%;
+    max-height: 380px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+
+    .lightbox-full-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+  }
+
+  .lightbox-info-bar {
+    width: 100%;
+    margin-top: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    .lightbox-meta {
+      h3 {
+        font-size: 15px;
+        font-weight: 700;
+        color: #ffffff;
+        margin: 0 0 2px 0;
+        font-family: 'Space Grotesk', sans-serif;
+      }
+
+      p {
+        font-size: 12px;
+        color: #94a3b8;
+        margin: 0;
+
+        i {
+          color: #ef4444;
+          margin-right: 2px;
+        }
+      }
+    }
+
+    .lightbox-actions {
+      display: flex;
+      gap: 8px;
+
+      .lightbox-action-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 600;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border: none;
+        font-family: inherit;
+
+        &.dm-btn {
+          background: #3b82f6;
+          color: #ffffff;
+
+          &:hover {
+            background: #60a5fa;
+            transform: translateY(-1px);
+          }
+        }
+
+        &.linkedin-btn {
+          background: rgba(255, 255, 255, 0.1);
+          color: #e2e8f0;
+          border: 1px solid rgba(255, 255, 255, 0.15);
+
+          &:hover {
+            background: rgba(10, 102, 194, 0.3);
+            border-color: #0a66c2;
+            color: #ffffff;
+            transform: translateY(-1px);
+          }
+        }
+      }
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleUp {
+  from { opacity: 0; transform: scale(0.92); }
+  to { opacity: 1; transform: scale(1); }
+}
+
