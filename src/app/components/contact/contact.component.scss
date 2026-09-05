@@ -185,19 +185,23 @@ button[disabled] {
 }
 
 .inquiry-options button {
-  padding: 0.35rem 0.6rem;
-  border: 1px solid var(--line);
-  border-radius: 0.4rem;
-  background: rgba(255, 255, 255, 0.45);
+  padding: 0.4rem 0.75rem;
+  border: 1.5px solid rgba(0, 120, 212, 0.3);
+  border-radius: var(--radius-sm);
+  background: rgba(0, 120, 212, 0.04);
   color: var(--primary-strong);
-  font-size: 0.75rem;
-  font-weight: 700;
+  font-size: 0.78rem;
+  font-weight: 600;
   transition: all var(--transition-fast);
+  cursor: pointer;
 }
 
 .inquiry-options button:hover {
-  background: rgba(255, 255, 255, 0.75);
+  background: var(--primary);
   border-color: var(--primary);
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 120, 212, 0.2);
+  transform: translateY(-1px);
 }
 
 @media (max-width: 960px) {

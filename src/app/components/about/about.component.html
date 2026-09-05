@@ -1,9 +1,36 @@
 <section id="about" class="about">
   <div class="container">
-    <div class="section-header"><span class="section-tag">About</span><h2 class="section-title">A practical engineering partner from discovery through delivery.</h2><p class="section-subtitle">I work best on products where reliability, clarity, and a good user experience all matter—not just a quick feature release.</p></div>
+    <div class="section-header"><span class="section-tag">About</span>
+      <h2 class="section-title">A practical engineering partner from discovery through delivery.</h2>
+      <p class="section-subtitle">I work best on products where reliability, clarity, and a good user experience all
+        matter—not just a quick feature release.</p>
+    </div>
     <div class="about-grid">
-      <div class="about-intro"><p class="eyebrow">Professional profile</p><h3>Full-stack developer with a systems mindset.</h3><p>I build mission-critical financial applications, workflow engines, and transactional platforms. My approach is to understand the business process first, then create software that is secure, observable, and easier for the next team member to maintain.</p><p>My core focus is event-driven microservices, secure REST APIs with RBAC and JWT, database indexing, and reliable retry workflows.</p><div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 1.75rem;"><a href="/public/assets/files/Prosenjit_Resume.pdf" class="btn btn-primary" download><i class="fas fa-download"></i> Download résumé</a><a href="#contact" class="btn btn-secondary"><i class="fas fa-paper-plane"></i> Direct Message / Email</a></div></div>
-      <div class="details-panel glass-card"><div class="experience-callout"><strong>{{ experienceBadge }}</strong><span>of professional software experience</span></div><div class="detail-grid"><article class="detail-card" *ngFor="let detail of personalDetails"><span class="detail-label">{{ detail.label }}</span><span class="detail-value">{{ detail.value }}</span></article></div><div class="profile-links"><span>Find me online</span><div class="social-links"><a *ngFor="let social of socialLinks" [href]="social.url" class="social-link" target="_blank" rel="noreferrer" aria-label="External profile"><i [class]="social.icon"></i></a></div></div></div>
+      <div class="about-intro">
+        <p class="eyebrow">Professional profile</p>
+        <h3>Full-stack developer with a systems mindset.</h3>
+        <p>I build mission-critical financial applications, workflow engines, and transactional platforms. My approach
+          is to understand the business process first, then create software that is secure, observable, and easier for
+          the next team member to maintain.</p>
+        <p>My core focus is event-driven microservices, secure REST APIs with RBAC and JWT, database indexing, and
+          reliable retry workflows.</p>
+        <!-- <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 1.75rem;"><a
+            href="/public/assets/files/Prosenjit_Resume.pdf" class="btn btn-primary" download><i
+              class="fas fa-download"></i> Download Resume</a><a href="#contact" class="btn btn-secondary"><i
+              class="fas fa-paper-plane"></i> Direct Message / Email</a></div> -->
+      </div>
+      <div class="details-panel glass-card">
+        <div class="experience-callout"><strong>{{ experienceBadge }}</strong><span>of professional software
+            experience</span></div>
+        <div class="detail-grid">
+          <article class="detail-card" *ngFor="let detail of personalDetails"><span class="detail-label">{{ detail.label
+              }}</span><span class="detail-value">{{ detail.value }}</span></article>
+        </div>
+        <div class="profile-links"><span>Find me online</span>
+          <div class="social-links"><a *ngFor="let social of socialLinks" [href]="social.url" class="social-link"
+              target="_blank" rel="noreferrer" aria-label="External profile"><i [class]="social.icon"></i></a></div>
+        </div>
+      </div>
     </div>
   </div>
 </section>

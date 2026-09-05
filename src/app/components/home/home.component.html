@@ -1,6 +1,7 @@
 <!-- Classic Portfolio Mode (Original Scrolling View) -->
 <div class="home-shell classic-layout" *ngIf="classicMode">
-  <app-topbar (dataEmitter)="handleData($event)" (switchToDesktop)="toggleClassicMode()" [activeSectionId]="activeSectionId"></app-topbar>
+  <app-topbar (dataEmitter)="handleData($event)" (switchToDesktop)="toggleClassicMode()"
+    [activeSectionId]="activeSectionId"></app-topbar>
   <app-hero></app-hero>
   <app-about></app-about>
   <app-services></app-services>
@@ -20,12 +21,12 @@
 
 <!-- macOS Desktop Mode -->
 <div class="mac-desktop-shell" *ngIf="!classicMode">
-  
+
   <!-- Brightness Overlay for macOS Mode -->
-  <div class="brightness-overlay" 
-       [style.opacity]="(100 - brightness) * 0.0075"
-       style="pointer-events: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: black; z-index: 99998; transition: opacity 0.05s linear;"></div>
-  
+  <div class="brightness-overlay" [style.opacity]="(100 - brightness) * 0.0075"
+    style="pointer-events: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: black; z-index: 99998; transition: opacity 0.05s linear;">
+  </div>
+
   <!-- macOS Top Menu Bar -->
   <header class="mac-topbar">
     <div class="topbar-left">
@@ -35,7 +36,8 @@
           <a (click)="openWindow('about')"><i class="fas fa-info-circle"></i> About This Portfolio</a>
           <a (click)="toggleClassicMode()"><i class="fas fa-sync-alt"></i> Switch to Classic Layout</a>
           <div class="dropdown-divider"></div>
-          <a href="https://github.com/prosenjitGravity" target="_blank"><i class="fab fa-github"></i> Developer Github</a>
+          <a href="https://github.com/prosenjitGravity" target="_blank"><i class="fab fa-github"></i> Developer
+            Github</a>
         </div>
       </div>
       <div class="menu-item dropdown active-app-label">Finder
@@ -87,18 +89,19 @@
         </div>
       </div>
     </div>
-    
+
     <div class="topbar-right">
       <span class="topbar-icon"><i class="fas fa-wifi"></i></span>
       <span class="topbar-icon"><i class="fas fa-battery-three-quarters"></i></span>
       <span class="topbar-icon"><i class="fas fa-search"></i></span>
-      
+
       <!-- Control Center Dropdown -->
       <div class="control-center-trigger-wrapper">
-        <span class="topbar-icon control-center-trigger" (click)="toggleControlCenter($event)" [class.active]="showControlCenter">
+        <span class="topbar-icon control-center-trigger" (click)="toggleControlCenter($event)"
+          [class.active]="showControlCenter">
           <i class="fas fa-sliders-h"></i>
         </span>
-        
+
         <!-- Control Center Panel -->
         <div class="control-center-panel animate-fade-in" *ngIf="showControlCenter" (click)="$event.stopPropagation()">
           <div class="cc-grid">
@@ -132,7 +135,7 @@
                 </div>
               </div>
             </div>
-            
+
             <!-- Focus and Stage Manager Block -->
             <div class="cc-stack">
               <div class="cc-card cc-toggle-card" [class.active]="dndActive" (click)="dndActive = !dndActive">
@@ -144,7 +147,8 @@
                   <div class="cc-desc">{{ dndActive ? 'DND: On' : 'Off' }}</div>
                 </div>
               </div>
-              <div class="cc-card cc-toggle-card" [class.active]="stageManagerActive" (click)="stageManagerActive = !stageManagerActive">
+              <div class="cc-card cc-toggle-card" [class.active]="stageManagerActive"
+                (click)="stageManagerActive = !stageManagerActive">
                 <div class="cc-icon" [class.active]="stageManagerActive">
                   <i class="fas fa-cubes"></i>
                 </div>
@@ -155,7 +159,7 @@
               </div>
             </div>
           </div>
-          
+
           <!-- Brightness Slider -->
           <div class="cc-card cc-slider-card">
             <div class="cc-slider-title-row">
@@ -167,7 +171,7 @@
               <input type="range" min="10" max="100" [(ngModel)]="brightness" class="cc-slider-input">
             </div>
           </div>
-          
+
           <!-- Volume Slider -->
           <div class="cc-card cc-slider-card">
             <div class="cc-slider-title-row">
@@ -175,14 +179,13 @@
               <div class="cc-slider-value">{{ volume }}%</div>
             </div>
             <div class="cc-slider-control-row">
-              <i class="fas cc-slider-icon-left" 
-                 [class.fa-volume-mute]="volume === 0"
-                 [class.fa-volume-down]="volume > 0 && volume <= 40"
-                 [class.fa-volume-up]="volume > 40"></i>
-              <input type="range" min="0" max="100" [(ngModel)]="volume" (input)="playVolumeBeep()" class="cc-slider-input">
+              <i class="fas cc-slider-icon-left" [class.fa-volume-mute]="volume === 0"
+                [class.fa-volume-down]="volume > 0 && volume <= 40" [class.fa-volume-up]="volume > 40"></i>
+              <input type="range" min="0" max="100" [(ngModel)]="volume" (input)="playVolumeBeep()"
+                class="cc-slider-input">
             </div>
           </div>
-          
+
           <!-- Media Player -->
           <div class="cc-card cc-media-card">
             <div class="cc-media-avatar">
@@ -200,7 +203,7 @@
               <button class="cc-media-btn"><i class="fas fa-forward"></i></button>
             </div>
           </div>
-          
+
           <!-- Live Screen Time Monitor -->
           <div class="cc-card cc-screentime-card">
             <div class="cc-screentime-header">
@@ -215,7 +218,7 @@
             </div>
             <div class="cc-st-desc">{{ screenTimeNote }}</div>
           </div>
-          
+
           <!-- Classic Layout Switcher -->
           <div class="cc-footer">
             <button class="cc-classic-toggle-btn" (click)="toggleClassicMode(); showControlCenter = false;">
@@ -226,24 +229,26 @@
       </div>
       <!-- Notification Trigger -->
       <div class="notification-trigger-wrapper">
-        <span class="topbar-clock notification-trigger" (click)="toggleNotificationPanel($event)" [class.active]="showNotificationPanel">
+        <span class="topbar-clock notification-trigger" (click)="toggleNotificationPanel($event)"
+          [class.active]="showNotificationPanel">
           {{ currentTime }}
         </span>
-        
+
         <!-- Notification Panel -->
-        <div class="notification-panel animate-fade-in" *ngIf="showNotificationPanel" (click)="$event.stopPropagation()">
+        <div class="notification-panel animate-fade-in" *ngIf="showNotificationPanel"
+          (click)="$event.stopPropagation()">
           <div class="nc-section">
             <div class="nc-header">
               <span class="nc-title">Notifications</span>
-              <button class="nc-clear-btn" (click)="clearNotifications()" *ngIf="notifications.length > 0">Clear All</button>
+              <button class="nc-clear-btn" (click)="clearNotifications()" *ngIf="notifications.length > 0">Clear
+                All</button>
             </div>
-            
+
             <!-- Notification list -->
             <div class="nc-list" *ngIf="notifications.length > 0">
-              <div class="nc-card animate-fade-in" 
-                   *ngFor="let note of notifications" 
-                   (click)="handleNotificationClick(note)"
-                   [title]="note.actionWindow ? 'Click to open ' + note.appName : ''">
+              <div class="nc-card animate-fade-in" *ngFor="let note of notifications"
+                (click)="handleNotificationClick(note)"
+                [title]="note.actionWindow ? 'Click to open ' + note.appName : ''">
                 <div class="nc-card-header">
                   <div class="nc-app-info">
                     <i [class]="note.icon" class="nc-app-icon" [style.color]="note.iconColor || '#38bdf8'"></i>
@@ -262,15 +267,16 @@
               <span>No new notifications</span>
             </div>
           </div>
-          
+
           <div class="nc-divider"></div>
-          
+
           <!-- Widgets Section -->
           <div class="nc-section">
             <span class="nc-title">Widgets</span>
             <div class="nc-widgets-grid">
               <!-- 1. Live User Location & Regional Address Widget (Apple Maps Inspired) -->
-              <div class="nc-widget-card location-widget" (click)="openWindow('about'); showNotificationPanel = false;" title="Click to view About Me">
+              <div class="nc-widget-card location-widget" (click)="openWindow('about'); showNotificationPanel = false;"
+                title="Click to view About Me">
                 <div class="location-top-bar">
                   <div class="location-header-tag">
                     <span class="radar-ping">
@@ -296,9 +302,10 @@
                   </div>
                 </div>
               </div>
-              
+
               <!-- 2. Live Screen Time Widget -->
-              <div class="nc-widget-card screentime-widget" (click)="openWindow('terminal'); showNotificationPanel = false;" title="Click to view Developer Shell">
+              <div class="nc-widget-card screentime-widget"
+                (click)="openWindow('terminal'); showNotificationPanel = false;" title="Click to view Developer Shell">
                 <div class="widget-label"><i class="fas fa-hourglass-half"></i> Screen Time</div>
                 <div class="widget-time-value">{{ screenTimeString }}</div>
                 <div class="widget-bar-container">
@@ -306,9 +313,10 @@
                 </div>
                 <div class="widget-note">{{ screenTimePercentage }}% • {{ screenTimeNote }}</div>
               </div>
-              
+
               <!-- 3. Calendar & Date Widget -->
-              <div class="nc-widget-card calendar-widget" (click)="openWindow('about'); showNotificationPanel = false;" title="Click to view Timeline">
+              <div class="nc-widget-card calendar-widget" (click)="openWindow('about'); showNotificationPanel = false;"
+                title="Click to view Timeline">
                 <div class="widget-month">{{ currentDayName }}</div>
                 <div class="widget-date">{{ currentDayNum }}</div>
                 <div class="widget-next-event">
@@ -316,9 +324,10 @@
                   <div class="event-time">Active Now</div>
                 </div>
               </div>
-              
+
               <!-- 4. Live CPU & System Performance Widget -->
-              <div class="nc-widget-card system-widget" (click)="openWindow('terminal'); showNotificationPanel = false;" title="Click to view Developer Shell">
+              <div class="nc-widget-card system-widget" (click)="openWindow('terminal'); showNotificationPanel = false;"
+                title="Click to view Developer Shell">
                 <div class="widget-label"><i class="fas fa-microchip"></i> CPU & Memory</div>
                 <div class="widget-cpu-row">
                   <span class="widget-cpu-value">{{ cpuLoadPercent }}%</span>
@@ -327,7 +336,8 @@
                 <div class="widget-bar-container">
                   <div class="widget-bar-fill cpu-fill" [style.width.%]="cpuLoadPercent"></div>
                 </div>
-                <div class="widget-cpu-detail">RAM: {{ memoryUsedGb }} / {{ memoryTotalGb }} GB ({{ memoryPercent }}%)</div>
+                <div class="widget-cpu-detail">RAM: {{ memoryUsedGb }} / {{ memoryTotalGb }} GB ({{ memoryPercent }}%)
+                </div>
               </div>
             </div>
           </div>
@@ -338,10 +348,10 @@
 
   <!-- Desktop Work Area -->
   <main class="mac-desktop-workspace" [class.has-open-window]="hasAnyOpenWindow()">
-    
+
     <!-- Left Background Desktop Widgets -->
     <div class="desktop-widgets-container">
-      
+
       <!-- 1. GitHub Contributions Widget (Replaces System Performance) -->
       <div class="desktop-widget glass-widget github-widget animate-fade-in">
         <div class="widget-header">
@@ -351,9 +361,7 @@
         <div class="widget-body">
           <div class="github-heatmap-container">
             <div class="github-heatmap">
-              <span *ngFor="let level of githubContributions" 
-                    class="heatmap-cell" 
-                    [class]="'level-' + level">
+              <span *ngFor="let level of githubContributions" class="heatmap-cell" [class]="'level-' + level">
               </span>
             </div>
           </div>
@@ -384,9 +392,8 @@
             <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
           </div>
           <div class="calendar-grid-body">
-            <span *ngFor="let day of calendarDays" 
-                  [class.empty-day]="day === 0"
-                  [class.today-circle]="day.toString() === currentDayNum">
+            <span *ngFor="let day of calendarDays" [class.empty-day]="day === 0"
+              [class.today-circle]="day.toString() === currentDayNum">
               {{ day !== 0 ? day : '' }}
             </span>
           </div>
@@ -396,14 +403,11 @@
     </div>
 
     <!-- Left Overlay (Hero Title - Draggable / Pure macOS Glass Card) -->
-    <div class="desktop-hero-overlay mac-window"
-         *ngIf="windows['welcome'].open"
-         [style.left.px]="windows['welcome'].x"
-         [style.top.px]="windows['welcome'].y"
-         [style.zIndex]="windows['welcome'].zIndex"
-         (mousedown)="focusWindow('welcome')">
+    <div class="desktop-hero-overlay mac-window" *ngIf="windows['welcome'].open" [style.left.px]="windows['welcome'].x"
+      [style.top.px]="windows['welcome'].y" [style.zIndex]="windows['welcome'].zIndex"
+      (mousedown)="focusWindow('welcome')">
       <div class="hero-frame-container glass-card">
-        
+
         <!-- Drag Handle Indicator -->
         <div class="hero-drag-bar" (mousedown)="onMouseDown($event, 'welcome')">
           <div class="drag-bar-dots">
@@ -418,24 +422,29 @@
           <div class="hero-profile-img-wrap" (click)="openPhotoPreview($event)" title="Click to view full photo">
             <img src="public/assets/images/prosenjit_paul.jpg" alt="Prosenjit Paul" class="hero-profile-img">
             <span class="photo-zoom-badge"><i class="fas fa-search-plus"></i></span>
+            <span class="avatar-status-dot" title="Available for opportunities"></span>
           </div>
           <div class="hero-profile-info">
             <h1 class="hero-main-title">Prosenjit Paul</h1>
-            <div class="hero-subtitle-container">
-              <h2 class="hero-main-subtitle">Full Stack Developer</h2>
-              <div class="hero-header-actions">
-                <button class="hero-dm-btn" (click)="openDirectMessage()" title="Send Direct Message">
-                  <i class="fas fa-paper-plane"></i> Send DM
-                </button>
-                <button class="hero-classic-redirect-btn" (click)="toggleClassicMode()">
-                  <i class="fas fa-external-link-alt"></i> Full Portfolio
-                </button>
-              </div>
+            <div class="hero-role-badge">
+              <i class="fas fa-code"></i>
+              <span>Full Stack Developer</span>
+            </div>
+            <div class="hero-header-actions">
+              <button class="hero-action-btn primary" (click)="openDirectMessage()" title="Send Direct Message">
+                <i class="fas fa-paper-plane"></i> Send DM
+              </button>
+              <button class="hero-action-btn secondary" (click)="toggleClassicMode()"
+                title="Switch to Full Classic Portfolio">
+                <i class="fas fa-external-link-alt"></i> Full Portfolio
+              </button>
             </div>
           </div>
         </div>
+
         <p class="hero-main-desc">
-          I build modern, responsive and user-friendly web applications.
+          I engineer scalable full-stack web applications with responsive, interactive frontends, robust backend
+          systems, and high-performance asynchronous microservices with event-driven architecture.
         </p>
 
         <!-- Quick Developer Details Grid -->
@@ -448,37 +457,25 @@
             <span class="info-label">FOCUS</span>
             <span class="info-value">APIs & Services</span>
           </div>
-          <div class="info-item">
+          <div class="info-item tech-item">
             <span class="info-label">CORE TECH</span>
             <div class="tech-mini-icons">
-              <i class="fab fa-angular" title="Angular"></i>
-              <i class="fab fa-node-js" title="Node.js"></i>
-              <i class="fab fa-java" title="Java"></i>
-              <i class="fas fa-leaf" title="Spring Boot"></i>
-              <i class="fab fa-docker" title="Docker"></i>
+              <span class="tech-icon-pill" title="Angular"><i class="fab fa-angular"></i></span>
+              <span class="tech-icon-pill" title="Node.js"><i class="fab fa-node-js"></i></span>
+              <span class="tech-icon-pill" title="Java"><i class="fab fa-java"></i></span>
+              <span class="tech-icon-pill" title="Spring Boot"><i class="fas fa-leaf"></i></span>
+              <span class="tech-icon-pill" title="Docker"><i class="fab fa-docker"></i></span>
             </div>
           </div>
         </div>
 
-        <div class="hero-overlay-actions">
-          <button class="overlay-btn btn-primary-style" (click)="openWindow('projects')">
-            <i class="fas fa-code"></i> View Projects
-          </button>
-          <button class="overlay-btn btn-secondary-style" (click)="downloadCV()">
-            <i class="fas fa-download"></i> Download CV
-          </button>
-        </div>
       </div>
     </div>
 
     <!-- Draggable Desktop Icons -->
-    <div *ngFor="let icon of desktopIcons" 
-         class="desktop-icon-item absolute-icon"
-         [style.left.px]="icon.x"
-         [style.top.px]="icon.y"
-         (mousedown)="onIconMouseDown($event, icon.id)"
-         (touchstart)="onIconTouchStart($event, icon.id)"
-         (click)="onIconClick(icon)">
+    <div *ngFor="let icon of desktopIcons" class="desktop-icon-item absolute-icon" [style.left.px]="icon.x"
+      [style.top.px]="icon.y" (mousedown)="onIconMouseDown($event, icon.id)"
+      (touchstart)="onIconTouchStart($event, icon.id)" (click)="onIconClick(icon)">
       <div class="icon-wrapper" [class]="icon.iconClass">
         <i [class]="icon.icon"></i>
       </div>
@@ -487,20 +484,17 @@
 
     <!-- Window Manager Containers -->
     <div class="window-manager">
-      
+
       <!-- 1. ABOUT WINDOW -->
-      <div class="mac-window glass-window" 
-           *ngIf="windows['about'].open && (!windows['about'].minimized || windows['about'].minimizing)"
-           [style.left.px]="windows['about'].x"
-           [style.top.px]="windows['about'].y"
-           [style.z-index]="windows['about'].zIndex"
-           [class.active-window]="isWindowFocused('about')"
-           [class.maximized-window]="windows['about'].maximized"
-           [class.minimizing-window]="windows['about'].minimizing"
-           [class.restoring-window]="windows['about'].restoring"
-           (click)="focusWindow('about')">
+      <div class="mac-window glass-window"
+        *ngIf="windows['about'].open && (!windows['about'].minimized || windows['about'].minimizing)"
+        [style.left.px]="windows['about'].x" [style.top.px]="windows['about'].y"
+        [style.z-index]="windows['about'].zIndex" [class.active-window]="isWindowFocused('about')"
+        [class.maximized-window]="windows['about'].maximized" [class.minimizing-window]="windows['about'].minimizing"
+        [class.restoring-window]="windows['about'].restoring" (click)="focusWindow('about')">
         <!-- Title Bar -->
-        <div class="mac-window-header" (mousedown)="onMouseDown($event, 'about')" (touchstart)="onTouchStart($event, 'about')">
+        <div class="mac-window-header" (mousedown)="onMouseDown($event, 'about')"
+          (touchstart)="onTouchStart($event, 'about')">
           <div class="mac-window-controls">
             <span class="mac-window-btn red-btn" (click)="closeWindow('about', $event)"></span>
             <span class="mac-window-btn yellow-btn" (click)="minimizeWindow('about', $event)"></span>
@@ -511,7 +505,7 @@
         <!-- Window Body -->
         <div class="mac-window-body about-body scrollable-body">
           <div class="about-window-container">
-            
+
             <!-- Top Section: Profile Card -->
             <div class="about-profile-card">
               <!-- Left Side: Avatar Panel -->
@@ -531,30 +525,32 @@
               <div class="about-info-panel">
                 <h3 class="about-info-name">Prosenjit Paul</h3>
                 <h4 class="about-info-role">Full Stack Developer</h4>
-                <p class="about-info-desc">
-                  I build modern, responsive and user-friendly web applications with clean architecture and thoughtful user experiences.
-                </p>
+                <!-- <p class="about-info-desc">
+                  I engineer scalable full-stack web applications with responsive, interactive frontends, robust backend systems, and high-performance asynchronous microservices with event-driven architecture.
+                </p> -->
 
                 <!-- Action Buttons: DM + Main Portfolio -->
                 <div class="about-portfolio-btn-wrapper">
-                  <button class="about-dm-btn" (click)="openDirectMessage()">
+                  <!-- <button class="about-dm-btn" (click)="openDirectMessage()">
                     <i class="fas fa-paper-plane"></i> Direct Message / Email
-                  </button>
-                  <button class="about-main-portfolio-btn" (click)="toggleClassicMode(); closeWindow('about')">
+                  </button> -->
+                  <!-- <button class="about-main-portfolio-btn" (click)="toggleClassicMode(); closeWindow('about')">
                     <i class="fas fa-external-link-alt"></i> View Main Portfolio
                     <span class="btn-shine"></span>
-                  </button>
+                  </button> -->
                 </div>
-                
+
                 <!-- CP Badges -->
                 <div class="about-badges-row">
                   <a href="https://leetcode.com/u/prosenjitGravity" target="_blank" class="about-badge badge-leetcode">
                     <i class="fas fa-code"></i> LeetCode
                   </a>
-                  <a href="https://www.geeksforgeeks.org/user/prosenjitgravity/" target="_blank" class="about-badge badge-gfg">
+                  <a href="https://www.geeksforgeeks.org/user/prosenjitgravity/" target="_blank"
+                    class="about-badge badge-gfg">
                     <i class="fas fa-laptop-code"></i> GeeksforGeeks
                   </a>
-                  <a href="https://www.codechef.com/users/prosenjitgravity" target="_blank" class="about-badge badge-codechef">
+                  <a href="https://www.codechef.com/users/prosenjitgravity" target="_blank"
+                    class="about-badge badge-codechef">
                     <i class="fas fa-terminal"></i> CodeChef
                   </a>
                   <a href="https://neetcode.io" target="_blank" class="about-badge badge-neetcode">
@@ -572,19 +568,20 @@
               <tbody>
                 <tr>
                   <td><i class="fas fa-graduation-cap"></i> Education</td>
-                  <td>MCA (Computer Applications) / B.Tech in CSE</td>
+                  <td>Master of Computer Applications (MCA)</td>
                 </tr>
                 <tr>
                   <td><i class="fas fa-map-marker-alt"></i> Location</td>
                   <td>Kolkata, India</td>
                 </tr>
                 <tr>
-                  <td><i class="fas fa-envelope"></i> Email</td>
+                  <td><i class="fas fa- "></i> Email</td>
                   <td><a href="mailto:paul.prosenjitbit&#64;gmail.com">paul.prosenjitbit&#64;gmail.com</a></td>
                 </tr>
                 <tr>
                   <td><i class="fab fa-linkedin"></i> LinkedIn</td>
-                  <td><a href="https://www.linkedin.com/in/prosenjit-paul-0a82b6239" target="_blank">linkedin.com/in/prosenjit-paul</a></td>
+                  <td><a href="https://www.linkedin.com/in/prosenjit-paul-0a82b6239"
+                      target="_blank">linkedin.com/in/prosenjit-paul</a></td>
                 </tr>
                 <tr>
                   <td><i class="fab fa-github"></i> GitHub</td>
@@ -600,17 +597,15 @@
 
 
       <!-- 2. PROJECTS WINDOW -->
-      <div class="mac-window glass-window" 
-           *ngIf="windows['projects'].open && (!windows['projects'].minimized || windows['projects'].minimizing)"
-           [style.left.px]="windows['projects'].x"
-           [style.top.px]="windows['projects'].y"
-           [style.z-index]="windows['projects'].zIndex"
-           [class.active-window]="isWindowFocused('projects')"
-           [class.maximized-window]="windows['projects'].maximized"
-           [class.minimizing-window]="windows['projects'].minimizing"
-           [class.restoring-window]="windows['projects'].restoring"
-           (click)="focusWindow('projects')">
-        <div class="mac-window-header" (mousedown)="onMouseDown($event, 'projects')" (touchstart)="onTouchStart($event, 'projects')">
+      <div class="mac-window glass-window"
+        *ngIf="windows['projects'].open && (!windows['projects'].minimized || windows['projects'].minimizing)"
+        [style.left.px]="windows['projects'].x" [style.top.px]="windows['projects'].y"
+        [style.z-index]="windows['projects'].zIndex" [class.active-window]="isWindowFocused('projects')"
+        [class.maximized-window]="windows['projects'].maximized"
+        [class.minimizing-window]="windows['projects'].minimizing"
+        [class.restoring-window]="windows['projects'].restoring" (click)="focusWindow('projects')">
+        <div class="mac-window-header" (mousedown)="onMouseDown($event, 'projects')"
+          (touchstart)="onTouchStart($event, 'projects')">
           <div class="mac-window-controls">
             <span class="mac-window-btn red-btn" (click)="closeWindow('projects', $event)"></span>
             <span class="mac-window-btn yellow-btn" (click)="minimizeWindow('projects', $event)"></span>
@@ -624,17 +619,14 @@
       </div>
 
       <!-- 3. SKILLS WINDOW -->
-      <div class="mac-window glass-window" 
-           *ngIf="windows['skills'].open && (!windows['skills'].minimized || windows['skills'].minimizing)"
-           [style.left.px]="windows['skills'].x"
-           [style.top.px]="windows['skills'].y"
-           [style.z-index]="windows['skills'].zIndex"
-           [class.active-window]="isWindowFocused('skills')"
-           [class.maximized-window]="windows['skills'].maximized"
-           [class.minimizing-window]="windows['skills'].minimizing"
-           [class.restoring-window]="windows['skills'].restoring"
-           (click)="focusWindow('skills')">
-        <div class="mac-window-header" (mousedown)="onMouseDown($event, 'skills')" (touchstart)="onTouchStart($event, 'skills')">
+      <div class="mac-window glass-window"
+        *ngIf="windows['skills'].open && (!windows['skills'].minimized || windows['skills'].minimizing)"
+        [style.left.px]="windows['skills'].x" [style.top.px]="windows['skills'].y"
+        [style.z-index]="windows['skills'].zIndex" [class.active-window]="isWindowFocused('skills')"
+        [class.maximized-window]="windows['skills'].maximized" [class.minimizing-window]="windows['skills'].minimizing"
+        [class.restoring-window]="windows['skills'].restoring" (click)="focusWindow('skills')">
+        <div class="mac-window-header" (mousedown)="onMouseDown($event, 'skills')"
+          (touchstart)="onTouchStart($event, 'skills')">
           <div class="mac-window-controls">
             <span class="mac-window-btn red-btn" (click)="closeWindow('skills', $event)"></span>
             <span class="mac-window-btn yellow-btn" (click)="minimizeWindow('skills', $event)"></span>
@@ -648,17 +640,15 @@
       </div>
 
       <!-- 4. EDUCATION WINDOW -->
-      <div class="mac-window glass-window" 
-           *ngIf="windows['education'].open && (!windows['education'].minimized || windows['education'].minimizing)"
-           [style.left.px]="windows['education'].x"
-           [style.top.px]="windows['education'].y"
-           [style.z-index]="windows['education'].zIndex"
-           [class.active-window]="isWindowFocused('education')"
-           [class.maximized-window]="windows['education'].maximized"
-           [class.minimizing-window]="windows['education'].minimizing"
-           [class.restoring-window]="windows['education'].restoring"
-           (click)="focusWindow('education')">
-        <div class="mac-window-header" (mousedown)="onMouseDown($event, 'education')" (touchstart)="onTouchStart($event, 'education')">
+      <div class="mac-window glass-window"
+        *ngIf="windows['education'].open && (!windows['education'].minimized || windows['education'].minimizing)"
+        [style.left.px]="windows['education'].x" [style.top.px]="windows['education'].y"
+        [style.z-index]="windows['education'].zIndex" [class.active-window]="isWindowFocused('education')"
+        [class.maximized-window]="windows['education'].maximized"
+        [class.minimizing-window]="windows['education'].minimizing"
+        [class.restoring-window]="windows['education'].restoring" (click)="focusWindow('education')">
+        <div class="mac-window-header" (mousedown)="onMouseDown($event, 'education')"
+          (touchstart)="onTouchStart($event, 'education')">
           <div class="mac-window-controls">
             <span class="mac-window-btn red-btn" (click)="closeWindow('education', $event)"></span>
             <span class="mac-window-btn yellow-btn" (click)="minimizeWindow('education', $event)"></span>
@@ -672,17 +662,15 @@
       </div>
 
       <!-- 5. TERMINAL WINDOW -->
-      <div class="mac-window terminal-window" 
-           *ngIf="windows['terminal'].open && (!windows['terminal'].minimized || windows['terminal'].minimizing)"
-           [style.left.px]="windows['terminal'].x"
-           [style.top.px]="windows['terminal'].y"
-           [style.z-index]="windows['terminal'].zIndex"
-           [class.active-window]="isWindowFocused('terminal')"
-           [class.maximized-window]="windows['terminal'].maximized"
-           [class.minimizing-window]="windows['terminal'].minimizing"
-           [class.restoring-window]="windows['terminal'].restoring"
-           (click)="focusWindow('terminal')">
-        <div class="mac-window-header terminal-header" (mousedown)="onMouseDown($event, 'terminal')" (touchstart)="onTouchStart($event, 'terminal')">
+      <div class="mac-window terminal-window"
+        *ngIf="windows['terminal'].open && (!windows['terminal'].minimized || windows['terminal'].minimizing)"
+        [style.left.px]="windows['terminal'].x" [style.top.px]="windows['terminal'].y"
+        [style.z-index]="windows['terminal'].zIndex" [class.active-window]="isWindowFocused('terminal')"
+        [class.maximized-window]="windows['terminal'].maximized"
+        [class.minimizing-window]="windows['terminal'].minimizing"
+        [class.restoring-window]="windows['terminal'].restoring" (click)="focusWindow('terminal')">
+        <div class="mac-window-header terminal-header" (mousedown)="onMouseDown($event, 'terminal')"
+          (touchstart)="onTouchStart($event, 'terminal')">
           <div class="mac-window-controls">
             <span class="mac-window-btn red-btn" (click)="closeWindow('terminal', $event)"></span>
             <span class="mac-window-btn yellow-btn" (click)="minimizeWindow('terminal', $event)"></span>
@@ -699,33 +687,24 @@
           </div>
           <div class="terminal-input-line">
             <span class="terminal-prompt-prefix">guest&#64;prosenjit-desktop:~ % </span>
-            <input type="text"
-                   #terminalInputField
-                   [(ngModel)]="terminalCommand"
-                   (keydown.enter)="onTerminalSubmit()"
-                   (keydown.arrowup)="onTerminalPrevCommand($event)"
-                   (keydown.arrowdown)="onTerminalNextCommand($event)"
-                   class="terminal-input-element"
-                   autocomplete="off"
-                   autocorrect="off"
-                   autocapitalize="off"
-                   spellcheck="false">
+            <input type="text" #terminalInputField [(ngModel)]="terminalCommand" (keydown.enter)="onTerminalSubmit()"
+              (keydown.arrowup)="onTerminalPrevCommand($event)" (keydown.arrowdown)="onTerminalNextCommand($event)"
+              class="terminal-input-element" autocomplete="off" autocorrect="off" autocapitalize="off"
+              spellcheck="false">
           </div>
         </div>
       </div>
 
       <!-- 6. CONTACT WINDOW -->
-      <div class="mac-window glass-window" 
-           *ngIf="windows['contact'].open && (!windows['contact'].minimized || windows['contact'].minimizing)"
-           [style.left.px]="windows['contact'].x"
-           [style.top.px]="windows['contact'].y"
-           [style.z-index]="windows['contact'].zIndex"
-           [class.active-window]="isWindowFocused('contact')"
-           [class.maximized-window]="windows['contact'].maximized"
-           [class.minimizing-window]="windows['contact'].minimizing"
-           [class.restoring-window]="windows['contact'].restoring"
-           (click)="focusWindow('contact')">
-        <div class="mac-window-header" (mousedown)="onMouseDown($event, 'contact')" (touchstart)="onTouchStart($event, 'contact')">
+      <div class="mac-window glass-window"
+        *ngIf="windows['contact'].open && (!windows['contact'].minimized || windows['contact'].minimizing)"
+        [style.left.px]="windows['contact'].x" [style.top.px]="windows['contact'].y"
+        [style.z-index]="windows['contact'].zIndex" [class.active-window]="isWindowFocused('contact')"
+        [class.maximized-window]="windows['contact'].maximized"
+        [class.minimizing-window]="windows['contact'].minimizing"
+        [class.restoring-window]="windows['contact'].restoring" (click)="focusWindow('contact')">
+        <div class="mac-window-header" (mousedown)="onMouseDown($event, 'contact')"
+          (touchstart)="onTouchStart($event, 'contact')">
           <div class="mac-window-controls">
             <span class="mac-window-btn red-btn" (click)="closeWindow('contact', $event)"></span>
             <span class="mac-window-btn yellow-btn" (click)="minimizeWindow('contact', $event)"></span>
@@ -739,17 +718,15 @@
       </div>
 
       <!-- 7. EXPERIENCE WINDOW -->
-      <div class="mac-window glass-window" 
-           *ngIf="windows['experience'].open && (!windows['experience'].minimized || windows['experience'].minimizing)"
-           [style.left.px]="windows['experience'].x"
-           [style.top.px]="windows['experience'].y"
-           [style.z-index]="windows['experience'].zIndex"
-           [class.active-window]="isWindowFocused('experience')"
-           [class.maximized-window]="windows['experience'].maximized"
-           [class.minimizing-window]="windows['experience'].minimizing"
-           [class.restoring-window]="windows['experience'].restoring"
-           (click)="focusWindow('experience')">
-        <div class="mac-window-header" (mousedown)="onMouseDown($event, 'experience')" (touchstart)="onTouchStart($event, 'experience')">
+      <div class="mac-window glass-window"
+        *ngIf="windows['experience'].open && (!windows['experience'].minimized || windows['experience'].minimizing)"
+        [style.left.px]="windows['experience'].x" [style.top.px]="windows['experience'].y"
+        [style.z-index]="windows['experience'].zIndex" [class.active-window]="isWindowFocused('experience')"
+        [class.maximized-window]="windows['experience'].maximized"
+        [class.minimizing-window]="windows['experience'].minimizing"
+        [class.restoring-window]="windows['experience'].restoring" (click)="focusWindow('experience')">
+        <div class="mac-window-header" (mousedown)="onMouseDown($event, 'experience')"
+          (touchstart)="onTouchStart($event, 'experience')">
           <div class="mac-window-controls">
             <span class="mac-window-btn red-btn" (click)="closeWindow('experience', $event)"></span>
             <span class="mac-window-btn yellow-btn" (click)="minimizeWindow('experience', $event)"></span>
@@ -763,19 +740,16 @@
       </div>
 
       <!-- 8. GOOGLE BROWSER WINDOW -->
-      <div class="mac-window glass-window google-window" 
-           *ngIf="windows['google'].open && (!windows['google'].minimized || windows['google'].minimizing)"
-           [style.left.px]="windows['google'].x"
-           [style.top.px]="windows['google'].y"
-           [style.z-index]="windows['google'].zIndex"
-           [class.active-window]="isWindowFocused('google')"
-           [class.maximized-window]="windows['google'].maximized"
-           [class.minimizing-window]="windows['google'].minimizing"
-           [class.restoring-window]="windows['google'].restoring"
-           (mousedown)="focusWindow('google')">
-        
+      <div class="mac-window glass-window google-window"
+        *ngIf="windows['google'].open && (!windows['google'].minimized || windows['google'].minimizing)"
+        [style.left.px]="windows['google'].x" [style.top.px]="windows['google'].y"
+        [style.z-index]="windows['google'].zIndex" [class.active-window]="isWindowFocused('google')"
+        [class.maximized-window]="windows['google'].maximized" [class.minimizing-window]="windows['google'].minimizing"
+        [class.restoring-window]="windows['google'].restoring" (mousedown)="focusWindow('google')">
+
         <!-- Window Titlebar -->
-        <div class="mac-window-header" (mousedown)="onMouseDown($event, 'google')" (touchstart)="onTouchStart($event, 'google')">
+        <div class="mac-window-header" (mousedown)="onMouseDown($event, 'google')"
+          (touchstart)="onTouchStart($event, 'google')">
           <div class="mac-window-controls">
             <span class="mac-window-btn red-btn" (click)="closeWindow('google', $event)"></span>
             <span class="mac-window-btn yellow-btn" (click)="minimizeWindow('google', $event)"></span>
@@ -797,16 +771,14 @@
             <span class="g-green">l</span>
             <span class="g-red">e</span>
           </div>
-          
+
           <div class="google-search-container">
             <i class="fas fa-search search-lens"></i>
-            <input type="text" 
-                   [(ngModel)]="searchQuery" 
-                   (keydown.enter)="onSearchGoogle(searchQuery)" 
-                   placeholder="Search anything on Google...">
+            <input type="text" [(ngModel)]="searchQuery" (keydown.enter)="onSearchGoogle(searchQuery)"
+              placeholder="Search anything on Google...">
             <i class="fas fa-microphone mic-icon"></i>
           </div>
-          
+
           <div class="google-buttons-row">
             <button class="google-btn" (click)="onSearchGoogle(searchQuery)">Google Search</button>
             <button class="google-btn" (click)="onSearchGoogle(searchQuery)">I'm Feeling Lucky</button>
@@ -817,7 +789,7 @@
             <i class="fas fa-check-circle success-check"></i>
             Opened results for <strong>"{{ lastSearchedQuery }}"</strong> in a new browser tab.
           </div>
-          
+
           <div class="google-footer-info">
             Searching opens results directly in a new tab to bypass anti-bot recaptcha locks.
           </div>
@@ -825,17 +797,15 @@
       </div>
 
       <!-- 9. TEXTEDIT WINDOW -->
-      <div class="mac-window glass-window textedit-window" 
-           *ngIf="windows['textedit'].open && (!windows['textedit'].minimized || windows['textedit'].minimizing)"
-           [style.left.px]="windows['textedit'].x"
-           [style.top.px]="windows['textedit'].y"
-           [style.z-index]="windows['textedit'].zIndex"
-           [class.active-window]="isWindowFocused('textedit')"
-           [class.maximized-window]="windows['textedit'].maximized"
-           [class.minimizing-window]="windows['textedit'].minimizing"
-           [class.restoring-window]="windows['textedit'].restoring"
-           (click)="focusWindow('textedit')">
-        <div class="mac-window-header" (mousedown)="onMouseDown($event, 'textedit')" (touchstart)="onTouchStart($event, 'textedit')">
+      <div class="mac-window glass-window textedit-window"
+        *ngIf="windows['textedit'].open && (!windows['textedit'].minimized || windows['textedit'].minimizing)"
+        [style.left.px]="windows['textedit'].x" [style.top.px]="windows['textedit'].y"
+        [style.z-index]="windows['textedit'].zIndex" [class.active-window]="isWindowFocused('textedit')"
+        [class.maximized-window]="windows['textedit'].maximized"
+        [class.minimizing-window]="windows['textedit'].minimizing"
+        [class.restoring-window]="windows['textedit'].restoring" (click)="focusWindow('textedit')">
+        <div class="mac-window-header" (mousedown)="onMouseDown($event, 'textedit')"
+          (touchstart)="onTouchStart($event, 'textedit')">
           <div class="mac-window-controls">
             <span class="mac-window-btn red-btn" (click)="closeWindow('textedit', $event)"></span>
             <span class="mac-window-btn yellow-btn" (click)="minimizeWindow('textedit', $event)"></span>
@@ -849,43 +819,41 @@
       </div>
 
       <!-- 10. FINDER WINDOW -->
-      <div class="mac-window glass-window finder-window" 
-           *ngIf="windows['finder'].open && (!windows['finder'].minimized || windows['finder'].minimizing)"
-           [style.left.px]="windows['finder'].x"
-           [style.top.px]="windows['finder'].y"
-           [style.z-index]="windows['finder'].zIndex"
-           [class.active-window]="isWindowFocused('finder')"
-           [class.maximized-window]="windows['finder'].maximized"
-           [class.minimizing-window]="windows['finder'].minimizing"
-           [class.restoring-window]="windows['finder'].restoring"
-           (click)="focusWindow('finder')">
-        
+      <div class="mac-window glass-window finder-window"
+        *ngIf="windows['finder'].open && (!windows['finder'].minimized || windows['finder'].minimizing)"
+        [style.left.px]="windows['finder'].x" [style.top.px]="windows['finder'].y"
+        [style.z-index]="windows['finder'].zIndex" [class.active-window]="isWindowFocused('finder')"
+        [class.maximized-window]="windows['finder'].maximized" [class.minimizing-window]="windows['finder'].minimizing"
+        [class.restoring-window]="windows['finder'].restoring" (click)="focusWindow('finder')">
+
         <!-- Header -->
-        <div class="mac-window-header finder-header" (mousedown)="onMouseDown($event, 'finder')" (touchstart)="onTouchStart($event, 'finder')">
+        <div class="mac-window-header finder-header" (mousedown)="onMouseDown($event, 'finder')"
+          (touchstart)="onTouchStart($event, 'finder')">
           <div class="mac-window-controls">
             <span class="mac-window-btn red-btn" (click)="closeWindow('finder', $event)"></span>
             <span class="mac-window-btn yellow-btn" (click)="minimizeWindow('finder', $event)"></span>
             <span class="mac-window-btn green-btn" (click)="maximizeWindow('finder', $event)"></span>
           </div>
-          
+
           <!-- Finder Navigation Tools -->
           <div class="finder-nav-toolbar">
             <button class="finder-nav-btn" (click)="goFinderBack()" [disabled]="finderHistoryIndex <= 0">
               <i class="fas fa-chevron-left"></i>
             </button>
-            <button class="finder-nav-btn" (click)="goFinderForward()" [disabled]="finderHistoryIndex >= finderHistory.length - 1">
+            <button class="finder-nav-btn" (click)="goFinderForward()"
+              [disabled]="finderHistoryIndex >= finderHistory.length - 1">
               <i class="fas fa-chevron-right"></i>
             </button>
             <span class="finder-path-display">{{ currentPath }}</span>
           </div>
-          
+
           <!-- Finder Search -->
           <div class="finder-search-box">
             <i class="fas fa-search"></i>
             <input type="text" [(ngModel)]="finderSearchQuery" placeholder="Search">
           </div>
         </div>
-        
+
         <!-- Finder Columns Layout -->
         <div class="finder-workspace">
           <!-- Sidebar -->
@@ -908,13 +876,12 @@
               </ul>
             </div>
           </aside>
-          
+
           <!-- Main Content Pane -->
           <main class="finder-content">
             <div class="finder-grid">
-              <div *ngFor="let item of getFinderItems()" 
-                   class="finder-grid-item"
-                   (dblclick)="onFinderItemDblClick(item)">
+              <div *ngFor="let item of getFinderItems()" class="finder-grid-item"
+                (dblclick)="onFinderItemDblClick(item)">
                 <div class="finder-item-icon-wrapper" [class]="item.colorClass">
                   <i [class]="item.icon"></i>
                 </div>
@@ -926,7 +893,7 @@
             </div>
           </main>
         </div>
-        
+
         <!-- Status Bar -->
         <div class="finder-statusbar">
           <span>{{ getFinderItems().length }} items</span>
@@ -935,27 +902,25 @@
       </div>
 
       <!-- 11. RESUME VIEWER WINDOW -->
-      <div class="mac-window preview-window" 
-           *ngIf="windows['resumeapp'].open && (!windows['resumeapp'].minimized || windows['resumeapp'].minimizing)"
-           [style.left.px]="windows['resumeapp'].x"
-           [style.top.px]="windows['resumeapp'].y"
-           [style.z-index]="windows['resumeapp'].zIndex"
-           [class.active-window]="isWindowFocused('resumeapp')"
-           [class.maximized-window]="windows['resumeapp'].maximized"
-           [class.minimizing-window]="windows['resumeapp'].minimizing"
-           [class.restoring-window]="windows['resumeapp'].restoring"
-           (click)="focusWindow('resumeapp')">
-        
+      <div class="mac-window preview-window"
+        *ngIf="windows['resumeapp'].open && (!windows['resumeapp'].minimized || windows['resumeapp'].minimizing)"
+        [style.left.px]="windows['resumeapp'].x" [style.top.px]="windows['resumeapp'].y"
+        [style.z-index]="windows['resumeapp'].zIndex" [class.active-window]="isWindowFocused('resumeapp')"
+        [class.maximized-window]="windows['resumeapp'].maximized"
+        [class.minimizing-window]="windows['resumeapp'].minimizing"
+        [class.restoring-window]="windows['resumeapp'].restoring" (click)="focusWindow('resumeapp')">
+
         <!-- Header -->
-        <div class="mac-window-header preview-header" (mousedown)="onMouseDown($event, 'resumeapp')" (touchstart)="onTouchStart($event, 'resumeapp')">
+        <div class="mac-window-header preview-header" (mousedown)="onMouseDown($event, 'resumeapp')"
+          (touchstart)="onTouchStart($event, 'resumeapp')">
           <div class="mac-window-controls">
             <span class="mac-window-btn red-btn" (click)="closeWindow('resumeapp', $event)"></span>
             <span class="mac-window-btn yellow-btn" (click)="minimizeWindow('resumeapp', $event)"></span>
             <span class="mac-window-btn green-btn" (click)="maximizeWindow('resumeapp', $event)"></span>
           </div>
-          
+
           <span class="mac-window-title">Preview — Prosenjit_Resume.pdf</span>
-          
+
           <!-- Actions -->
           <div class="preview-actions">
             <button class="preview-action-btn" (click)="downloadCV()" title="Download PDF">
@@ -963,7 +928,7 @@
             </button>
           </div>
         </div>
-        
+
         <!-- Document Pane -->
         <div class="mac-window-body preview-body scrollable-body">
           <div class="preview-document-container">
@@ -978,21 +943,24 @@
                   <span><i class="fab fa-github"></i> github.com/prosenjitGravity</span>
                 </div>
               </div>
-              
+
               <!-- Profile Summary -->
               <div class="resume-doc-section">
                 <h2 class="resume-doc-sec-title">Profile Summary</h2>
                 <div class="resume-doc-sec-line"></div>
                 <p class="resume-doc-text">
-                  Highly motivated and results-driven Software Developer with experience in designing, building, and optimizing scalable web applications. Skilled in backend architecture (Node.js, Express, PostgreSQL, RabbitMQ), frontend development (Angular, TypeScript), and cloud deployment. Passionate about engineering efficient, fault-tolerant software systems and delivering premium user experiences.
+                  Highly motivated and results-driven Software Developer with experience in designing, building, and
+                  optimizing scalable web applications. Skilled in backend architecture (Node.js, Express, PostgreSQL,
+                  RabbitMQ), frontend development (Angular, TypeScript), and cloud deployment. Passionate about
+                  engineering efficient, fault-tolerant software systems and delivering premium user experiences.
                 </p>
               </div>
-              
+
               <!-- Professional Experience -->
               <div class="resume-doc-section">
                 <h2 class="resume-doc-sec-title">Professional Experience</h2>
                 <div class="resume-doc-sec-line"></div>
-                
+
                 <div class="resume-doc-job">
                   <div class="job-header">
                     <span class="job-role">Software Developer</span>
@@ -1000,19 +968,30 @@
                     <span class="job-period">Aug 2024 — Present | Kolkata, India</span>
                   </div>
                   <ul class="job-points">
-                    <li>Contributing to a <strong>secure government financial management platform</strong>, building high-reliability solutions for critical financial operations and digital governance workflows.</li>
-                    <li>Engineered <strong>multi-tier scheme fund transfer mechanisms</strong>, orchestrating automated, validated disbursements from <strong>State level down to District, Block, and Village levels</strong> according to scheme-specific rules.</li>
-                    <li>Architected granular <strong>user mapping and administrative hierarchy models</strong>, enforcing strict multi-level role-based access control (RBAC), verification gates, and audit trails.</li>
-                    <li>Developed and enhanced high-throughput <strong>RESTful APIs using .NET Core</strong> and responsive <strong>Angular</strong> modules focused on scalability and maintainability.</li>
-                    <li>Implemented resilient <strong>RabbitMQ asynchronous message queues</strong> to decouple heavy financial processing tasks and enable automated retries.</li>
-                    <li>Integrated core services with <strong>authorized government portals and external APIs</strong>, ensuring strict data encryption, integrity, and reliable communication.</li>
-                    <li>Strengthened platform security through robust <strong>authorization, input validation, cryptographic checks, and tamper-evident audit logs</strong>.</li>
+                    <li>Contributing to a <strong>secure government financial management platform</strong>, building
+                      high-reliability solutions for critical financial operations and digital governance workflows.
+                    </li>
+                    <li>Engineered <strong>multi-tier scheme fund transfer mechanisms</strong>, orchestrating automated,
+                      validated disbursements from <strong>State level down to District, Block, and Village
+                        levels</strong> according to scheme-specific rules.</li>
+                    <li>Architected granular <strong>user mapping and administrative hierarchy models</strong>,
+                      enforcing strict multi-level role-based access control (RBAC), verification gates, and audit
+                      trails.</li>
+                    <li>Developed and enhanced high-throughput <strong>RESTful APIs using .NET Core</strong> and
+                      responsive <strong>Angular</strong> modules focused on scalability and maintainability.</li>
+                    <li>Implemented resilient <strong>RabbitMQ asynchronous message queues</strong> to decouple heavy
+                      financial processing tasks and enable automated retries.</li>
+                    <li>Integrated core services with <strong>authorized government portals and external APIs</strong>,
+                      ensuring strict data encryption, integrity, and reliable communication.</li>
+                    <li>Strengthened platform security through robust <strong>authorization, input validation,
+                        cryptographic checks, and tamper-evident audit logs</strong>.</li>
                   </ul>
                   <div class="role-tech-stack" style="margin-top: 0.5rem; font-size: 0.84rem; color: var(--muted);">
-                    <strong style="color: var(--primary);">Tech Stack:</strong> C#, .NET Core, Angular, RabbitMQ, PostgreSQL, REST APIs, Microservices
+                    <strong style="color: var(--primary);">Tech Stack:</strong> C#, .NET Core, Angular, RabbitMQ,
+                    PostgreSQL, REST APIs, Microservices
                   </div>
                 </div>
-                
+
                 <div class="resume-doc-job">
                   <div class="job-header">
                     <span class="job-role">Junior Software Developer</span>
@@ -1020,18 +999,25 @@
                     <span class="job-period">Aug 2023 — Aug 2024 | Kolkata, India</span>
                   </div>
                   <ul class="job-points">
-                    <li>Engineered core modules for an end-to-end <strong>real-time e-auction platform</strong> managing live auction rooms, asset catalogs, and participant bidding lifecycles.</li>
-                    <li>Developed dynamic <strong>Angular client interfaces with WebSockets</strong> for low-latency live bid streaming, instant price updates, and real-time outbid notifications.</li>
-                    <li>Optimized <strong>PostgreSQL database performance</strong> by redesigning relational schemas, indexing high-query columns, and optimizing complex queries, significantly reducing latency under high concurrency.</li>
-                    <li>Collaborated on <strong>RESTful API development and backend services</strong> using Node.js / Express, implementing secure authentication and transactional integrity.</li>
-                    <li>Assisted in deploying and managing cloud applications across <strong>AWS infrastructure (EC2, S3, ELB)</strong> with automated CI/CD deployment pipelines.</li>
+                    <li>Engineered core modules for an end-to-end <strong>real-time e-auction platform</strong> managing
+                      live auction rooms, asset catalogs, and participant bidding lifecycles.</li>
+                    <li>Developed dynamic <strong>Angular client interfaces with WebSockets</strong> for low-latency
+                      live bid streaming, instant price updates, and real-time outbid notifications.</li>
+                    <li>Optimized <strong>PostgreSQL database performance</strong> by redesigning relational schemas,
+                      indexing high-query columns, and optimizing complex queries, significantly reducing latency under
+                      high concurrency.</li>
+                    <li>Collaborated on <strong>RESTful API development and backend services</strong> using Node.js /
+                      Express, implementing secure authentication and transactional integrity.</li>
+                    <li>Assisted in deploying and managing cloud applications across <strong>AWS infrastructure (EC2,
+                        S3, ELB)</strong> with automated CI/CD deployment pipelines.</li>
                   </ul>
                   <div class="role-tech-stack" style="margin-top: 0.5rem; font-size: 0.84rem; color: var(--muted);">
-                    <strong style="color: var(--primary);">Tech Stack:</strong> Angular, TypeScript, Node.js, Express, PostgreSQL, WebSockets, AWS (EC2, S3), Git
+                    <strong style="color: var(--primary);">Tech Stack:</strong> Angular, TypeScript, Node.js, Express,
+                    PostgreSQL, WebSockets, AWS (EC2, S3), Git
                   </div>
                 </div>
               </div>
-              
+
               <!-- Technical Skills -->
               <div class="resume-doc-section">
                 <h2 class="resume-doc-sec-title">Skills & Tech Stack</h2>
@@ -1059,7 +1045,7 @@
                   </tr>
                 </table>
               </div>
-              
+
               <!-- Education -->
               <div class="resume-doc-section">
                 <h2 class="resume-doc-sec-title">Education</h2>
@@ -1069,30 +1055,27 @@
                   <span class="edu-inst">Kolkata, India</span>
                 </div>
                 <div class="education-item">
-                  <span class="edu-degree">B.Tech in Computer Science & Engineering (CSE)</span>
+                  <span class="edu-degree">Bachelor of Computer Applications (BCA)</span>
                   <span class="edu-inst">Kolkata, India</span>
                 </div>
               </div>
-              
+
             </div>
           </div>
         </div>
       </div>
 
       <!-- 12. GITHUB WINDOW -->
-      <div class="mac-window glass-window browser-window github-window" 
-           *ngIf="windows['github'].open && (!windows['github'].minimized || windows['github'].minimizing)"
-           [style.left.px]="windows['github'].x"
-           [style.top.px]="windows['github'].y"
-           [style.z-index]="windows['github'].zIndex"
-           [class.active-window]="isWindowFocused('github')"
-           [class.maximized-window]="windows['github'].maximized"
-           [class.minimizing-window]="windows['github'].minimizing"
-           [class.restoring-window]="windows['github'].restoring"
-           (mousedown)="focusWindow('github')">
-        
+      <div class="mac-window glass-window browser-window github-window"
+        *ngIf="windows['github'].open && (!windows['github'].minimized || windows['github'].minimizing)"
+        [style.left.px]="windows['github'].x" [style.top.px]="windows['github'].y"
+        [style.z-index]="windows['github'].zIndex" [class.active-window]="isWindowFocused('github')"
+        [class.maximized-window]="windows['github'].maximized" [class.minimizing-window]="windows['github'].minimizing"
+        [class.restoring-window]="windows['github'].restoring" (mousedown)="focusWindow('github')">
+
         <!-- Window Titlebar -->
-        <div class="mac-window-header" (mousedown)="onMouseDown($event, 'github')" (touchstart)="onTouchStart($event, 'github')">
+        <div class="mac-window-header" (mousedown)="onMouseDown($event, 'github')"
+          (touchstart)="onTouchStart($event, 'github')">
           <div class="mac-window-controls">
             <span class="mac-window-btn red-btn" (click)="closeWindow('github', $event)"></span>
             <span class="mac-window-btn yellow-btn" (click)="minimizeWindow('github', $event)"></span>
@@ -1106,7 +1089,7 @@
 
         <!-- GitHub Window Body (Custom Dashboard) -->
         <div class="mac-window-body github-dashboard-body scrollable-body">
-          
+
           <!-- Loading skeleton loader -->
           <div class="github-loading-state" *ngIf="githubLoading">
             <div class="skeleton-profile-header">
@@ -1127,7 +1110,7 @@
 
           <!-- Loaded State -->
           <ng-container *ngIf="!githubLoading">
-            
+
             <!-- Dashboard Sidebar/Profile Header -->
             <div class="github-profile-panel" *ngIf="githubProfile">
               <div class="profile-avatar-container">
@@ -1137,7 +1120,7 @@
                 <h2 class="profile-name">{{ githubProfile.name || 'Prosenjit Paul' }}</h2>
                 <div class="profile-login">&#64;{{ githubProfile.login }}</div>
                 <p class="profile-bio">{{ githubProfile.bio }}</p>
-                
+
                 <div class="profile-stats">
                   <div class="stat-item">
                     <span class="stat-count">{{ githubProfile.followers }}</span>
@@ -1154,7 +1137,8 @@
                 </div>
 
                 <div class="profile-actions">
-                  <a [href]="githubProfile.html_url || 'https://github.com/prosenjitGravity'" target="_blank" class="github-btn-link">
+                  <a [href]="githubProfile.html_url || 'https://github.com/prosenjitGravity'" target="_blank"
+                    class="github-btn-link">
                     <i class="fab fa-github"></i> View Profile
                   </a>
                   <span class="fallback-badge" *ngIf="githubUsingFallback">
@@ -1169,7 +1153,7 @@
               <div class="panel-header">
                 <h3>Repositories ({{ githubRepos.length }})</h3>
               </div>
-              
+
               <div class="repos-grid">
                 <div class="repo-card" *ngFor="let repo of githubRepos">
                   <div class="repo-card-header">
@@ -1179,7 +1163,7 @@
                     </a>
                   </div>
                   <p class="repo-description">{{ repo.description || 'No description provided.' }}</p>
-                  
+
                   <div class="repo-footer">
                     <div class="repo-meta-left">
                       <span class="repo-lang" *ngIf="repo.language">
@@ -1200,25 +1184,23 @@
                 </div>
               </div>
             </div>
-            
+
           </ng-container>
         </div>
       </div>
 
       <!-- 13. LINKEDIN WINDOW -->
-      <div class="mac-window glass-window browser-window linkedin-window" 
-           *ngIf="windows['linkedin'].open && (!windows['linkedin'].minimized || windows['linkedin'].minimizing)"
-           [style.left.px]="windows['linkedin'].x"
-           [style.top.px]="windows['linkedin'].y"
-           [style.z-index]="windows['linkedin'].zIndex"
-           [class.active-window]="isWindowFocused('linkedin')"
-           [class.maximized-window]="windows['linkedin'].maximized"
-           [class.minimizing-window]="windows['linkedin'].minimizing"
-           [class.restoring-window]="windows['linkedin'].restoring"
-           (mousedown)="focusWindow('linkedin')">
-        
+      <div class="mac-window glass-window browser-window linkedin-window"
+        *ngIf="windows['linkedin'].open && (!windows['linkedin'].minimized || windows['linkedin'].minimizing)"
+        [style.left.px]="windows['linkedin'].x" [style.top.px]="windows['linkedin'].y"
+        [style.z-index]="windows['linkedin'].zIndex" [class.active-window]="isWindowFocused('linkedin')"
+        [class.maximized-window]="windows['linkedin'].maximized"
+        [class.minimizing-window]="windows['linkedin'].minimizing"
+        [class.restoring-window]="windows['linkedin'].restoring" (mousedown)="focusWindow('linkedin')">
+
         <!-- Window Titlebar -->
-        <div class="mac-window-header" (mousedown)="onMouseDown($event, 'linkedin')" (touchstart)="onTouchStart($event, 'linkedin')">
+        <div class="mac-window-header" (mousedown)="onMouseDown($event, 'linkedin')"
+          (touchstart)="onTouchStart($event, 'linkedin')">
           <div class="mac-window-controls">
             <span class="mac-window-btn red-btn" (click)="closeWindow('linkedin', $event)"></span>
             <span class="mac-window-btn yellow-btn" (click)="minimizeWindow('linkedin', $event)"></span>
@@ -1233,163 +1215,186 @@
         <!-- LinkedIn data is loaded through the configured, server-side API. -->
         <div class="mac-window-body linkedin-dashboard-body scrollable-body">
           <nav class="linkedin-site-nav" aria-label="LinkedIn navigation">
-            <a class="linkedin-mark" [href]="linkedinProfile?.profileUrl || 'https://www.linkedin.com'" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <a class="linkedin-mark" [href]="linkedinProfile?.profileUrl || 'https://www.linkedin.com'" target="_blank"
+              rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
             <div class="linkedin-search"><i class="fas fa-search"></i><span>Search</span></div>
-            <div class="linkedin-nav-links" aria-hidden="true"><span><i class="fas fa-home"></i>Home</span><span><i class="fas fa-user-friends"></i>My Network</span><span><i class="fas fa-briefcase"></i>Jobs</span><span><i class="fas fa-comment-dots"></i>Messaging</span></div>
+            <div class="linkedin-nav-links" aria-hidden="true"><span><i class="fas fa-home"></i>Home</span><span><i
+                  class="fas fa-user-friends"></i>My Network</span><span><i
+                  class="fas fa-briefcase"></i>Jobs</span><span><i class="fas fa-comment-dots"></i>Messaging</span>
+            </div>
           </nav>
-          <div class="linkedin-loading-state" *ngIf="linkedinLoading"><div class="linkedin-skeleton cover"></div><div class="linkedin-skeleton line large"></div><div class="linkedin-skeleton line"></div><div class="linkedin-skeleton card"></div></div>
-          <div class="linkedin-error-state" *ngIf="linkedinError"><i class="fab fa-linkedin"></i><h3>LinkedIn profile is unavailable</h3><p>Connect the server-side LinkedIn API endpoint to display live profile data.</p><button type="button" class="linkedin-btn primary-btn" (click)="fetchLinkedinData()">Try again</button></div>
+          <div class="linkedin-loading-state" *ngIf="linkedinLoading">
+            <div class="linkedin-skeleton cover"></div>
+            <div class="linkedin-skeleton line large"></div>
+            <div class="linkedin-skeleton line"></div>
+            <div class="linkedin-skeleton card"></div>
+          </div>
+          <div class="linkedin-error-state" *ngIf="linkedinError"><i class="fab fa-linkedin"></i>
+            <h3>LinkedIn profile is unavailable</h3>
+            <p>Connect the server-side LinkedIn API endpoint to display live profile data.</p><button type="button"
+              class="linkedin-btn primary-btn" (click)="fetchLinkedinData()">Try again</button>
+          </div>
           <div class="linkedin-content" *ngIf="linkedinProfile && !linkedinLoading">
             <main class="linkedin-main-column">
-          
-          <!-- Cover Banner & Profile Card -->
-          <div class="linkedin-card profile-card-top">
-            <div class="linkedin-banner" [style.background-image]="linkedinProfile.bannerUrl ? 'url(' + linkedinProfile.bannerUrl + ')' : ''"></div>
-            
-            <div class="profile-main-section">
-              <div class="linkedin-avatar-wrapper">
-                <img *ngIf="linkedinProfile.avatarUrl" [src]="linkedinProfile.avatarUrl" [alt]="linkedinProfile.name" class="linkedin-avatar">
-                <i *ngIf="!linkedinProfile.avatarUrl" class="fas fa-user linkedin-avatar-placeholder"></i>
-              </div>
-              
-              <div class="profile-details-grid">
-                <div class="profile-info-left">
-                  <h2 class="linkedin-name">{{ linkedinProfile.name }}</h2>
-                  <p class="linkedin-headline">{{ linkedinProfile.headline }}</p>
-                  <p class="linkedin-meta-location">
-                    <span class="loc-text">{{ linkedinProfile.location }}</span>
-                    <span class="separator-dot">·</span>
-                    <a [href]="linkedinProfile.profileUrl" target="_blank" rel="noopener noreferrer" class="contact-info-link">Contact info</a>
-                  </p>
-                  <p class="linkedin-connections-stats">
-                    <span class="conn-count">{{ linkedinProfile.connections }} connections</span>
-                  </p>
 
-                  <div class="badge-status-row" *ngIf="linkedinProfile.openToWork">
-                    <span class="badge-pill open-to-work">Open to work</span>
-                    <span class="badge-subtext">Software Developer roles</span>
-                  </div>
-                  
-                  <div class="profile-action-buttons">
-                    <a [href]="linkedinProfile.profileUrl" target="_blank" rel="noopener noreferrer" class="linkedin-btn primary-btn">
-                      <i class="fab fa-linkedin"></i> View on LinkedIn
-                    </a>
-                    <a href="mailto:paul.prosenjitbit@gmail.com" class="linkedin-btn secondary-btn">
-                      <i class="fas fa-paper-plane"></i> Message
-                    </a>
-                  </div>
+              <!-- Cover Banner & Profile Card -->
+              <div class="linkedin-card profile-card-top">
+                <div class="linkedin-banner"
+                  [style.background-image]="linkedinProfile.bannerUrl ? 'url(' + linkedinProfile.bannerUrl + ')' : ''">
                 </div>
-                
-                <div class="profile-info-right" *ngIf="linkedinProfile.currentCompany || linkedinProfile.school">
-                  <div class="right-institution-item" *ngIf="linkedinProfile.currentCompany">
-                    <i class="fas fa-briefcase inst-logo"></i>
-                    <span class="inst-name">{{ linkedinProfile.currentCompany }}</span>
-                  </div>
-                  <div class="right-institution-item" *ngIf="linkedinProfile.school">
-                    <i class="fas fa-graduation-cap inst-logo"></i>
-                    <span class="inst-name">{{ linkedinProfile.school }}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <!-- About Card -->
-          <div class="linkedin-card about-card" *ngIf="linkedinProfile.about">
-            <h3 class="card-title">About</h3>
-            <p class="card-text-content">{{ linkedinProfile.about }}</p>
-          </div>
+                <div class="profile-main-section">
+                  <div class="linkedin-avatar-wrapper">
+                    <img *ngIf="linkedinProfile.avatarUrl" [src]="linkedinProfile.avatarUrl"
+                      [alt]="linkedinProfile.name" class="linkedin-avatar">
+                    <i *ngIf="!linkedinProfile.avatarUrl" class="fas fa-user linkedin-avatar-placeholder"></i>
+                  </div>
 
-          <!-- Activity Card -->
-          <div class="linkedin-card activity-card" *ngIf="linkedinActivities.length">
-            <div class="card-header-flex">
-              <h3 class="card-title">Activity</h3>
-              <span class="follower-count">{{ linkedinProfile.followers }} followers</span>
-            </div>
-            
-            <div class="activity-feed">
-              <div class="activity-post" *ngFor="let act of linkedinActivities">
-                <div class="post-header">
-                  <img *ngIf="act.avatarUrl" [src]="act.avatarUrl" [alt]="act.author" class="post-author-avatar">
-                  <div *ngIf="!act.avatarUrl" class="post-avatar-placeholder"><i class="fas fa-user"></i></div>
-                  <div class="post-author-details">
-                    <span class="author-name">{{ act.author }}</span>
-                    <span class="author-headline">{{ act.headline }}</span>
-                    <span class="post-time">{{ act.time }}</span>
+                  <div class="profile-details-grid">
+                    <div class="profile-info-left">
+                      <h2 class="linkedin-name">{{ linkedinProfile.name }}</h2>
+                      <p class="linkedin-headline">{{ linkedinProfile.headline }}</p>
+                      <p class="linkedin-meta-location">
+                        <span class="loc-text">{{ linkedinProfile.location }}</span>
+                        <span class="separator-dot">·</span>
+                        <a [href]="linkedinProfile.profileUrl" target="_blank" rel="noopener noreferrer"
+                          class="contact-info-link">Contact info</a>
+                      </p>
+                      <p class="linkedin-connections-stats">
+                        <span class="conn-count">{{ linkedinProfile.connections }} connections</span>
+                      </p>
+
+                      <div class="badge-status-row" *ngIf="linkedinProfile.openToWork">
+                        <span class="badge-pill open-to-work">Open to work</span>
+                        <span class="badge-subtext">Software Developer roles</span>
+                      </div>
+
+                      <div class="profile-action-buttons">
+                        <a [href]="linkedinProfile.profileUrl" target="_blank" rel="noopener noreferrer"
+                          class="linkedin-btn primary-btn">
+                          <i class="fab fa-linkedin"></i> View on LinkedIn
+                        </a>
+                        <a href="mailto:paul.prosenjitbit@gmail.com" class="linkedin-btn secondary-btn">
+                          <i class="fas fa-paper-plane"></i> Message
+                        </a>
+                      </div>
+                    </div>
+
+                    <div class="profile-info-right" *ngIf="linkedinProfile.currentCompany || linkedinProfile.school">
+                      <div class="right-institution-item" *ngIf="linkedinProfile.currentCompany">
+                        <i class="fas fa-briefcase inst-logo"></i>
+                        <span class="inst-name">{{ linkedinProfile.currentCompany }}</span>
+                      </div>
+                      <div class="right-institution-item" *ngIf="linkedinProfile.school">
+                        <i class="fas fa-graduation-cap inst-logo"></i>
+                        <span class="inst-name">{{ linkedinProfile.school }}</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <p class="post-body-text">{{ act.text }}</p>
-                <div class="post-stats-footer">
-                  <span class="post-stat-item"><i class="thumbs-up fas fa-thumbs-up"></i> {{ act.likes }}</span>
-                  <span class="separator-dot">·</span>
-                  <span class="post-stat-item">{{ act.comments }} comments</span>
-                </div>
               </div>
-            </div>
-          </div>
 
-          <!-- Experience Card -->
-          <div class="linkedin-card experience-card" *ngIf="linkedinExperience.length">
-            <h3 class="card-title">Experience</h3>
-            
-            <div class="experience-list">
-              <div class="experience-node" *ngFor="let exp of linkedinExperience; let isLast = last">
-                <div class="exp-icon-wrapper">
-                  <i class="fas fa-briefcase exp-default-icon"></i>
-                </div>
-                <div class="exp-details">
-                  <h4 class="exp-role">{{ exp.role }}</h4>
-                  <p class="exp-company">{{ exp.company }}</p>
-                  <p class="exp-period">{{ exp.period }}</p>
-                  <p class="exp-location">{{ exp.location }}</p>
-                  <p class="exp-description">{{ exp.description }}</p>
-                </div>
-                <div class="divider-line" *ngIf="!isLast"></div>
+              <!-- About Card -->
+              <div class="linkedin-card about-card" *ngIf="linkedinProfile.about">
+                <h3 class="card-title">About</h3>
+                <p class="card-text-content">{{ linkedinProfile.about }}</p>
               </div>
-            </div>
-          </div>
 
-          <!-- Education Card -->
-          <div class="linkedin-card education-card" *ngIf="linkedinEducation.length">
-            <h3 class="card-title">Education</h3>
-            
-            <div class="education-list">
-              <div class="education-node" *ngFor="let edu of linkedinEducation; let isLast = last">
-                <div class="edu-icon-wrapper">
-                  <i class="fas fa-graduation-cap edu-default-icon"></i>
+              <!-- Activity Card -->
+              <div class="linkedin-card activity-card" *ngIf="linkedinActivities.length">
+                <div class="card-header-flex">
+                  <h3 class="card-title">Activity</h3>
+                  <span class="follower-count">{{ linkedinProfile.followers }} followers</span>
                 </div>
-                <div class="edu-details">
-                  <h4 class="edu-school">{{ edu.school }}</h4>
-                  <p class="edu-degree">{{ edu.degree }}</p>
-                  <p class="edu-period">{{ edu.period }}</p>
+
+                <div class="activity-feed">
+                  <div class="activity-post" *ngFor="let act of linkedinActivities">
+                    <div class="post-header">
+                      <img *ngIf="act.avatarUrl" [src]="act.avatarUrl" [alt]="act.author" class="post-author-avatar">
+                      <div *ngIf="!act.avatarUrl" class="post-avatar-placeholder"><i class="fas fa-user"></i></div>
+                      <div class="post-author-details">
+                        <span class="author-name">{{ act.author }}</span>
+                        <span class="author-headline">{{ act.headline }}</span>
+                        <span class="post-time">{{ act.time }}</span>
+                      </div>
+                    </div>
+                    <p class="post-body-text">{{ act.text }}</p>
+                    <div class="post-stats-footer">
+                      <span class="post-stat-item"><i class="thumbs-up fas fa-thumbs-up"></i> {{ act.likes }}</span>
+                      <span class="separator-dot">·</span>
+                      <span class="post-stat-item">{{ act.comments }} comments</span>
+                    </div>
+                  </div>
                 </div>
-                <div class="divider-line" *ngIf="!isLast"></div>
               </div>
-            </div>
-          </div>
+
+              <!-- Experience Card -->
+              <div class="linkedin-card experience-card" *ngIf="linkedinExperience.length">
+                <h3 class="card-title">Experience</h3>
+
+                <div class="experience-list">
+                  <div class="experience-node" *ngFor="let exp of linkedinExperience; let isLast = last">
+                    <div class="exp-icon-wrapper">
+                      <i class="fas fa-briefcase exp-default-icon"></i>
+                    </div>
+                    <div class="exp-details">
+                      <h4 class="exp-role">{{ exp.role }}</h4>
+                      <p class="exp-company">{{ exp.company }}</p>
+                      <p class="exp-period">{{ exp.period }}</p>
+                      <p class="exp-location">{{ exp.location }}</p>
+                      <p class="exp-description">{{ exp.description }}</p>
+                    </div>
+                    <div class="divider-line" *ngIf="!isLast"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Education Card -->
+              <div class="linkedin-card education-card" *ngIf="linkedinEducation.length">
+                <h3 class="card-title">Education</h3>
+
+                <div class="education-list">
+                  <div class="education-node" *ngFor="let edu of linkedinEducation; let isLast = last">
+                    <div class="edu-icon-wrapper">
+                      <i class="fas fa-graduation-cap edu-default-icon"></i>
+                    </div>
+                    <div class="edu-details">
+                      <h4 class="edu-school">{{ edu.school }}</h4>
+                      <p class="edu-degree">{{ edu.degree }}</p>
+                      <p class="edu-period">{{ edu.period }}</p>
+                    </div>
+                    <div class="divider-line" *ngIf="!isLast"></div>
+                  </div>
+                </div>
+              </div>
 
             </main>
             <aside class="linkedin-sidebar">
-              <section class="linkedin-side-card"><h3>Profile language</h3><p>English</p><a [href]="linkedinProfile.profileUrl" target="_blank" rel="noopener noreferrer">View profile on LinkedIn</a></section>
-              <section class="linkedin-side-card"><h3>People also viewed</h3><p>Recommendations are available on LinkedIn.</p></section>
+              <section class="linkedin-side-card">
+                <h3>Profile language</h3>
+                <p>English</p><a [href]="linkedinProfile.profileUrl" target="_blank" rel="noopener noreferrer">View
+                  profile on LinkedIn</a>
+              </section>
+              <section class="linkedin-side-card">
+                <h3>People also viewed</h3>
+                <p>Recommendations are available on LinkedIn.</p>
+              </section>
             </aside>
           </div>
         </div>
       </div>
 
       <!-- 12. PHOTO BOOTH WINDOW -->
-      <div class="mac-window glass-window photobooth-window animate-fade-in" 
-           *ngIf="windows['photobooth'].open && (!windows['photobooth'].minimized || windows['photobooth'].minimizing)"
-           [style.left.px]="windows['photobooth'].x"
-           [style.top.px]="windows['photobooth'].y"
-           [style.z-index]="windows['photobooth'].zIndex"
-           [class.active-window]="isWindowFocused('photobooth')"
-           [class.maximized-window]="windows['photobooth'].maximized"
-           [class.minimizing-window]="windows['photobooth'].minimizing"
-           [class.restoring-window]="windows['photobooth'].restoring"
-           (click)="focusWindow('photobooth')">
+      <div class="mac-window glass-window photobooth-window animate-fade-in"
+        *ngIf="windows['photobooth'].open && (!windows['photobooth'].minimized || windows['photobooth'].minimizing)"
+        [style.left.px]="windows['photobooth'].x" [style.top.px]="windows['photobooth'].y"
+        [style.z-index]="windows['photobooth'].zIndex" [class.active-window]="isWindowFocused('photobooth')"
+        [class.maximized-window]="windows['photobooth'].maximized"
+        [class.minimizing-window]="windows['photobooth'].minimizing"
+        [class.restoring-window]="windows['photobooth'].restoring" (click)="focusWindow('photobooth')">
         <!-- Title Bar -->
-        <div class="mac-window-header" (mousedown)="onMouseDown($event, 'photobooth')" (touchstart)="onTouchStart($event, 'photobooth')">
+        <div class="mac-window-header" (mousedown)="onMouseDown($event, 'photobooth')"
+          (touchstart)="onTouchStart($event, 'photobooth')">
           <div class="mac-window-controls">
             <span class="mac-window-btn red-btn" (click)="closeWindow('photobooth', $event)"></span>
             <span class="mac-window-btn yellow-btn" (click)="minimizeWindow('photobooth', $event)"></span>
@@ -1404,12 +1409,9 @@
         <!-- Window Body -->
         <div class="mac-window-body photobooth-body">
           <div class="photobooth-screen">
-            <video id="photobooth-video" 
-                   autoplay 
-                   playsinline 
-                   [class]="photoBoothFilter"
-                   *ngIf="photoBoothStream"></video>
-            
+            <video id="photobooth-video" autoplay playsinline [class]="photoBoothFilter"
+              *ngIf="photoBoothStream"></video>
+
             <div class="photobooth-placeholder" *ngIf="!photoBoothStream">
               <i class="fas fa-video-slash"></i>
               <span>Camera Inactive</span>
@@ -1424,44 +1426,50 @@
           </div>
 
           <div class="photobooth-controls">
-            <button class="shutter-btn" 
-                    [disabled]="!photoBoothStream || photoBoothCountdown !== null" 
-                    (click)="takePhotoBoothPicture()" 
-                    title="Take Photo">
+            <button class="shutter-btn" [disabled]="!photoBoothStream || photoBoothCountdown !== null"
+              (click)="takePhotoBoothPicture()" title="Take Photo">
               <span class="inner-circle"></span>
             </button>
           </div>
 
           <div class="filter-strip" *ngIf="photoBoothStream">
-            <div class="filter-option" [class.active]="photoBoothFilter === 'none'" (click)="setPhotoBoothFilter('none')">
+            <div class="filter-option" [class.active]="photoBoothFilter === 'none'"
+              (click)="setPhotoBoothFilter('none')">
               <div class="filter-preview none"></div>
               <span>Natural</span>
             </div>
-            <div class="filter-option" [class.active]="photoBoothFilter === 'leica-look'" (click)="setPhotoBoothFilter('leica-look')">
+            <div class="filter-option" [class.active]="photoBoothFilter === 'leica-look'"
+              (click)="setPhotoBoothFilter('leica-look')">
               <div class="filter-preview leica-look"></div>
               <span>Leica Look</span>
             </div>
-            <div class="filter-option" [class.active]="photoBoothFilter === 'leica-mono'" (click)="setPhotoBoothFilter('leica-mono')">
+            <div class="filter-option" [class.active]="photoBoothFilter === 'leica-mono'"
+              (click)="setPhotoBoothFilter('leica-mono')">
               <div class="filter-preview leica-mono"></div>
               <span>Leica Mono</span>
             </div>
-            <div class="filter-option" [class.active]="photoBoothFilter === 'leica-vivid'" (click)="setPhotoBoothFilter('leica-vivid')">
+            <div class="filter-option" [class.active]="photoBoothFilter === 'leica-vivid'"
+              (click)="setPhotoBoothFilter('leica-vivid')">
               <div class="filter-preview leica-vivid"></div>
               <span>Leica Vivid</span>
             </div>
-            <div class="filter-option" [class.active]="photoBoothFilter === 'mac-noir'" (click)="setPhotoBoothFilter('mac-noir')">
+            <div class="filter-option" [class.active]="photoBoothFilter === 'mac-noir'"
+              (click)="setPhotoBoothFilter('mac-noir')">
               <div class="filter-preview mac-noir"></div>
               <span>Mac Noir</span>
             </div>
-            <div class="filter-option" [class.active]="photoBoothFilter === 'mac-dramatic'" (click)="setPhotoBoothFilter('mac-dramatic')">
+            <div class="filter-option" [class.active]="photoBoothFilter === 'mac-dramatic'"
+              (click)="setPhotoBoothFilter('mac-dramatic')">
               <div class="filter-preview mac-dramatic"></div>
               <span>Dramatic Warm</span>
             </div>
-            <div class="filter-option" [class.active]="photoBoothFilter === 'mac-cyber'" (click)="setPhotoBoothFilter('mac-cyber')">
+            <div class="filter-option" [class.active]="photoBoothFilter === 'mac-cyber'"
+              (click)="setPhotoBoothFilter('mac-cyber')">
               <div class="filter-preview mac-cyber"></div>
               <span>Dramatic Cool</span>
             </div>
-            <div class="filter-option" [class.active]="photoBoothFilter === 'mac-studio'" (click)="setPhotoBoothFilter('mac-studio')">
+            <div class="filter-option" [class.active]="photoBoothFilter === 'mac-studio'"
+              (click)="setPhotoBoothFilter('mac-studio')">
               <div class="filter-preview mac-studio"></div>
               <span>Studio Light</span>
             </div>
@@ -1488,17 +1496,15 @@
   <!-- macOS Bottom Dock -->
   <footer class="mac-dock-container" [class.app-is-open]="hasAnyOpenWindow()">
     <div class="mac-dock">
-      
+
       <ng-container *ngFor="let item of dockItems; let idx = index">
-        <div class="dock-item-wrapper" 
-             [attr.draggable]="item.type !== 'calendar' && item.type !== 'settings' ? 'true' : null"
-             (dragstart)="onDockDragStart($event, idx)"
-             (dragover)="onDockDragOver($event, idx)"
-             (drop)="onDockDrop($event, idx)"
-             (click)="onDockItemClick(item)">
-          
+        <div class="dock-item-wrapper"
+          [attr.draggable]="item.type !== 'calendar' && item.type !== 'settings' ? 'true' : null"
+          (dragstart)="onDockDragStart($event, idx)" (dragover)="onDockDragOver($event, idx)"
+          (drop)="onDockDrop($event, idx)" (click)="onDockItemClick(item)">
+
           <div class="dock-tooltip">{{ item.label }}</div>
-          
+
           <!-- Special calendar icon -->
           <div class="dock-icon calendar-icon" *ngIf="item.type === 'calendar'">
             <span class="cal-month">{{ currentDayName }}</span>
@@ -1506,38 +1512,33 @@
           </div>
 
           <!-- Normal icon styles -->
-          <div class="dock-icon" 
-               *ngIf="item.type !== 'calendar'"
-               [class.about-icon]="item.id === 'about'"
-               [class.finder-icon]="item.id === 'finder'"
-               [class.google-dock-icon]="item.id === 'google'"
-               [class.github-dock-icon]="item.id === 'github'"
-               [class.linkedin-dock-icon]="item.id === 'linkedin'"
-               [class.mail-icon]="item.id === 'contact'"
-               [class.folder-icon-dock]="item.id === 'projects' || item.id === 'skills' || item.id === 'education' || item.type === 'folder'"
-               [class.skill-dock]="item.id === 'skills'"
-               [class.cert-dock]="item.id === 'education'"
-               [class.experience-dock-icon]="item.id === 'experience'"
-               [class.terminal-icon]="item.id === 'terminal'"
-               [class.textedit-dock-icon]="item.id === 'textedit' || item.type === 'file'"
-               [class.settings-icon]="item.id === 'settings'">
+          <div class="dock-icon" *ngIf="item.type !== 'calendar'" [class.about-icon]="item.id === 'about'"
+            [class.finder-icon]="item.id === 'finder'" [class.google-dock-icon]="item.id === 'google'"
+            [class.github-dock-icon]="item.id === 'github'" [class.linkedin-dock-icon]="item.id === 'linkedin'"
+            [class.mail-icon]="item.id === 'contact'"
+            [class.folder-icon-dock]="item.id === 'projects' || item.id === 'skills' || item.id === 'education' || item.type === 'folder'"
+            [class.skill-dock]="item.id === 'skills'" [class.cert-dock]="item.id === 'education'"
+            [class.experience-dock-icon]="item.id === 'experience'" [class.terminal-icon]="item.id === 'terminal'"
+            [class.textedit-dock-icon]="item.id === 'textedit' || item.type === 'file'"
+            [class.settings-icon]="item.id === 'settings'">
             <i [class]="item.icon"></i>
           </div>
 
           <!-- Active dot indicator -->
-          <div class="dock-active-dot" *ngIf="item.windowId && windows[item.windowId] && windows[item.windowId].open"></div>
+          <div class="dock-active-dot" *ngIf="item.windowId && windows[item.windowId] && windows[item.windowId].open">
+          </div>
         </div>
       </ng-container>
 
-      <div class="dock-divider"></div>
+      <!-- <div class="dock-divider"></div> -->
 
       <!-- Resume PDF -->
-      <div class="dock-item-wrapper" (click)="downloadCV()">
+      <!-- <div class="dock-item-wrapper" (click)="downloadCV()">
         <div class="dock-tooltip">Download Resume</div>
         <div class="dock-icon resume-icon">
           <i class="fas fa-file-pdf"></i>
         </div>
-      </div>
+      </div> -->
 
     </div>
   </footer>
@@ -1556,7 +1557,8 @@
       </div>
       <div class="lightbox-body">
         <div class="lightbox-img-wrapper">
-          <img src="public/assets/images/prosenjit_paul.jpg" alt="Prosenjit Paul - Full Stack Developer" class="lightbox-full-img">
+          <img src="public/assets/images/prosenjit_paul.jpg" alt="Prosenjit Paul - Full Stack Developer"
+            class="lightbox-full-img">
         </div>
         <div class="lightbox-info-bar">
           <div class="lightbox-meta">
@@ -1567,7 +1569,8 @@
             <button class="lightbox-action-btn dm-btn" (click)="openDirectMessage(); closePhotoPreview()">
               <i class="fas fa-paper-plane"></i> Direct Message
             </button>
-            <a href="https://www.linkedin.com/in/prosenjit-paul-0a82b6239" target="_blank" class="lightbox-action-btn linkedin-btn">
+            <a href="https://www.linkedin.com/in/prosenjit-paul-0a82b6239" target="_blank"
+              class="lightbox-action-btn linkedin-btn">
               <i class="fab fa-linkedin"></i> LinkedIn
             </a>
           </div>

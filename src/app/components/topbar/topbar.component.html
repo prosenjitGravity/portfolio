@@ -1,6 +1,14 @@
 <header class="header" [class.header-scrolled]="isScrolled">
   <div class="container"><nav class="navbar" aria-label="Main navigation">
-    <a href="#home" class="brand" (click)="navigateTo('home', $event)"><span class="brand-name">Prosenjit Paul</span><span class="brand-role">Full-Stack Developer</span></a>
+    <a href="#home" class="brand" (click)="navigateTo('home', $event)">
+      <div class="brand-badge">
+        <i class="fas fa-terminal"></i>
+      </div>
+      <div class="brand-text">
+        <span class="brand-name">Prosenjit Paul</span>
+        <span class="brand-role"><i class="fas fa-code"></i> Full-Stack Developer</span>
+      </div>
+    </a>
     <div class="nav-shell" [class.active]="isMenuOpen">
       <ul class="menu-items">
         <li class="menu-item" *ngFor="let item of navItems" [class.active]="activeSectionId() === item.id">
